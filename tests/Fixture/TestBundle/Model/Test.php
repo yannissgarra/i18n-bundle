@@ -9,10 +9,10 @@
 
 declare(strict_types=1);
 
-namespace Webmunkeez\I18NBundle\Test\Fixture\TestBundle\Model;
+namespace Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model;
 
-use Webmunkeez\I18NBundle\Model\TranslationAwareInterface;
-use Webmunkeez\I18NBundle\Model\TranslationInterface;
+use Webmunkeez\I18nBundle\Model\TranslationAwareInterface;
+use Webmunkeez\I18nBundle\Model\TranslationInterface;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>

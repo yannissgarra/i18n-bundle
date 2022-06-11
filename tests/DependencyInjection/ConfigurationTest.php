@@ -9,12 +9,12 @@
 
 declare(strict_types=1);
 
-namespace Webmunkeez\I18NBundle\Test\DependencyInjection;
+namespace Webmunkeez\I18nBundle\Test\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
-use Webmunkeez\I18NBundle\DependencyInjection\Configuration;
+use Webmunkeez\I18nBundle\DependencyInjection\Configuration;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>

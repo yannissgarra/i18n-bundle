@@ -9,13 +9,13 @@
 
 declare(strict_types=1);
 
-namespace Webmunkeez\I18NBundle\Test\Fixture;
+namespace Webmunkeez\I18nBundle\Test\Fixture;
 
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Webmunkeez\I18NBundle\Test\Fixture\TestBundle\TestBundle;
-use Webmunkeez\I18NBundle\WebmunkeezI18NBundle;
+use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\TestBundle;
+use Webmunkeez\I18nBundle\WebmunkeezI18nBundle;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
@@ -26,7 +26,7 @@ final class TestKernel extends Kernel
     {
         return [
             new FrameworkBundle(),
-            new WebmunkeezI18NBundle(),
+            new WebmunkeezI18nBundle(),
             new TestBundle(),
         ];
     }

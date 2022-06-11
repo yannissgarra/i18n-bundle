@@ -30,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Webmunkeez\\I18NBundle\\": "src/"
+            "Webmunkeez\\I18nBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Webmunkeez\\I18NBundle\\Test\\": "tests/"
+            "Webmunkeez\\I18nBundle\\Test\\": "tests/"
         }
     },
     "extra": {

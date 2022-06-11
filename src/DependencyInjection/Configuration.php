@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Webmunkeez\I18NBundle\DependencyInjection;
+namespace Webmunkeez\I18nBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

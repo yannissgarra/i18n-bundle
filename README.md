@@ -1,4 +1,4 @@
-# WebmunkeezI18NBundle
+# WebmunkeezI18nBundle
 
 This bundle unleashes a internationalization on Symfony applications.
 
@@ -17,7 +17,7 @@ Add the bundle in your application kernel:
 
 return [
     // ...
-    Webmunkeez\I18NBundle\WebmunkeezI18NBundle::class => ['all' => true],
+    Webmunkeez\I18nBundle\WebmunkeezI18nBundle::class => ['all' => true],
     // ...
 ];
 ```

@@ -9,13 +9,13 @@
 
 declare(strict_types=1);
 
-namespace Webmunkeez\I18NBundle;
+namespace Webmunkeez\I18nBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-final class WebmunkeezI18NBundle extends Bundle
+final class WebmunkeezI18nBundle extends Bundle
 {
 }

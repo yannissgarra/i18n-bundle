@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Webmunkeez\I18NBundle\Model;
+namespace Webmunkeez\I18nBundle\Model;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>

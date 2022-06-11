@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace Webmunkeez\I18NBundle\Test\Model;
+namespace Webmunkeez\I18nBundle\Test\Model;
 
 use PHPUnit\Framework\TestCase;
-use Webmunkeez\I18NBundle\Test\Fixture\TestBundle\Model\Test;
-use Webmunkeez\I18NBundle\Test\Fixture\TestBundle\Model\TestTranslation;
+use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\Test;
+use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\TestTranslation;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
