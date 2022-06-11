@@ -29,7 +29,7 @@ final class TestTest extends TestCase
             ->addTranslation((new TestTranslation())->setLocale('fr'));
     }
 
-    public function testGetTranslations(): void
+    public function testGetTranslationsShouldSucceed(): void
     {
         $this->assertCount(2, $this->test->getTranslations());
         $this->assertSame('en', $this->test->getTranslations()[0]->getLocale());
