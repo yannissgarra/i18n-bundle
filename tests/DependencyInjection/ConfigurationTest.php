@@ -79,6 +79,19 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
+    public function testProcessWithNotExistingLocaleShouldFail()
+    {
+        $this->expectException(InvalidConfigurationException::class);
+
+        $config = self::CONFIG;
+        $config['languages'] = [
+            ['locale' => 'notexistinglocale', 'name' => 'English'],
+        ];
+
+        $processor = new Processor();
+        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+    }
+
     public function testProcessWithoutNameShouldFail()
     {
         $this->expectException(InvalidConfigurationException::class);

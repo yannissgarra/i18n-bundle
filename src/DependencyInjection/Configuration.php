@@ -13,6 +13,8 @@ namespace Webmunkeez\I18nBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Intl\Languages;
+use Symfony\Component\Intl\Locales;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
@@ -33,6 +35,10 @@ final class Configuration implements ConfigurationInterface
                             ->scalarNode('locale')
                                 ->isRequired()
                                 ->cannotBeEmpty()
+                                ->validate()
+                                    ->ifTrue(fn ($locale) => false === Locales::exists($locale))
+                                    ->thenInvalid('Invalid language locale %s')
+                                ->end()
                             ->end() // locale
                             ->scalarNode('name')
                                 ->isRequired()
