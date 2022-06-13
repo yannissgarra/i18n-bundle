@@ -52,4 +52,14 @@ final class LanguageRepositoryTest extends TestCase
 
         $this->languageRepository->findOneByLocale('notexisting');
     }
+
+    public function testLocaleExistsShouldSucceed(): void
+    {
+        $this->assertTrue($this->languageRepository->localeExists('en'));
+    }
+
+    public function testLocaleExistsWithWrongLocaleShouldFail(): void
+    {
+        $this->assertFalse($this->languageRepository->localeExists('es'));
+    }
 }

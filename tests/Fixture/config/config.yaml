@@ -18,6 +18,10 @@ services:
         public: true
         arguments: ['%webmunkeez_i18n.languages%']
 
+    test_validator:
+        alias: validator
+        public: true
+
 webmunkeez_i18n:
     languages:
         - { locale: 'en', name: 'English' }

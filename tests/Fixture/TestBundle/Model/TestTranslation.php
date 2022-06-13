@@ -12,12 +12,14 @@ declare(strict_types=1);
 namespace Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model;
 
 use Webmunkeez\I18nBundle\Model\TranslationInterface;
+use Webmunkeez\I18nBundle\Validator\Constraint\Locale;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
 final class TestTranslation implements TranslationInterface
 {
+    #[Locale]
     private string $locale;
 
     public function getLocale(): string

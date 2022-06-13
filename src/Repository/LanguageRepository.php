@@ -46,4 +46,9 @@ final class LanguageRepository implements LanguageRepositoryInterface
 
         return $this->languages[$locale];
     }
+
+    public function localeExists(string $locale): bool
+    {
+        return array_key_exists($locale, $this->languages);
+    }
 }

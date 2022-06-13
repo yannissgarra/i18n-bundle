@@ -28,4 +28,6 @@ interface LanguageRepositoryInterface
      * @throws LanguageNotFoundException
      */
     public function findOneByLocale(string $locale): Language;
+
+    public function localeExists(string $locale): bool;
 }
