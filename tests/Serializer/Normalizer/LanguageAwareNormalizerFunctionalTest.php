@@ -14,7 +14,6 @@ namespace Webmunkeez\I18nBundle\Test\Serializer\Normalizer;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
-use Webmunkeez\I18nBundle\Exception\LanguageNotFoundException;
 use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\TestTranslation;
 
 /**
@@ -42,8 +41,8 @@ final class LanguageAwareNormalizerFunctionalTest extends KernelTestCase
     {
         $translation = (new TestTranslation())->setLocale('es');
 
-        $this->expectException(LanguageNotFoundException::class);
+        $json = $this->serializer->serialize($translation, JsonEncoder::FORMAT);
 
-        $this->serializer->serialize($translation, JsonEncoder::FORMAT);
+        $this->assertSame('{"locale":"es","language":null}', $json);
     }
 }

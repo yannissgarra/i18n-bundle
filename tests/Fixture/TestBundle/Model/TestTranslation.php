@@ -24,7 +24,7 @@ final class TestTranslation implements TranslationInterface, LanguageAwareInterf
     #[Locale]
     private string $locale;
 
-    private Language $language;
+    private ?Language $language;
 
     public function getLocale(): string
     {
@@ -38,12 +38,12 @@ final class TestTranslation implements TranslationInterface, LanguageAwareInterf
         return $this;
     }
 
-    public function getLanguage(): Language
+    public function getLanguage(): ?Language
     {
         return $this->language;
     }
 
-    public function setLanguage(Language $language): static
+    public function setLanguage(?Language $language): static
     {
         $this->language = $language;
 

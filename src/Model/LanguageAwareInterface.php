@@ -16,7 +16,7 @@ namespace Webmunkeez\I18nBundle\Model;
  */
 interface LanguageAwareInterface extends LocaleAwareInterface
 {
-    public function getLanguage(): Language;
+    public function getLanguage(): ?Language;
 
-    public function setLanguage(Language $language): static;
+    public function setLanguage(?Language $language): static;
 }
