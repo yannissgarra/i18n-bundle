@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Testing!{% endblock %}</title>
+    </head>
+    <body>
+        <p class="locale">Locale: <span class="locale">{{ test_translation.locale }}</span></p>
+        <p class="language">Language: <span class="locale">{{ language(test_translation) ? language(test_translation).locale : '' }}</span>, <span class="name">{{ language(test_translation) ? language(test_translation).name : '' }}</span></p>
+    </body>
+</html>

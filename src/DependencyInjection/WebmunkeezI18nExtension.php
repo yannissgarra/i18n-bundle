@@ -26,6 +26,7 @@ final class WebmunkeezI18nExtension extends Extension
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $loader->load('repositories.php');
         $loader->load('serializer.php');
+        $loader->load('twig.php');
         $loader->load('validator.php');
 
         $configuration = new Configuration();

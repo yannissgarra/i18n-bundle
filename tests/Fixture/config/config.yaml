@@ -3,6 +3,15 @@ framework:
     secret: test
     http_method_override: false
 
+twig:
+    strict_variables: true
+    default_path: '%kernel.project_dir%/templates'
+
+webmunkeez_i18n:
+    languages:
+        - { locale: 'en', name: 'English' }
+        - { locale: 'fr', name: 'Français' }
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -14,6 +23,10 @@ services:
     Webmunkeez\I18nBundle\Test\Fixture\TestBundle\:
         resource: '../TestBundle/'
 
+    Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Controller\:
+        resource: '../TestBundle/Controller/'
+        public: true
+
     Webmunkeez\I18nBundle\Repository\LanguageRepository:
         public: true
         arguments: ['%webmunkeez_i18n.languages%']
@@ -21,8 +34,3 @@ services:
     test_validator:
         alias: validator
         public: true
-
-webmunkeez_i18n:
-    languages:
-        - { locale: 'en', name: 'English' }
-        - { locale: 'fr', name: 'Français' }

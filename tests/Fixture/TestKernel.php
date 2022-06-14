@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Webmunkeez\I18nBundle\Test\Fixture;
 
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\TestBundle;
@@ -26,6 +27,7 @@ final class TestKernel extends Kernel
     {
         return [
             new FrameworkBundle(),
+            new TwigBundle(),
             new WebmunkeezI18nBundle(),
             new TestBundle(),
         ];
