@@ -14,6 +14,7 @@ namespace Webmunkeez\I18nBundle\Test\Serializer\Normalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Webmunkeez\I18nBundle\Exception\LanguageNotFoundException;
 use Webmunkeez\I18nBundle\Model\Language;
 use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
 use Webmunkeez\I18nBundle\Serializer\Normalizer\LanguageAwareNormalizer;
@@ -60,7 +61,7 @@ final class LanguageAwareNormalizerTest extends TestCase
         $this->normalizer->setNormalizer($this->coreNormalizer);
     }
 
-    public function testNormalizeWithLanguageAwareShouldSucceed(): void
+    public function testNormalizeWithExistingLocaleShouldSucceed(): void
     {
         $this->coreNormalizer->method('normalize')->willReturn(self::DATA['translation']);
         $this->languageRepository->method('findOneByLocale')->willReturn((new Language())->setLocale('en')->setName('English'));
@@ -72,5 +73,16 @@ final class LanguageAwareNormalizerTest extends TestCase
         $this->assertSame('en', $data['locale']);
         $this->assertSame('en', $data['language']['locale']);
         $this->assertSame('English', $data['language']['name']);
+    }
+
+    public function testNormalizeWithNotExistingLocaleShouldFail(): void
+    {
+        $this->languageRepository->method('findOneByLocale')->willThrowException(new LanguageNotFoundException());
+
+        $translation = (new TestTranslation())->setLocale('es');
+
+        $this->expectException(LanguageNotFoundException::class);
+
+        $this->normalizer->normalize($translation);
     }
 }

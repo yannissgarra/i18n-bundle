@@ -14,6 +14,7 @@ namespace Webmunkeez\I18nBundle\Serializer\Normalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Webmunkeez\I18nBundle\Exception\LanguageNotFoundException;
 use Webmunkeez\I18nBundle\Model\LanguageAwareInterface;
 use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
 
@@ -33,6 +34,8 @@ final class LanguageAwareNormalizer implements NormalizerInterface, NormalizerAw
 
     /**
      * @param LanguageAwareInterface $object
+     *
+     * @throws LanguageNotFoundException
      */
     public function normalize(mixed $object, string $format = null, array $context = []): array
     {
