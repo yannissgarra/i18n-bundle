@@ -24,7 +24,7 @@ final class WebmunkeezI18nExtension extends Extension
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
-        $loader->load('repositories.php');
+        $loader->load('repository.php');
         $loader->load('serializer.php');
         $loader->load('twig.php');
         $loader->load('validator.php');
