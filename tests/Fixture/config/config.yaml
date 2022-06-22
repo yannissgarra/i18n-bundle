@@ -8,9 +8,8 @@ twig:
     default_path: '%kernel.project_dir%/templates'
 
 webmunkeez_i18n:
-    languages:
-        - { locale: 'en', name: 'English' }
-        - { locale: 'fr', name: 'Français' }
+    enabled_locales: ['en', 'fr']
+    default_locale: 'en'
 
 services:
     # default configuration for services in *this* file
@@ -29,7 +28,9 @@ services:
 
     Webmunkeez\I18nBundle\Repository\LanguageRepository:
         public: true
-        arguments: ['%webmunkeez_i18n.languages%']
+        arguments:
+            - '%webmunkeez_i18n.enabled_locales%'
+            - '%webmunkeez_i18n.default_locale%'
 
     test_validator:
         alias: validator

@@ -13,7 +13,6 @@ namespace Webmunkeez\I18nBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\Intl\Languages;
 use Symfony\Component\Intl\Locales;
 
 /**
@@ -27,26 +26,30 @@ final class Configuration implements ConfigurationInterface
 
         $treeBuilder->getRootNode()
             ->children()
-                ->arrayNode('languages')
+                ->arrayNode('enabled_locales')
                     ->isRequired()
                     ->requiresAtLeastOneElement()
-                    ->arrayPrototype()
-                        ->children()
-                            ->scalarNode('locale')
-                                ->isRequired()
-                                ->cannotBeEmpty()
-                                ->validate()
-                                    ->ifTrue(fn ($locale) => false === Locales::exists($locale))
-                                    ->thenInvalid('Invalid language locale %s')
-                                ->end()
-                            ->end() // locale
-                            ->scalarNode('name')
-                                ->isRequired()
-                                ->cannotBeEmpty()
-                            ->end() // name
+                    ->scalarPrototype()
+                        ->isRequired()
+                        ->cannotBeEmpty()
+                        ->validate()
+                            ->ifTrue(fn (string $locale) => false === Locales::exists($locale))
+                                ->thenInvalid('Invalid locale %s')
                         ->end()
-                    ->end() // language
-                ->end() // languages
+                    ->end() // locale
+                ->end() // enabled_locales
+                ->scalarNode('default_locale')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                    ->validate()
+                        ->ifTrue(fn (string $locale) => false === Locales::exists($locale))
+                            ->thenInvalid('Invalid locale %s')
+                    ->end()
+                ->end() // default_locale
+            ->end()
+            ->validate()
+                ->ifTrue(fn (array $config) => false === in_array($config['default_locale'], $config['enabled_locales']))
+                    ->then(fn (array $config) => throw new \InvalidArgumentException(sprintf('Default locale "%s" is not part of enabled locales %s', $config['default_locale'], json_encode($config['enabled_locales']))))
             ->end();
 
         return $treeBuilder;

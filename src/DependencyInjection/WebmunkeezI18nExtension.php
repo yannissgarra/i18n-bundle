@@ -32,6 +32,7 @@ final class WebmunkeezI18nExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('webmunkeez_i18n.languages', $config['languages']);
+        $container->setParameter('webmunkeez_i18n.enabled_locales', $config['enabled_locales']);
+        $container->setParameter('webmunkeez_i18n.default_locale', $config['default_locale']);
     }
 }

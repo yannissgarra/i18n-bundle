@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Webmunkeez\I18nBundle\Repository;
 
+use Symfony\Component\Intl\Languages;
+use Symfony\Component\String\UnicodeString;
 use Webmunkeez\I18nBundle\Exception\LanguageNotFoundException;
 use Webmunkeez\I18nBundle\Model\Language;
 
@@ -24,13 +26,19 @@ final class LanguageRepository implements LanguageRepositoryInterface
      */
     private array $languages = [];
 
-    public function __construct(array $languagesData)
+    private Language $defaultLanguage;
+
+    public function __construct(array $enabledLocales, string $defaultLocale)
     {
-        foreach ($languagesData as $languageData) {
-            $this->languages[$languageData['locale']] = (new Language())
-                ->setLocale($languageData['locale'])
-                ->setName($languageData['name']);
+        foreach ($enabledLocales as $enabledLocale) {
+            $this->languages[$enabledLocale] = (new Language())
+                ->setLocale($enabledLocale)
+                ->setName((new UnicodeString(Languages::getName($enabledLocale, $enabledLocale)))->title()->toString());
         }
+
+        $this->defaultLanguage = (new Language())
+            ->setLocale($defaultLocale)
+            ->setName((new UnicodeString(Languages::getName($defaultLocale, $defaultLocale)))->title()->toString());
     }
 
     public function findAll(): array
@@ -45,6 +53,11 @@ final class LanguageRepository implements LanguageRepositoryInterface
         }
 
         return $this->languages[$locale];
+    }
+
+    public function findOneDefault(): Language
+    {
+        return $this->defaultLanguage;
     }
 
     public function localeExists(string $locale): bool

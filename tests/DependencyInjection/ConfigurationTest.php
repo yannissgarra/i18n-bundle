@@ -22,10 +22,8 @@ use Webmunkeez\I18nBundle\DependencyInjection\Configuration;
 final class ConfigurationTest extends TestCase
 {
     public const CONFIG = [
-        'languages' => [
-            ['locale' => 'en', 'name' => 'English'],
-            ['locale' => 'fr', 'name' => 'Français'],
-        ],
+        'enabled_locales' => ['en', 'fr'],
+        'default_locale' => 'en',
     ];
 
     public function testProcessWithFullConfigurationShouldSucceed()
@@ -44,23 +42,23 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), []);
     }
 
-    public function testProcessWithoutLanguagesFail()
+    public function testProcessWithoutEnabledLocalesFail()
     {
         $this->expectException(InvalidConfigurationException::class);
 
         $config = self::CONFIG;
-        unset($config['languages']);
+        unset($config['enabled_locales']);
 
         $processor = new Processor();
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithoutLanguageShouldFail()
+    public function testProcessWithWrongTypeEnabledLocalesShouldFail()
     {
         $this->expectException(InvalidConfigurationException::class);
 
         $config = self::CONFIG;
-        $config['languages'] = [];
+        $config['enabled_locales'] = 'en';
 
         $processor = new Processor();
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
@@ -71,9 +69,7 @@ final class ConfigurationTest extends TestCase
         $this->expectException(InvalidConfigurationException::class);
 
         $config = self::CONFIG;
-        $config['languages'] = [
-            ['name' => 'English'],
-        ];
+        $config['enabled_locales'] = [];
 
         $processor = new Processor();
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
@@ -84,22 +80,51 @@ final class ConfigurationTest extends TestCase
         $this->expectException(InvalidConfigurationException::class);
 
         $config = self::CONFIG;
-        $config['languages'] = [
-            ['locale' => 'notexistinglocale', 'name' => 'English'],
-        ];
+        $config['enabled_locales'] = ['notexistinglocale'];
 
         $processor = new Processor();
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithoutNameShouldFail()
+    public function testProcessWithoutDefaultLocaleFail()
     {
         $this->expectException(InvalidConfigurationException::class);
 
         $config = self::CONFIG;
-        $config['languages'] = [
-            ['locale' => 'en'],
-        ];
+        unset($config['default_locale']);
+
+        $processor = new Processor();
+        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+    }
+
+    public function testProcessWithWrongTypeDefaultLocaleShouldFail()
+    {
+        $this->expectException(InvalidConfigurationException::class);
+
+        $config = self::CONFIG;
+        $config['default_locale'] = ['en'];
+
+        $processor = new Processor();
+        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+    }
+
+    public function testProcessWithNotExistingDefaultLocaleShouldFail()
+    {
+        $this->expectException(InvalidConfigurationException::class);
+
+        $config = self::CONFIG;
+        $config['default_locale'] = 'notexistinglocale';
+
+        $processor = new Processor();
+        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+    }
+
+    public function testProcessWithNotEnabledDefaultLocaleShouldFail()
+    {
+        $this->expectException(InvalidConfigurationException::class);
+
+        $config = self::CONFIG;
+        $config['default_locale'] = 'es';
 
         $processor = new Processor();
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);

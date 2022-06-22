@@ -26,15 +26,18 @@ final class LanguageRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->languageRepository = new LanguageRepository([
-            ['locale' => 'en', 'name' => 'English'],
-            ['locale' => 'fr', 'name' => 'Français'],
-        ]);
+        $this->languageRepository = new LanguageRepository(['en', 'fr'], 'en');
     }
 
     public function testFindAllShouldSucceed(): void
     {
-        $this->assertCount(2, $this->languageRepository->findAll());
+        $languages = $this->languageRepository->findAll();
+
+        $this->assertCount(2, $languages);
+        $this->assertSame('en', $languages[0]->getLocale());
+        $this->assertSame('English', $languages[0]->getName());
+        $this->assertSame('fr', $languages[1]->getLocale());
+        $this->assertSame('Français', $languages[1]->getName());
     }
 
     public function testFindOneByLocaleShouldSucceed(): void
@@ -61,5 +64,14 @@ final class LanguageRepositoryTest extends TestCase
     public function testLocaleExistsWithWrongLocaleShouldFail(): void
     {
         $this->assertFalse($this->languageRepository->localeExists('es'));
+    }
+
+    public function testFindOneDefaultShouldSucceed(): void
+    {
+        $language = $this->languageRepository->findOneDefault();
+
+        $this->assertInstanceOf(Language::class, $language);
+        $this->assertSame('en', $language->getLocale());
+        $this->assertSame('English', $language->getName());
     }
 }
