@@ -14,12 +14,13 @@ namespace Webmunkeez\I18nBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-final class WebmunkeezI18nExtension extends Extension
+final class WebmunkeezI18nExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -34,5 +35,18 @@ final class WebmunkeezI18nExtension extends Extension
 
         $container->setParameter('webmunkeez_i18n.enabled_locales', $config['enabled_locales']);
         $container->setParameter('webmunkeez_i18n.default_locale', $config['default_locale']);
+    }
+
+    public function prepend(ContainerBuilder $container)
+    {
+        // define default config for translation
+        $container->prependExtensionConfig('framework', [
+            'default_locale' => 'en',
+            'translator' => [
+                'default_path' => '%kernel.project_dir%/translations',
+                'fallbacks' => ['en'],
+            ],
+            'set_content_language_from_locale' => true,
+        ]);
     }
 }
