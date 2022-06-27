@@ -13,6 +13,7 @@ namespace Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
+use Webmunkeez\I18nBundle\Model\Language;
 use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\TestTranslation;
 
 /**
@@ -27,10 +28,18 @@ final class TestAction
         $this->twig = $twig;
     }
 
-    public function __invoke(string $locale): Response
+    public function __invoke(string $locale, ?Language $language = null): Response
     {
+        $translation = (new TestTranslation())->setLocale($locale);
+
+        if (null !== $language) {
+            $translation = (new TestTranslation())
+                ->setLocale($locale)
+                ->setLanguage($language);
+        }
+
         return new Response($this->twig->render('test.html.twig', [
-            'test_translation' => (new TestTranslation())->setLocale($locale),
+            'test_translation' => $translation,
         ]));
     }
 }

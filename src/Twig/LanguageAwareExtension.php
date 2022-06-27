@@ -39,10 +39,14 @@ final class LanguageAwareExtension extends AbstractExtension
 
     public function getLanguage(LanguageAwareInterface $object): ?Language
     {
-        try {
-            return $this->languageRepository->findOneByLocale($object->getLocale());
-        } catch (LanguageNotFoundException $e) {
-            return null;
+        if (null === $object->getLanguage()) {
+            try {
+                $object->setLanguage($this->languageRepository->findOneByLocale($object->getLocale()));
+            } catch (LanguageNotFoundException $e) {
+                $object->setLanguage(null);
+            }
         }
+
+        return $object->getLanguage();
     }
 }

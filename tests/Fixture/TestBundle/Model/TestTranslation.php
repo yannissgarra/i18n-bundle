@@ -26,6 +26,12 @@ final class TestTranslation implements TranslationInterface, LanguageAwareInterf
 
     private ?Language $language;
 
+    public function __construct()
+    {
+        // init values
+        $this->language = null;
+    }
+
     public function getLocale(): string
     {
         return $this->locale;

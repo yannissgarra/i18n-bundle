@@ -61,6 +61,22 @@ final class LanguageAwareNormalizerTest extends TestCase
         $this->normalizer->setNormalizer($this->coreNormalizer);
     }
 
+    public function testNormalizeWithAlreadySetLanguageShouldSucceed(): void
+    {
+        $this->coreNormalizer->method('normalize')->willReturn(self::DATA['translation']);
+        $this->languageRepository->method('findOneByLocale')->willReturn((new Language())->setLocale('en')->setName('English'));
+
+        $translation = (new TestTranslation())
+            ->setLocale('en')
+            ->setLanguage((new Language())->setLocale('en')->setName('English'));
+
+        $data = $this->normalizer->normalize($translation);
+
+        $this->assertSame('en', $data['locale']);
+        $this->assertSame('en', $data['language']['locale']);
+        $this->assertSame('English', $data['language']['name']);
+    }
+
     public function testNormalizeWithExistingLocaleShouldSucceed(): void
     {
         $this->coreNormalizer->method('normalize')->willReturn(self::DATA['translation']);

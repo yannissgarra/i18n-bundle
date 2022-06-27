@@ -42,10 +42,12 @@ final class LanguageAwareNormalizer implements NormalizerInterface, NormalizerAw
         // avoid circular reference
         $context[self::class.'.already_called'] = true;
 
-        try {
-            $object->setLanguage($this->languageRepository->findOneByLocale($object->getLocale()));
-        } catch (LanguageNotFoundException $e) {
-            $object->setLanguage(null);
+        if (null === $object->getLanguage()) {
+            try {
+                $object->setLanguage($this->languageRepository->findOneByLocale($object->getLocale()));
+            } catch (LanguageNotFoundException $e) {
+                $object->setLanguage(null);
+            }
         }
 
         return $this->normalizer->normalize($object, $format, $context);

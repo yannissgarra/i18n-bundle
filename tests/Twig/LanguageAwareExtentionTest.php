@@ -50,6 +50,21 @@ final class LanguageAwareExtensionTest extends TestCase
         $this->extension = new LanguageAwareExtension($this->languageRepository);
     }
 
+    public function testGetLanguageWithAlreadySetLanguageShouldSucceed(): void
+    {
+        $this->languageRepository->method('findOneByLocale')->willReturn((new Language())->setLocale('en')->setName('English'));
+
+        $translation = (new TestTranslation())
+            ->setLocale('en') // force test that language repository is not called
+            ->setLanguage((new Language())->setLocale('fr')->setName('Français'));
+
+        $language = $this->extension->getLanguage($translation);
+
+        $this->assertInstanceOf(Language::class, $language);
+        $this->assertSame('fr', $language->getLocale());
+        $this->assertSame('Français', $language->getName());
+    }
+
     public function testGetLanguageWithExistingLocaleShouldSucceed(): void
     {
         $this->languageRepository->method('findOneByLocale')->willReturn((new Language())->setLocale('en')->setName('English'));

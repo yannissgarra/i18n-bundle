@@ -13,6 +13,7 @@ namespace Webmunkeez\I18nBundle\Test\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DomCrawler\Crawler;
+use Webmunkeez\I18nBundle\Model\Language;
 use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Controller\TestAction;
 
 /**
@@ -25,6 +26,17 @@ final class TestActionFunctionalTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->action = static::getContainer()->get(TestAction::class);
+    }
+
+    public function testInvokeWithAlreadySetLanguageShouldSucceed(): void
+    {
+        $response = $this->action->__invoke('en', (new Language())->setLocale('fr')->setName('Français'));
+
+        $crawler = new Crawler($response->getContent());
+
+        $this->assertSame('en', $crawler->filter('p.locale span.locale')->first()->text());
+        $this->assertSame('fr', $crawler->filter('p.language span.locale')->first()->text());
+        $this->assertSame('Français', $crawler->filter('p.language span.name')->first()->text());
     }
 
     public function testInvokeWithExistingLocaleShouldSucceed(): void
