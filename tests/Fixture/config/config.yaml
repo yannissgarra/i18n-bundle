@@ -48,6 +48,7 @@ services:
         public: true
         arguments:
             - '%webmunkeez_i18n.sites%'
+            - '@Webmunkeez\I18nBundle\Repository\LanguageRepository'
 
     test_validator:
         alias: validator

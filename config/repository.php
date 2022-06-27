@@ -26,7 +26,7 @@ return static function (ContainerConfigurator $container) {
         ->alias(LanguageRepositoryInterface::class, LanguageRepository::class)
 
         ->set(SiteRepository::class)
-            ->args([param('webmunkeez_i18n.sites')])
+            ->args([param('webmunkeez_i18n.sites')], [service(LanguageRepository::class)])
 
         ->set(SiteRepositoryInterface::class)
 

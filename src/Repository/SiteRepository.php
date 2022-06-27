@@ -26,7 +26,9 @@ final class SiteRepository implements SiteRepositoryInterface
      */
     private array $sites = [];
 
-    public function __construct(array $sitesData)
+    private LanguageRepositoryInterface $languageRepository;
+
+    public function __construct(array $sitesData, LanguageRepositoryInterface $languageRepository)
     {
         foreach ($sitesData as $siteData) {
             if (null !== $siteData['locale']) {
@@ -34,7 +36,8 @@ final class SiteRepository implements SiteRepositoryInterface
                     ->setId(Uuid::fromString($siteData['id']))
                     ->setHost($siteData['host'])
                     ->setPath($siteData['path'])
-                    ->setLocale($siteData['locale']);
+                    ->setLocale($siteData['locale'])
+                    ->setLanguage($languageRepository->findOneByLocale($siteData['locale']));
             } else {
                 $this->sites[] = (new Site())
                     ->setId(Uuid::fromString($siteData['id']))

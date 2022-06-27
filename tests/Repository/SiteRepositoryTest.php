@@ -11,10 +11,13 @@ declare(strict_types=1);
 
 namespace Webmunkeez\I18nBundle\Test\Repository;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Webmunkeez\I18nBundle\Exception\SiteNotFoundException;
+use Webmunkeez\I18nBundle\Model\Language;
 use Webmunkeez\I18nBundle\Model\LocalizedSite;
 use Webmunkeez\I18nBundle\Model\Site;
+use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
 use Webmunkeez\I18nBundle\Repository\SiteRepository;
 use Webmunkeez\I18nBundle\Repository\SiteRepositoryInterface;
 
@@ -29,6 +32,10 @@ final class SiteRepositoryTest extends TestCase
             'host' => 'example.com',
             'path' => '^\/fr',
             'locale' => 'fr',
+            'language' => [
+                'locale' => 'fr',
+                'name' => 'Français',
+            ],
         ],
         'api' => [
             'id' => '5844634b-e43a-4fa1-8e74-1e213ff3a90d',
@@ -41,14 +48,33 @@ final class SiteRepositoryTest extends TestCase
             'host' => 'example.com',
             'path' => '^\/',
             'locale' => 'en',
+            'language' => [
+                'locale' => 'en',
+                'name' => 'English',
+            ],
         ],
     ];
+    /**
+     * @var LanguageRepositoryInterface&MockObject
+     **/
+    private LanguageRepositoryInterface $languageRepository;
 
     private SiteRepositoryInterface $siteRepository;
 
     protected function setUp(): void
     {
-        $this->siteRepository = new SiteRepository(array_values(self::DATA));
+        /** @var LanguageRepositoryInterface&MockObject $languageRepository */
+        $languageRepository = $this->getMockBuilder(LanguageRepositoryInterface::class)->disableOriginalConstructor()->getMock();
+        $this->languageRepository = $languageRepository;
+
+        $this->languageRepository->expects($this->exactly(2))->method('findOneByLocale')
+            ->withConsecutive([self::DATA['french']['locale']], [self::DATA['english']['locale']])
+            ->willReturnOnConsecutiveCalls(
+                (new Language())->setLocale(self::DATA['french']['language']['locale'])->setName(self::DATA['french']['language']['name']),
+                (new Language())->setLocale(self::DATA['english']['language']['locale'])->setName(self::DATA['english']['language']['name'])
+            );
+
+        $this->siteRepository = new SiteRepository(array_values(self::DATA), $this->languageRepository);
     }
 
     public function testFindAllShouldSucceed(): void
@@ -61,6 +87,8 @@ final class SiteRepositoryTest extends TestCase
         $this->assertSame(self::DATA['french']['host'], $sites[0]->getHost());
         $this->assertSame(self::DATA['french']['path'], $sites[0]->getPath());
         $this->assertSame(self::DATA['french']['locale'], $sites[0]->getLocale());
+        $this->assertSame(self::DATA['french']['language']['locale'], $sites[0]->getLanguage()->getLocale());
+        $this->assertSame(self::DATA['french']['language']['name'], $sites[0]->getLanguage()->getName());
         $this->assertInstanceOf(Site::class, $sites[1]);
         $this->assertSame(self::DATA['api']['id'], $sites[1]->getId()->toRfc4122());
         $this->assertSame(self::DATA['api']['host'], $sites[1]->getHost());
@@ -70,6 +98,8 @@ final class SiteRepositoryTest extends TestCase
         $this->assertSame(self::DATA['english']['host'], $sites[2]->getHost());
         $this->assertSame(self::DATA['english']['path'], $sites[2]->getPath());
         $this->assertSame(self::DATA['english']['locale'], $sites[2]->getLocale());
+        $this->assertSame(self::DATA['english']['language']['locale'], $sites[2]->getLanguage()->getLocale());
+        $this->assertSame(self::DATA['english']['language']['name'], $sites[2]->getLanguage()->getName());
     }
 
     public function testFindAllLocalizedShouldSucceed(): void
@@ -82,11 +112,15 @@ final class SiteRepositoryTest extends TestCase
         $this->assertSame(self::DATA['french']['host'], $sites[0]->getHost());
         $this->assertSame(self::DATA['french']['path'], $sites[0]->getPath());
         $this->assertSame(self::DATA['french']['locale'], $sites[0]->getLocale());
+        $this->assertSame(self::DATA['french']['language']['locale'], $sites[0]->getLanguage()->getLocale());
+        $this->assertSame(self::DATA['french']['language']['name'], $sites[0]->getLanguage()->getName());
         $this->assertInstanceOf(LocalizedSite::class, $sites[1]);
         $this->assertSame(self::DATA['english']['id'], $sites[1]->getId()->toRfc4122());
         $this->assertSame(self::DATA['english']['host'], $sites[1]->getHost());
         $this->assertSame(self::DATA['english']['path'], $sites[1]->getPath());
         $this->assertSame(self::DATA['english']['locale'], $sites[1]->getLocale());
+        $this->assertSame(self::DATA['english']['language']['locale'], $sites[1]->getLanguage()->getLocale());
+        $this->assertSame(self::DATA['english']['language']['name'], $sites[1]->getLanguage()->getName());
     }
 
     public function testFindOneByUrlWithoutPathShouldSucceed(): void
@@ -98,6 +132,8 @@ final class SiteRepositoryTest extends TestCase
         $this->assertSame(self::DATA['english']['host'], $site->getHost());
         $this->assertSame(self::DATA['english']['path'], $site->getPath());
         $this->assertSame(self::DATA['english']['locale'], $site->getLocale());
+        $this->assertSame(self::DATA['english']['language']['locale'], $site->getLanguage()->getLocale());
+        $this->assertSame(self::DATA['english']['language']['name'], $site->getLanguage()->getName());
     }
 
     public function testFindOneByUrlWithPathShouldSucceed(): void
@@ -126,6 +162,8 @@ final class SiteRepositoryTest extends TestCase
         $this->assertSame(self::DATA['english']['host'], $site->getHost());
         $this->assertSame(self::DATA['english']['path'], $site->getPath());
         $this->assertSame(self::DATA['english']['locale'], $site->getLocale());
+        $this->assertSame(self::DATA['english']['language']['locale'], $site->getLanguage()->getLocale());
+        $this->assertSame(self::DATA['english']['language']['name'], $site->getLanguage()->getName());
     }
 
     public function testFindOneByLocaleWithWrongLocaleShouldFail(): void

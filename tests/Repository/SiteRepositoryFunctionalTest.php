@@ -40,6 +40,8 @@ final class SiteRepositoryFunctionalTest extends KernelTestCase
         $this->assertSame(SiteRepositoryTest::DATA['french']['host'], $sites[0]->getHost());
         $this->assertSame(SiteRepositoryTest::DATA['french']['path'], $sites[0]->getPath());
         $this->assertSame(SiteRepositoryTest::DATA['french']['locale'], $sites[0]->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['french']['language']['locale'], $sites[0]->getLanguage()->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['french']['language']['name'], $sites[0]->getLanguage()->getName());
         $this->assertInstanceOf(Site::class, $sites[1]);
         $this->assertSame(SiteRepositoryTest::DATA['api']['id'], $sites[1]->getId()->toRfc4122());
         $this->assertSame(SiteRepositoryTest::DATA['api']['host'], $sites[1]->getHost());
@@ -49,6 +51,8 @@ final class SiteRepositoryFunctionalTest extends KernelTestCase
         $this->assertSame(SiteRepositoryTest::DATA['english']['host'], $sites[2]->getHost());
         $this->assertSame(SiteRepositoryTest::DATA['english']['path'], $sites[2]->getPath());
         $this->assertSame(SiteRepositoryTest::DATA['english']['locale'], $sites[2]->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['english']['language']['locale'], $sites[2]->getLanguage()->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['english']['language']['name'], $sites[2]->getLanguage()->getName());
     }
 
     public function testFindAllLocalizedShouldSucceed(): void
@@ -61,11 +65,15 @@ final class SiteRepositoryFunctionalTest extends KernelTestCase
         $this->assertSame(SiteRepositoryTest::DATA['french']['host'], $sites[0]->getHost());
         $this->assertSame(SiteRepositoryTest::DATA['french']['path'], $sites[0]->getPath());
         $this->assertSame(SiteRepositoryTest::DATA['french']['locale'], $sites[0]->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['french']['language']['locale'], $sites[0]->getLanguage()->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['french']['language']['name'], $sites[0]->getLanguage()->getName());
         $this->assertInstanceOf(LocalizedSite::class, $sites[1]);
         $this->assertSame(SiteRepositoryTest::DATA['english']['id'], $sites[1]->getId()->toRfc4122());
         $this->assertSame(SiteRepositoryTest::DATA['english']['host'], $sites[1]->getHost());
         $this->assertSame(SiteRepositoryTest::DATA['english']['path'], $sites[1]->getPath());
         $this->assertSame(SiteRepositoryTest::DATA['english']['locale'], $sites[1]->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['english']['language']['locale'], $sites[1]->getLanguage()->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['english']['language']['name'], $sites[1]->getLanguage()->getName());
     }
 
     public function testFindOneByUrlWithoutPathShouldSucceed(): void
@@ -77,6 +85,8 @@ final class SiteRepositoryFunctionalTest extends KernelTestCase
         $this->assertSame(SiteRepositoryTest::DATA['english']['host'], $site->getHost());
         $this->assertSame(SiteRepositoryTest::DATA['english']['path'], $site->getPath());
         $this->assertSame(SiteRepositoryTest::DATA['english']['locale'], $site->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['english']['language']['locale'], $site->getLanguage()->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['english']['language']['name'], $site->getLanguage()->getName());
     }
 
     public function testFindOneByUrlWithPathShouldSucceed(): void
@@ -105,6 +115,8 @@ final class SiteRepositoryFunctionalTest extends KernelTestCase
         $this->assertSame(SiteRepositoryTest::DATA['english']['host'], $site->getHost());
         $this->assertSame(SiteRepositoryTest::DATA['english']['path'], $site->getPath());
         $this->assertSame(SiteRepositoryTest::DATA['english']['locale'], $site->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['english']['language']['locale'], $site->getLanguage()->getLocale());
+        $this->assertSame(SiteRepositoryTest::DATA['english']['language']['name'], $site->getLanguage()->getName());
     }
 
     public function testFindOneByLocaleWithWrongLocaleShouldFail(): void
