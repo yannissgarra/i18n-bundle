@@ -11,7 +11,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
 
 webmunkeez_i18n:
-    enabled_locales: [en, fr]
+    enabled_locales: [en, fr, es]
     default_locale: en
     sites:
         - id: 831ee06a-63b5-41ee-8506-4b75dea2f7cf
@@ -25,6 +25,10 @@ webmunkeez_i18n:
           host: example.com
           path: ^\/
           locale: en
+        - id: 2a3cabe4-d105-4dd5-9c73-8300f977cc06
+          host: es.example.com
+          path: ^\/
+          locale: es
 
 services:
     # default configuration for services in *this* file

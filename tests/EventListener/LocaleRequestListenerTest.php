@@ -102,6 +102,25 @@ final class LocaleRequestListenerTest extends TestCase
         $this->assertSame('English', $event->getRequest()->get('current-language')->getName());
     }
 
+    public function testWithNotExistingLocaleShouldFail(): void
+    {
+        $this->languageRepository->expects($this->once())->method('localeExists')->willReturn(false);
+        $this->languageRepository->expects($this->never())->method('findOneByLocale');
+        $this->languageRepository->expects($this->once())->method('findOneDefault')->willReturn((new Language())->setLocale('en')->setName('English'));
+
+        $listener = new LocaleRequestListener($this->languageRepository);
+
+        $request = new Request(['_locale' => 'notexistinglocale']);
+
+        $event = new RequestEvent($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST);
+
+        $listener->onKernelRequest($event);
+
+        $this->assertSame('en', $event->getRequest()->getLocale());
+        $this->assertSame('en', $event->getRequest()->get('current-language')->getLocale());
+        $this->assertSame('English', $event->getRequest()->get('current-language')->getName());
+    }
+
     public function testWithNotEnabledLocaleShouldFail(): void
     {
         $this->languageRepository->expects($this->once())->method('localeExists')->willReturn(false);
@@ -110,7 +129,7 @@ final class LocaleRequestListenerTest extends TestCase
 
         $listener = new LocaleRequestListener($this->languageRepository);
 
-        $request = new Request(['_locale' => 'es']);
+        $request = new Request(['_locale' => 'it']);
 
         $event = new RequestEvent($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 

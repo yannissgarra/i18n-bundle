@@ -82,7 +82,18 @@ final class LanguageAwareExtensionTest extends TestCase
     {
         $this->languageRepository->method('findOneByLocale')->willThrowException(new LanguageNotFoundException());
 
-        $translation = (new TestTranslation())->setLocale('es');
+        $translation = (new TestTranslation())->setLocale('notexistinglocale');
+
+        $language = $this->extension->getLanguage($translation);
+
+        $this->assertNull($language);
+    }
+
+    public function testGetLanguageWithNotEnabledLocaleShouldFail(): void
+    {
+        $this->languageRepository->method('findOneByLocale')->willThrowException(new LanguageNotFoundException());
+
+        $translation = (new TestTranslation())->setLocale('it');
 
         $language = $this->extension->getLanguage($translation);
 

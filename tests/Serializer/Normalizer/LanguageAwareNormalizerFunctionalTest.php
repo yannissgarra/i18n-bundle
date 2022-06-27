@@ -51,10 +51,19 @@ final class LanguageAwareNormalizerFunctionalTest extends KernelTestCase
 
     public function testNormalizeWithNotExistingLocaleShouldFail(): void
     {
-        $translation = (new TestTranslation())->setLocale('es');
+        $translation = (new TestTranslation())->setLocale('notexistinglocale');
 
         $json = $this->serializer->serialize($translation, JsonEncoder::FORMAT);
 
-        $this->assertSame('{"locale":"es","language":null}', $json);
+        $this->assertSame('{"locale":"notexistinglocale","language":null}', $json);
+    }
+
+    public function testNormalizeWithNotEnabledLocaleShouldFail(): void
+    {
+        $translation = (new TestTranslation())->setLocale('it');
+
+        $json = $this->serializer->serialize($translation, JsonEncoder::FORMAT);
+
+        $this->assertSame('{"locale":"it","language":null}', $json);
     }
 }

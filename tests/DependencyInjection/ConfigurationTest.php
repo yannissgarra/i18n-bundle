@@ -137,7 +137,7 @@ final class ConfigurationTest extends TestCase
         $this->expectException(InvalidConfigurationException::class);
 
         $config = self::CONFIG;
-        $config['default_locale'] = 'es';
+        $config['default_locale'] = 'it';
 
         $processor = new Processor();
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
@@ -254,7 +254,7 @@ final class ConfigurationTest extends TestCase
         $this->expectException(InvalidConfigurationException::class);
 
         $config = self::CONFIG;
-        $config['sites'][0]['locale'] = 'es';
+        $config['sites'][0]['locale'] = 'it';
 
         $processor = new Processor();
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);

@@ -93,14 +93,27 @@ final class LanguageAwareNormalizerTest extends TestCase
 
     public function testNormalizeWithNotExistingLocaleShouldFail(): void
     {
-        $this->coreNormalizer->method('normalize')->willReturn(['locale' => 'es', 'language' => null]);
+        $this->coreNormalizer->method('normalize')->willReturn(['locale' => 'notexistinglocale', 'language' => null]);
         $this->languageRepository->method('findOneByLocale')->willThrowException(new LanguageNotFoundException());
 
-        $translation = (new TestTranslation())->setLocale('es');
+        $translation = (new TestTranslation())->setLocale('notexistinglocale');
 
         $data = $this->normalizer->normalize($translation);
 
-        $this->assertSame('es', $data['locale']);
+        $this->assertSame('notexistinglocale', $data['locale']);
+        $this->assertNull($data['language']);
+    }
+
+    public function testNormalizeWithNotEnabledLocaleShouldFail(): void
+    {
+        $this->coreNormalizer->method('normalize')->willReturn(['locale' => 'it', 'language' => null]);
+        $this->languageRepository->method('findOneByLocale')->willThrowException(new LanguageNotFoundException());
+
+        $translation = (new TestTranslation())->setLocale('it');
+
+        $data = $this->normalizer->normalize($translation);
+
+        $this->assertSame('it', $data['locale']);
         $this->assertNull($data['language']);
     }
 }

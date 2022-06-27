@@ -78,6 +78,22 @@ final class LocaleValidatorTest extends TestCase
 
         $validator->initialize($this->executionContext);
 
-        $validator->validate('es', $constraint);
+        $validator->validate('notexisting', $constraint);
+    }
+
+    public function testValidateWithNotEnabledLocaleShouldFail()
+    {
+        $this->languageRepository->method('localeExists')->willReturn(false);
+
+        $validator = new LocaleValidator($this->languageRepository);
+        $constraint = new Locale();
+
+        $this->constraintViolationBuilder->expects($this->once())->method('addViolation')->willReturn(null);
+
+        $this->executionContext->expects($this->once())->method('buildViolation')->with($constraint->message)->willReturn($this->constraintViolationBuilder);
+
+        $validator->initialize($this->executionContext);
+
+        $validator->validate('it', $constraint);
     }
 }

@@ -53,6 +53,16 @@ final class SiteRepositoryTest extends TestCase
                 'name' => 'English',
             ],
         ],
+        'spanish' => [
+            'id' => '2a3cabe4-d105-4dd5-9c73-8300f977cc06',
+            'host' => 'es.example.com',
+            'path' => '^\/',
+            'locale' => 'es',
+            'language' => [
+                'locale' => 'es',
+                'name' => 'Español',
+            ],
+        ],
     ];
 
     /**
@@ -68,11 +78,12 @@ final class SiteRepositoryTest extends TestCase
         $languageRepository = $this->getMockBuilder(LanguageRepositoryInterface::class)->disableOriginalConstructor()->getMock();
         $this->languageRepository = $languageRepository;
 
-        $this->languageRepository->expects($this->exactly(2))->method('findOneByLocale')
+        $this->languageRepository->expects($this->exactly(3))->method('findOneByLocale')
             ->withConsecutive([self::DATA['french']['locale']], [self::DATA['english']['locale']])
             ->willReturnOnConsecutiveCalls(
                 (new Language())->setLocale(self::DATA['french']['language']['locale'])->setName(self::DATA['french']['language']['name']),
-                (new Language())->setLocale(self::DATA['english']['language']['locale'])->setName(self::DATA['english']['language']['name'])
+                (new Language())->setLocale(self::DATA['english']['language']['locale'])->setName(self::DATA['english']['language']['name']),
+                (new Language())->setLocale(self::DATA['spanish']['language']['locale'])->setName(self::DATA['spanish']['language']['name'])
             );
 
         $this->siteRepository = new SiteRepository(array_values(self::DATA), $this->languageRepository);
@@ -82,7 +93,7 @@ final class SiteRepositoryTest extends TestCase
     {
         $sites = $this->siteRepository->findAll();
 
-        $this->assertCount(3, $sites);
+        $this->assertCount(4, $sites);
         $this->assertInstanceOf(LocalizedSite::class, $sites[0]);
         $this->assertSame(self::DATA['french']['id'], $sites[0]->getId()->toRfc4122());
         $this->assertSame(self::DATA['french']['host'], $sites[0]->getHost());
@@ -101,13 +112,20 @@ final class SiteRepositoryTest extends TestCase
         $this->assertSame(self::DATA['english']['locale'], $sites[2]->getLocale());
         $this->assertSame(self::DATA['english']['language']['locale'], $sites[2]->getLanguage()->getLocale());
         $this->assertSame(self::DATA['english']['language']['name'], $sites[2]->getLanguage()->getName());
+        $this->assertInstanceOf(LocalizedSite::class, $sites[3]);
+        $this->assertSame(self::DATA['spanish']['id'], $sites[3]->getId()->toRfc4122());
+        $this->assertSame(self::DATA['spanish']['host'], $sites[3]->getHost());
+        $this->assertSame(self::DATA['spanish']['path'], $sites[3]->getPath());
+        $this->assertSame(self::DATA['spanish']['locale'], $sites[3]->getLocale());
+        $this->assertSame(self::DATA['spanish']['language']['locale'], $sites[3]->getLanguage()->getLocale());
+        $this->assertSame(self::DATA['spanish']['language']['name'], $sites[3]->getLanguage()->getName());
     }
 
     public function testFindAllLocalizedShouldSucceed(): void
     {
         $sites = $this->siteRepository->findAllLocalized();
 
-        $this->assertCount(2, $sites);
+        $this->assertCount(3, $sites);
         $this->assertInstanceOf(LocalizedSite::class, $sites[0]);
         $this->assertSame(self::DATA['french']['id'], $sites[0]->getId()->toRfc4122());
         $this->assertSame(self::DATA['french']['host'], $sites[0]->getHost());
@@ -122,6 +140,13 @@ final class SiteRepositoryTest extends TestCase
         $this->assertSame(self::DATA['english']['locale'], $sites[1]->getLocale());
         $this->assertSame(self::DATA['english']['language']['locale'], $sites[1]->getLanguage()->getLocale());
         $this->assertSame(self::DATA['english']['language']['name'], $sites[1]->getLanguage()->getName());
+        $this->assertInstanceOf(LocalizedSite::class, $sites[2]);
+        $this->assertSame(self::DATA['spanish']['id'], $sites[2]->getId()->toRfc4122());
+        $this->assertSame(self::DATA['spanish']['host'], $sites[2]->getHost());
+        $this->assertSame(self::DATA['spanish']['path'], $sites[2]->getPath());
+        $this->assertSame(self::DATA['spanish']['locale'], $sites[2]->getLocale());
+        $this->assertSame(self::DATA['spanish']['language']['locale'], $sites[2]->getLanguage()->getLocale());
+        $this->assertSame(self::DATA['spanish']['language']['name'], $sites[2]->getLanguage()->getName());
     }
 
     public function testFindOneByUrlWithoutPathShouldSucceed(): void

@@ -52,11 +52,22 @@ final class TestActionFunctionalTest extends KernelTestCase
 
     public function testInvokeWithNotExistingLocaleShouldFail(): void
     {
-        $response = $this->action->__invoke('es');
+        $response = $this->action->__invoke('notexistinglocale');
 
         $crawler = new Crawler($response->getContent());
 
-        $this->assertSame('es', $crawler->filter('p.locale span.locale')->first()->text());
+        $this->assertSame('notexistinglocale', $crawler->filter('p.locale span.locale')->first()->text());
+        $this->assertSame('', $crawler->filter('p.language span.locale')->first()->text());
+        $this->assertSame('', $crawler->filter('p.language span.name')->first()->text());
+    }
+
+    public function testInvokeWithNotEnabledLocaleShouldFail(): void
+    {
+        $response = $this->action->__invoke('it');
+
+        $crawler = new Crawler($response->getContent());
+
+        $this->assertSame('it', $crawler->filter('p.locale span.locale')->first()->text());
         $this->assertSame('', $crawler->filter('p.language span.locale')->first()->text());
         $this->assertSame('', $crawler->filter('p.language span.name')->first()->text());
     }

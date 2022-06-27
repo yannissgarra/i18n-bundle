@@ -26,18 +26,20 @@ final class LanguageRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->languageRepository = new LanguageRepository(['en', 'fr'], 'en');
+        $this->languageRepository = new LanguageRepository(['en', 'fr', 'es'], 'en');
     }
 
     public function testFindAllShouldSucceed(): void
     {
         $languages = $this->languageRepository->findAll();
 
-        $this->assertCount(2, $languages);
+        $this->assertCount(3, $languages);
         $this->assertSame('en', $languages[0]->getLocale());
         $this->assertSame('English', $languages[0]->getName());
         $this->assertSame('fr', $languages[1]->getLocale());
         $this->assertSame('Français', $languages[1]->getName());
+        $this->assertSame('es', $languages[2]->getLocale());
+        $this->assertSame('Español', $languages[2]->getName());
     }
 
     public function testFindOneByLocaleShouldSucceed(): void
@@ -49,11 +51,18 @@ final class LanguageRepositoryTest extends TestCase
         $this->assertSame('English', $language->getName());
     }
 
-    public function testFindOneByLocaleWithWrongLocaleShouldFail(): void
+    public function testFindOneByLocaleWithNotExistingLocaleShouldFail(): void
     {
         $this->expectException(LanguageNotFoundException::class);
 
         $this->languageRepository->findOneByLocale('notexisting');
+    }
+
+    public function testFindOneByLocaleWithNotEnabledLocaleShouldFail(): void
+    {
+        $this->expectException(LanguageNotFoundException::class);
+
+        $this->languageRepository->findOneByLocale('it');
     }
 
     public function testLocaleExistsShouldSucceed(): void
@@ -61,9 +70,14 @@ final class LanguageRepositoryTest extends TestCase
         $this->assertTrue($this->languageRepository->localeExists('en'));
     }
 
-    public function testLocaleExistsWithWrongLocaleShouldFail(): void
+    public function testLocaleExistsWithNotExistingLocaleShouldFail(): void
     {
-        $this->assertFalse($this->languageRepository->localeExists('es'));
+        $this->assertFalse($this->languageRepository->localeExists('notexisting'));
+    }
+
+    public function testLocaleExistsWithNotEnabledLocaleShouldFail(): void
+    {
+        $this->assertFalse($this->languageRepository->localeExists('it'));
     }
 
     public function testFindOneDefaultShouldSucceed(): void

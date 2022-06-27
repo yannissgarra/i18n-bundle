@@ -39,7 +39,17 @@ final class LocaleValidatorFunctionalTest extends KernelTestCase
 
     public function testValidateAttributeWithNotExistingLocaleShouldFail()
     {
-        $translation = (new TestTranslation())->setLocale('es');
+        $translation = (new TestTranslation())->setLocale('notexistinglocale');
+
+        $violations = $this->validator->validate($translation);
+
+        $this->assertCount(1, $violations);
+        $this->assertSame((new Locale())->message, $violations[0]->getMessage());
+    }
+
+    public function testValidateAttributeWithNotEnabledLocaleShouldFail()
+    {
+        $translation = (new TestTranslation())->setLocale('it');
 
         $violations = $this->validator->validate($translation);
 
