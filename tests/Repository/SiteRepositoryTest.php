@@ -54,6 +54,7 @@ final class SiteRepositoryTest extends TestCase
             ],
         ],
     ];
+
     /**
      * @var LanguageRepositoryInterface&MockObject
      **/

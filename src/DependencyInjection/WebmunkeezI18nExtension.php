@@ -25,6 +25,7 @@ final class WebmunkeezI18nExtension extends Extension implements PrependExtensio
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
+        $loader->load('event_listener.php');
         $loader->load('repository.php');
         $loader->load('serializer.php');
         $loader->load('twig.php');

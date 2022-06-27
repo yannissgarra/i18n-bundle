@@ -2,6 +2,9 @@ framework:
     test: true
     secret: test
     http_method_override: false
+    router:
+        utf8: true
+        resource: '%kernel.project_dir%/config/routing.yaml'
 
 twig:
     strict_variables: true
