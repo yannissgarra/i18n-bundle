@@ -178,48 +178,36 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithoutSiteHostShouldFail()
+    public function testProcessWithoutSiteHostShouldSucceed()
     {
-        $this->expectException(InvalidConfigurationException::class);
-
         $config = self::CONFIG;
         unset($config['sites'][0]['host']);
 
         $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+
+        $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
+        $this->assertSame(self::CONFIG['default_locale'], $config['default_locale']);
+        $this->assertSame(self::CONFIG['sites'][0]['id'], $config['sites'][0]['id']);
+        $this->assertSame('localhost', $config['sites'][0]['host']);
+        $this->assertSame(self::CONFIG['sites'][0]['path'], $config['sites'][0]['path']);
+        $this->assertSame(self::CONFIG['sites'][0]['locale'], $config['sites'][0]['locale']);
     }
 
-    public function testProcessWithWrongFormatSiteHostShouldFail()
+    public function testProcessWithoutSitePathShouldSucceed()
     {
-        $this->expectException(InvalidConfigurationException::class);
-
-        $config = self::CONFIG;
-        $config['sites'][0]['host'] = 'wrongformaturl';
-
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
-    }
-
-    public function testProcessWithAnotherWrongFormatSiteHostShouldFail()
-    {
-        $this->expectException(InvalidConfigurationException::class);
-
-        $config = self::CONFIG;
-        $config['sites'][0]['host'] = '_example.com';
-
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
-    }
-
-    public function testProcessWithoutSitePathShouldFail()
-    {
-        $this->expectException(InvalidConfigurationException::class);
-
         $config = self::CONFIG;
         unset($config['sites'][0]['path']);
 
         $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+
+        $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
+        $this->assertSame(self::CONFIG['default_locale'], $config['default_locale']);
+        $this->assertSame(self::CONFIG['sites'][0]['id'], $config['sites'][0]['id']);
+        $this->assertSame(self::CONFIG['sites'][0]['host'], $config['sites'][0]['host']);
+        $this->assertSame('^\/', $config['sites'][0]['path']);
+        $this->assertSame(self::CONFIG['sites'][0]['locale'], $config['sites'][0]['locale']);
     }
 
     public function testProcessWithoutSiteLocaleShouldSucceed()
