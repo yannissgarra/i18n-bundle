@@ -20,9 +20,9 @@ return function (ContainerConfigurator $container) {
     $container->services()
         ->set(SiteRequestListener::class)
             ->args([service(SiteRepository::class)])
-            ->tag('kernel.event_listener', ['event' => 'kernel.request', 'priority' => 30])
+            ->tag('kernel.event_listener', ['event' => 'kernel.request', 'priority' => 50])
 
         ->set(LocaleRequestListener::class)
             ->args([service(LanguageRepository::class)])
-            ->tag('kernel.event_listener', ['event' => 'kernel.request', 'priority' => 20]);
+            ->tag('kernel.event_listener', ['event' => 'kernel.request', 'priority' => 40]);
 };

@@ -17,14 +17,16 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-#[Route(self::FRENCH_ROUTE_URI)]
+#[Route(self::FRENCH_ROUTE_URI, condition: "request.getLocale() === 'fr'")]
 #[Route(self::API_ROUTE_URI)]
-#[Route(self::ENGLISH_ROUTE_URI)]
+#[Route(self::ENGLISH_ROUTE_URI, condition: "request.getLocale() === 'en'")]
+#[Route(self::SPANISH_ROUTE_URI, condition: "request.getLocale() === 'es'")]
 final class LocalizedAction
 {
-    public const FRENCH_ROUTE_URI = '/fr/test';
-    public const API_ROUTE_URI = '/api/test';
-    public const ENGLISH_ROUTE_URI = '/test';
+    public const FRENCH_ROUTE_URI = '/fr/un-test';
+    public const API_ROUTE_URI = '/api/a-test';
+    public const ENGLISH_ROUTE_URI = '/a-test';
+    public const SPANISH_ROUTE_URI = '/una-prueba';
 
     public function __invoke(): Response
     {

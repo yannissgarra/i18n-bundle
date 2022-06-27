@@ -13,6 +13,7 @@ namespace Webmunkeez\I18nBundle\Test\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Controller\LocalizedAction;
 
 /**
@@ -20,35 +21,58 @@ use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Controller\LocalizedAction;
  */
 final class TestLocalizedActionFunctionalTest extends WebTestCase
 {
-    public function testFrenchRouteUriShouldSucceed(): void
+    public function testFrenchRouteUrlShouldSucceed(): void
     {
         $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
         $client->request(Request::METHOD_GET, LocalizedAction::FRENCH_ROUTE_URI);
 
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertSame('fr', $client->getResponse()->headers->get('content-language'));
     }
 
-    public function testApiRouteUriWithLocaleShouldSucceed(): void
+    public function testApiRouteUrlWithLocaleShouldSucceed(): void
     {
         $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
         $client->request(Request::METHOD_GET, LocalizedAction::API_ROUTE_URI, ['_locale' => 'fr']);
 
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertSame('fr', $client->getResponse()->headers->get('content-language'));
     }
 
-    public function testApiRouteUriWithoutLocaleShouldSucceed(): void
+    public function testApiRouteUrlWithoutLocaleShouldSucceed(): void
     {
         $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
         $client->request(Request::METHOD_GET, LocalizedAction::API_ROUTE_URI);
 
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertSame('en', $client->getResponse()->headers->get('content-language'));
     }
 
-    public function testEnglishRouteUriShouldSucceed(): void
+    public function testEnglishRouteUrlShouldSucceed(): void
     {
         $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
         $client->request(Request::METHOD_GET, LocalizedAction::ENGLISH_ROUTE_URI);
 
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertSame('en', $client->getResponse()->headers->get('content-language'));
+    }
+
+    public function testSpanishRouteUrlShouldSucceed(): void
+    {
+        $client = static::createClient([], ['HTTP_HOST' => 'es.example.com']);
+        $client->request(Request::METHOD_GET, LocalizedAction::SPANISH_ROUTE_URI);
+
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $this->assertSame('es', $client->getResponse()->headers->get('content-language'));
+    }
+
+    public function testSpanishRouteUriAndEnglishRouteHostShouldFail(): void
+    {
+        $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
+        $client->catchExceptions(false);
+
+        $this->expectException(NotFoundHttpException::class);
+
+        $client->request(Request::METHOD_GET, LocalizedAction::SPANISH_ROUTE_URI);
     }
 }
