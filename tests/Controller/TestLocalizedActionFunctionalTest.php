@@ -26,7 +26,7 @@ final class TestLocalizedActionFunctionalTest extends WebTestCase
         $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
         $client->request(Request::METHOD_GET, LocalizedAction::FRENCH_ROUTE_URI);
 
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
         $this->assertSame('fr', $client->getResponse()->headers->get('content-language'));
     }
 
@@ -35,7 +35,7 @@ final class TestLocalizedActionFunctionalTest extends WebTestCase
         $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
         $client->request(Request::METHOD_GET, LocalizedAction::API_ROUTE_URI, ['_locale' => 'fr']);
 
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
         $this->assertSame('fr', $client->getResponse()->headers->get('content-language'));
     }
 
@@ -44,7 +44,7 @@ final class TestLocalizedActionFunctionalTest extends WebTestCase
         $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
         $client->request(Request::METHOD_GET, LocalizedAction::API_ROUTE_URI);
 
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
         $this->assertSame('en', $client->getResponse()->headers->get('content-language'));
     }
 
@@ -53,7 +53,7 @@ final class TestLocalizedActionFunctionalTest extends WebTestCase
         $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
         $client->request(Request::METHOD_GET, LocalizedAction::ENGLISH_ROUTE_URI);
 
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
         $this->assertSame('en', $client->getResponse()->headers->get('content-language'));
     }
 
@@ -62,7 +62,7 @@ final class TestLocalizedActionFunctionalTest extends WebTestCase
         $client = static::createClient([], ['HTTP_HOST' => 'es.example.com']);
         $client->request(Request::METHOD_GET, LocalizedAction::SPANISH_ROUTE_URI);
 
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
         $this->assertSame('es', $client->getResponse()->headers->get('content-language'));
     }
 
