@@ -35,6 +35,7 @@ final class WebmunkeezI18nExtension extends Extension implements PrependExtensio
 
         $container->setParameter('webmunkeez_i18n.enabled_locales', $config['enabled_locales']);
         $container->setParameter('webmunkeez_i18n.default_locale', $config['default_locale']);
+        $container->setParameter('webmunkeez_i18n.sites', $config['sites']);
     }
 
     public function prepend(ContainerBuilder $container)

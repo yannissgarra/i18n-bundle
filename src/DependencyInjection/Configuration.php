@@ -14,6 +14,7 @@ namespace Webmunkeez\I18nBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Intl\Locales;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
@@ -46,10 +47,60 @@ final class Configuration implements ConfigurationInterface
                             ->thenInvalid('Invalid locale %s')
                     ->end()
                 ->end() // default_locale
+                ->arrayNode('sites')
+                    ->arrayPrototype()
+                        ->children()
+                            ->scalarNode('id')
+                                ->isRequired()
+                                ->cannotBeEmpty()
+                                ->validate()
+                                    ->ifTrue(fn (string $id) => false === Uuid::isValid($id))
+                                        ->thenInvalid('Invalid id format %s')
+                                ->end()
+                            ->end()
+                            ->scalarNode('host')
+                                ->isRequired()
+                                ->cannotBeEmpty()
+                                ->validate()
+                                    ->ifTrue(fn (string $host) => false === strpos($host, '.') || false === filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME))
+                                        ->thenInvalid('Invalid host format %s')
+                                ->end()
+                            ->end()
+                            ->scalarNode('path')
+                                ->isRequired()
+                                ->cannotBeEmpty()
+                            ->end()
+                            ->scalarNode('locale')
+                                ->defaultNull()
+                                ->validate()
+                                    ->ifTrue(fn (string $locale) => false === Locales::exists($locale))
+                                        ->thenInvalid('Invalid locale %s')
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end() // sites
             ->end()
             ->validate()
                 ->ifTrue(fn (array $config) => false === in_array($config['default_locale'], $config['enabled_locales']))
                     ->then(fn (array $config) => throw new \InvalidArgumentException(sprintf('Default locale "%s" is not part of enabled locales %s', $config['default_locale'], json_encode($config['enabled_locales']))))
+            ->end()
+            ->validate()
+                ->ifTrue(function (array $config) {
+                    $isLocaleNotEnabled = false;
+
+                    foreach ($config['sites'] as $site) {
+                        if (
+                            null !== $site['locale']
+                            && false === in_array($site['locale'], $config['enabled_locales'])
+                        ) {
+                            $isLocaleNotEnabled = true;
+                        }
+                    }
+
+                    return $isLocaleNotEnabled;
+                })
+                    ->then(fn (array $config) => throw new \InvalidArgumentException(sprintf('A site locale is not part of enabled locales %s', json_encode($config['enabled_locales']))))
             ->end();
 
         return $treeBuilder;
