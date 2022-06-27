@@ -44,6 +44,11 @@ services:
             - '%webmunkeez_i18n.enabled_locales%'
             - '%webmunkeez_i18n.default_locale%'
 
+    Webmunkeez\I18nBundle\Repository\SiteRepository:
+        public: true
+        arguments:
+            - '%webmunkeez_i18n.sites%'
+
     test_validator:
         alias: validator
         public: true
