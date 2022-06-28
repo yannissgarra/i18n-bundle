@@ -25,6 +25,8 @@ interface SiteRepositoryInterface
      */
     public function findAll(): array;
 
+    public function countAll(): int;
+
     /**
      * @return array<LocalizedSite>
      */

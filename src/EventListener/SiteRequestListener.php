@@ -33,6 +33,11 @@ final class SiteRequestListener
     {
         $request = $event->getRequest();
 
+        // acts only if there is at least one site defined
+        if (0 === $this->siteRepository->countAll()) {
+            return;
+        }
+
         try {
             $site = $this->siteRepository->findOneByUrl($request->getHost(), $request->getRequestUri());
 

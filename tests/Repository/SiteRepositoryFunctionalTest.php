@@ -62,6 +62,13 @@ final class SiteRepositoryFunctionalTest extends KernelTestCase
         $this->assertSame(SiteRepositoryTest::DATA['spanish']['language']['name'], $sites[3]->getLanguage()->getName());
     }
 
+    public function testCountAllShouldSucceed(): void
+    {
+        $counter = $this->siteRepository->countAll();
+
+        $this->assertSame(4, $counter);
+    }
+
     public function testFindAllLocalizedShouldSucceed(): void
     {
         $sites = $this->siteRepository->findAllLocalized();

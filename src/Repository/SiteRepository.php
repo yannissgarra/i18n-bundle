@@ -52,6 +52,11 @@ final class SiteRepository implements SiteRepositoryInterface
         return $this->sites;
     }
 
+    public function countAll(): int
+    {
+        return count($this->sites);
+    }
+
     public function findAllLocalized(): array
     {
         return array_values(array_filter($this->sites, fn (Site $site): bool => $site instanceof LocalizedSite));

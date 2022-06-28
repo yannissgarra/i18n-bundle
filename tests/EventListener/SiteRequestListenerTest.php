@@ -67,6 +67,7 @@ final class SiteRequestListenerTest extends TestCase
 
     public function testWithLocalizedUrlShouldSucceed(): void
     {
+        $this->siteRepository->expects($this->once())->method('countAll')->willReturn(4);
         $this->siteRepository->expects($this->once())->method('findOneByUrl')->willReturn($this->localizedSite);
 
         $listener = new SiteRequestListener($this->siteRepository);
@@ -89,6 +90,7 @@ final class SiteRequestListenerTest extends TestCase
 
     public function testWithUnlocalizedUrlShouldSucceed(): void
     {
+        $this->siteRepository->expects($this->once())->method('countAll')->willReturn(4);
         $this->siteRepository->expects($this->once())->method('findOneByUrl')->willReturn($this->site);
 
         $listener = new SiteRequestListener($this->siteRepository);
@@ -108,6 +110,7 @@ final class SiteRequestListenerTest extends TestCase
 
     public function testWithNotExistingUrlShouldFail(): void
     {
+        $this->siteRepository->expects($this->once())->method('countAll')->willReturn(4);
         $this->siteRepository->expects($this->once())->method('findOneByUrl')->willThrowException(new NotFoundHttpException());
 
         $listener = new SiteRequestListener($this->siteRepository);
@@ -119,5 +122,21 @@ final class SiteRequestListenerTest extends TestCase
         $this->expectException(NotFoundHttpException::class);
 
         $listener->onKernelRequest($event);
+    }
+
+    public function testWithoutSiteDefinedShouldFail(): void
+    {
+        $this->siteRepository->expects($this->once())->method('countAll')->willReturn(0);
+        $this->siteRepository->expects($this->never())->method('findOneByUrl');
+
+        $listener = new SiteRequestListener($this->siteRepository);
+
+        $request = Request::create('https://example.com/test');
+
+        $event = new RequestEvent($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST);
+
+        $listener->onKernelRequest($event);
+
+        $this->assertNull($event->getRequest()->get('current-site'));
     }
 }
