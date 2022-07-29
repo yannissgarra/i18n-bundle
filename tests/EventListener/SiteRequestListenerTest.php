@@ -79,7 +79,7 @@ final class SiteRequestListenerTest extends TestCase
         $listener->onKernelRequest($event);
 
         $this->assertInstanceOf(LocalizedSite::class, $event->getRequest()->get('current-site'));
-        $this->assertSame($this->localizedSite->getId()->toRfc4122(), $event->getRequest()->get('current-site')->getId()->toRfc4122());
+        $this->assertTrue($event->getRequest()->get('current-site')->getId()->equals($this->localizedSite->getId()));
         $this->assertSame($this->localizedSite->getHost(), $event->getRequest()->get('current-site')->getHost());
         $this->assertSame($this->localizedSite->getPath(), $event->getRequest()->get('current-site')->getPath());
         $this->assertSame($this->localizedSite->getLocale(), $event->getRequest()->get('current-site')->getLocale());
@@ -102,7 +102,7 @@ final class SiteRequestListenerTest extends TestCase
         $listener->onKernelRequest($event);
 
         $this->assertInstanceOf(Site::class, $event->getRequest()->get('current-site'));
-        $this->assertSame($this->site->getId()->toRfc4122(), $event->getRequest()->get('current-site')->getId()->toRfc4122());
+        $this->assertTrue($event->getRequest()->get('current-site')->getId()->equals($this->site->getId()));
         $this->assertSame($this->site->getHost(), $event->getRequest()->get('current-site')->getHost());
         $this->assertSame($this->site->getPath(), $event->getRequest()->get('current-site')->getPath());
         $this->assertNull($event->getRequest()->get('current-language'));
