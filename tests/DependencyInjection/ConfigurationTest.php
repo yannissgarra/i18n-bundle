@@ -153,7 +153,7 @@ final class ConfigurationTest extends TestCase
 
         $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
         $this->assertSame(self::CONFIG['default_locale'], $config['default_locale']);
-        $this->assertSame([], $config['sites']);
+        $this->assertEqualsCanonicalizing([], $config['sites']);
     }
 
     public function testProcessWithoutSiteIdShouldFail()
