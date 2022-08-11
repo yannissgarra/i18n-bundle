@@ -34,7 +34,7 @@ final class Configuration implements ConfigurationInterface
                         ->isRequired()
                         ->cannotBeEmpty()
                         ->validate()
-                            ->ifTrue(fn (string $locale) => false === Locales::exists($locale))
+                            ->ifTrue(fn (string $locale): bool => false === Locales::exists($locale))
                                 ->thenInvalid('Invalid locale %s')
                         ->end()
                     ->end() // locale
@@ -43,7 +43,7 @@ final class Configuration implements ConfigurationInterface
                     ->isRequired()
                     ->cannotBeEmpty()
                     ->validate()
-                        ->ifTrue(fn (string $locale) => false === Locales::exists($locale))
+                        ->ifTrue(fn (string $locale): bool => false === Locales::exists($locale))
                             ->thenInvalid('Invalid locale %s')
                     ->end()
                 ->end() // default_locale
@@ -54,7 +54,7 @@ final class Configuration implements ConfigurationInterface
                                 ->isRequired()
                                 ->cannotBeEmpty()
                                 ->validate()
-                                    ->ifTrue(fn (string $id) => false === Uuid::isValid($id))
+                                    ->ifTrue(fn (string $id): bool => false === Uuid::isValid($id))
                                         ->thenInvalid('Invalid id format %s')
                                 ->end()
                             ->end()
@@ -69,7 +69,7 @@ final class Configuration implements ConfigurationInterface
                             ->scalarNode('locale')
                                 ->defaultNull()
                                 ->validate()
-                                    ->ifTrue(fn (string $locale) => false === Locales::exists($locale))
+                                    ->ifTrue(fn (string $locale): bool => false === Locales::exists($locale))
                                         ->thenInvalid('Invalid locale %s')
                                 ->end()
                             ->end()
@@ -78,8 +78,8 @@ final class Configuration implements ConfigurationInterface
                 ->end() // sites
             ->end()
             ->validate()
-                ->ifTrue(fn (array $config) => false === in_array($config['default_locale'], $config['enabled_locales']))
-                    ->then(fn (array $config) => throw new \InvalidArgumentException(sprintf('Default locale "%s" is not part of enabled locales %s', $config['default_locale'], json_encode($config['enabled_locales']))))
+                ->ifTrue(fn (array $config): bool => false === in_array($config['default_locale'], $config['enabled_locales']))
+                    ->then(fn (array $config): mixed => throw new \InvalidArgumentException(sprintf('Default locale "%s" is not part of enabled locales %s', $config['default_locale'], json_encode($config['enabled_locales']))))
             ->end()
             ->validate()
                 ->ifTrue(function (array $config) {
@@ -96,7 +96,7 @@ final class Configuration implements ConfigurationInterface
 
                     return $isLocaleNotEnabled;
                 })
-                    ->then(fn (array $config) => throw new \InvalidArgumentException(sprintf('A site locale is not part of enabled locales %s', json_encode($config['enabled_locales']))))
+                    ->then(fn (array $config): mixed => throw new \InvalidArgumentException(sprintf('A site locale is not part of enabled locales %s', json_encode($config['enabled_locales']))))
             ->end();
 
         return $treeBuilder;
