@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Webmunkeez\I18nBundle\Test\Model;
 
 use PHPUnit\Framework\TestCase;
+use Webmunkeez\I18nBundle\Exception\TranslationNotFoundException;
 use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\Test;
 use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\TestTranslation;
 
@@ -34,5 +35,18 @@ final class TestTest extends TestCase
         $this->assertCount(2, $this->test->getTranslations());
         $this->assertSame('en', $this->test->getTranslations()[0]->getLocale());
         $this->assertSame('fr', $this->test->getTranslations()[1]->getLocale());
+    }
+
+    public function testGetTranslationShouldSucceed(): void
+    {
+        $this->assertInstanceOf(TestTranslation::class, $this->test->getTranslation('en'));
+        $this->assertSame('en', $this->test->getTranslation('en')->getLocale());
+    }
+
+    public function testGetTranslationShouldFail(): void
+    {
+        $this->expectException(TranslationNotFoundException::class);
+
+        $this->test->getTranslation('es');
     }
 }
