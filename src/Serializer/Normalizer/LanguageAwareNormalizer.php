@@ -34,8 +34,6 @@ final class LanguageAwareNormalizer implements NormalizerInterface, NormalizerAw
 
     /**
      * @param LanguageAwareInterface $object
-     *
-     * @throws LanguageNotFoundException
      */
     public function normalize(mixed $object, string $format = null, array $context = []): array
     {
