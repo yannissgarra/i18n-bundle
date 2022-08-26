@@ -38,7 +38,7 @@ final class LanguageAwareNormalizer implements NormalizerInterface, NormalizerAw
     public function normalize(mixed $object, string $format = null, array $context = []): array
     {
         // avoid circular reference
-        $context[spl_object_id($object).'.already_called'] = true;
+        $context[spl_object_id($object).'.'.self::class.'.already_called'] = true;
 
         if (null === $object->getLanguage()) {
             try {
@@ -59,8 +59,8 @@ final class LanguageAwareNormalizer implements NormalizerInterface, NormalizerAw
 
         // avoid circular reference
         if (
-            true === array_key_exists(spl_object_id($data).'.already_called', $context)
-            && true === $context[spl_object_id($data).'.already_called']
+            true === array_key_exists(spl_object_id($data).'.'.self::class.'.already_called', $context)
+            && true === $context[spl_object_id($data).'.'.self::class.'.already_called']
         ) {
             return false;
         }
