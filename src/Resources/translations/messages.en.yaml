@@ -1,0 +1,7 @@
+date_interval:
+    minute_ago: Just now
+    hour_ago: Recently
+    day_ago: '{1} Recently | ]1,Inf[ %count% days ago'
+    week_ago: '{1} 1 week ago | ]1,Inf[ %count% weeks ago'
+    month_ago: '{1} 1 month ago | ]1,Inf[ %count% months ago'
+    year_ago: '{1} 1 year ago | ]1,Inf[ %count% years ago'
