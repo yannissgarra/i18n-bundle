@@ -82,7 +82,7 @@ final class Configuration implements ConfigurationInterface
                     ->then(fn (array $config): mixed => throw new \InvalidArgumentException(sprintf('Default locale "%s" is not part of enabled locales %s', $config['default_locale'], json_encode($config['enabled_locales']))))
             ->end()
             ->validate()
-                ->ifTrue(function (array $config) {
+                ->ifTrue(function (array $config): bool {
                     $isLocaleNotEnabled = false;
 
                     foreach ($config['sites'] as $site) {
