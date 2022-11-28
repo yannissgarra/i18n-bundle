@@ -108,7 +108,7 @@ final class SiteRequestListenerTest extends TestCase
         $this->assertNull($event->getRequest()->get('current-language'));
     }
 
-    public function testWithNotExistingUrlShouldFail(): void
+    public function testWithNotExistingUrlShouldThrowException(): void
     {
         $this->siteRepository->expects($this->once())->method('countAll')->willReturn(4);
         $this->siteRepository->expects($this->once())->method('findOneByUrl')->willThrowException(new NotFoundHttpException());

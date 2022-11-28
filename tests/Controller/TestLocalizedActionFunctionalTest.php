@@ -66,7 +66,7 @@ final class TestLocalizedActionFunctionalTest extends WebTestCase
         $this->assertSame('es', $client->getResponse()->headers->get('content-language'));
     }
 
-    public function testSpanishRouteUriAndEnglishRouteHostShouldFail(): void
+    public function testSpanishRouteUriAndEnglishRouteHostShouldThrowException(): void
     {
         $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
         $client->catchExceptions(false);

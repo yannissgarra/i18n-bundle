@@ -51,14 +51,14 @@ final class LanguageRepositoryTest extends TestCase
         $this->assertSame('English', $language->getName());
     }
 
-    public function testFindOneByLocaleWithNotExistingLocaleShouldFail(): void
+    public function testFindOneByLocaleWithNotExistingLocaleShouldThrowException(): void
     {
         $this->expectException(LanguageNotFoundException::class);
 
         $this->languageRepository->findOneByLocale('notexisting');
     }
 
-    public function testFindOneByLocaleWithNotEnabledLocaleShouldFail(): void
+    public function testFindOneByLocaleWithNotEnabledLocaleShouldThrowException(): void
     {
         $this->expectException(LanguageNotFoundException::class);
 

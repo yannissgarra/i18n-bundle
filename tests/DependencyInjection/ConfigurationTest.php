@@ -66,7 +66,7 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithWrongTypeEnabledLocalesShouldFail(): void
+    public function testProcessWithWrongTypeEnabledLocalesShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -77,7 +77,7 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithoutLocaleShouldFail(): void
+    public function testProcessWithoutLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -88,7 +88,7 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithNotExistingLocaleShouldFail(): void
+    public function testProcessWithNotExistingLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -99,7 +99,7 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithoutDefaultLocaleFail(): void
+    public function testProcessWithoutDefaultLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -110,7 +110,7 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithWrongTypeDefaultLocaleShouldFail(): void
+    public function testProcessWithWrongTypeDefaultLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -121,7 +121,7 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithNotExistingDefaultLocaleShouldFail(): void
+    public function testProcessWithNotExistingDefaultLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -132,7 +132,7 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithNotEnabledDefaultLocaleShouldFail(): void
+    public function testProcessWithNotEnabledDefaultLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -156,7 +156,7 @@ final class ConfigurationTest extends TestCase
         $this->assertEqualsCanonicalizing([], $config['sites']);
     }
 
-    public function testProcessWithoutSiteIdShouldFail(): void
+    public function testProcessWithoutSiteIdShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -167,7 +167,7 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithWrongSiteIdFormatShouldFail(): void
+    public function testProcessWithWrongSiteIdFormatShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -226,7 +226,7 @@ final class ConfigurationTest extends TestCase
         $this->assertNull($config['sites'][0]['locale']);
     }
 
-    public function testProcessWithNotExistingSiteLocaleShouldFail(): void
+    public function testProcessWithNotExistingSiteLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -237,7 +237,7 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithNotEnabledSiteLocaleShouldFail(): void
+    public function testProcessWithNotEnabledSiteLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 

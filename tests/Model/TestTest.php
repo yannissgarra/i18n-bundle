@@ -43,7 +43,7 @@ final class TestTest extends TestCase
         $this->assertSame('en', $this->test->getTranslation('en')->getLocale());
     }
 
-    public function testGetTranslationShouldFail(): void
+    public function testGetTranslationShouldThrowException(): void
     {
         $this->expectException(TranslationNotFoundException::class);
 

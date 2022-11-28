@@ -121,7 +121,7 @@ final class SiteRepositoryFunctionalTest extends KernelTestCase
         $this->assertSame(SiteRepositoryTest::DATA['api']['path'], $site->getPath());
     }
 
-    public function testFindOneByUrlWithNotExistingHostShouldFail(): void
+    public function testFindOneByUrlWithNotExistingHostShouldThrowException(): void
     {
         $this->expectException(SiteNotFoundException::class);
 

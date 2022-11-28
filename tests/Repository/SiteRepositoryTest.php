@@ -180,7 +180,7 @@ final class SiteRepositoryTest extends TestCase
         $this->assertSame(self::DATA['api']['path'], $site->getPath());
     }
 
-    public function testFindOneByUrlWithNotExistingHostShouldFail(): void
+    public function testFindOneByUrlWithNotExistingHostShouldThrowException(): void
     {
         $this->expectException(SiteNotFoundException::class);
 
