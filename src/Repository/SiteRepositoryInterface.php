@@ -36,9 +36,4 @@ interface SiteRepositoryInterface
      * @throws SiteNotFoundException
      */
     public function findOneByUrl(string $host, string $uri): Site;
-
-    /**
-     * @throws SiteNotFoundException
-     */
-    public function findOneByLocale(string $locale): LocalizedSite;
 }

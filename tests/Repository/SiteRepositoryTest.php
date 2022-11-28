@@ -186,24 +186,4 @@ final class SiteRepositoryTest extends TestCase
 
         $this->siteRepository->findOneByUrl('_example.com', '/test');
     }
-
-    public function testFindOneByLocaleShouldSucceed(): void
-    {
-        $site = $this->siteRepository->findOneByLocale('en');
-
-        $this->assertInstanceOf(LocalizedSite::class, $site);
-        $this->assertTrue($site->getId()->equals(Uuid::fromString(SiteRepositoryTest::DATA['english']['id'])));
-        $this->assertSame(self::DATA['english']['host'], $site->getHost());
-        $this->assertSame(self::DATA['english']['path'], $site->getPath());
-        $this->assertSame(self::DATA['english']['locale'], $site->getLocale());
-        $this->assertSame(self::DATA['english']['language']['locale'], $site->getLanguage()->getLocale());
-        $this->assertSame(self::DATA['english']['language']['name'], $site->getLanguage()->getName());
-    }
-
-    public function testFindOneByLocaleWithWrongLocaleShouldFail(): void
-    {
-        $this->expectException(SiteNotFoundException::class);
-
-        $this->siteRepository->findOneByLocale('notexisting');
-    }
 }

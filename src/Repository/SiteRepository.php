@@ -26,8 +26,6 @@ final class SiteRepository implements SiteRepositoryInterface
      */
     private array $sites = [];
 
-    private LanguageRepositoryInterface $languageRepository;
-
     public function __construct(array $sitesData, LanguageRepositoryInterface $languageRepository)
     {
         foreach ($sitesData as $siteData) {
@@ -75,16 +73,5 @@ final class SiteRepository implements SiteRepositoryInterface
         }
 
         throw new SiteNotFoundException();
-    }
-
-    public function findOneByLocale(string $locale): LocalizedSite
-    {
-        $sites = array_filter($this->sites, fn (Site $site): bool => $site instanceof LocalizedSite && $locale === $site->getLocale());
-
-        if (1 !== count($sites)) {
-            throw new SiteNotFoundException();
-        }
-
-        return array_values($sites)[0];
     }
 }
