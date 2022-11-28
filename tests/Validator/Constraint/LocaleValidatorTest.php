@@ -54,7 +54,7 @@ final class LocaleValidatorTest extends TestCase
         $this->languageRepository = $languageRepository;
     }
 
-    public function testValidateShouldSucceed()
+    public function testValidateShouldSucceed(): void
     {
         $this->languageRepository->method('localeExists')->willReturn(true);
 
@@ -65,7 +65,7 @@ final class LocaleValidatorTest extends TestCase
         $validator->validate('en', new Locale());
     }
 
-    public function testValidateWithNotExistingLocaleShouldFail()
+    public function testValidateWithNotExistingLocaleShouldFail(): void
     {
         $this->languageRepository->method('localeExists')->willReturn(false);
 
@@ -81,7 +81,7 @@ final class LocaleValidatorTest extends TestCase
         $validator->validate('notexisting', $constraint);
     }
 
-    public function testValidateWithNotEnabledLocaleShouldFail()
+    public function testValidateWithNotEnabledLocaleShouldFail(): void
     {
         $this->languageRepository->method('localeExists')->willReturn(false);
 

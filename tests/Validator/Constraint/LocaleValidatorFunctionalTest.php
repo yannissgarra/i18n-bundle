@@ -28,7 +28,7 @@ final class LocaleValidatorFunctionalTest extends KernelTestCase
         $this->validator = static::getContainer()->get('test_validator');
     }
 
-    public function testValidateAttributeShouldSucceed()
+    public function testValidateAttributeShouldSucceed(): void
     {
         $translation = (new TestTranslation())->setLocale('en');
 
@@ -37,7 +37,7 @@ final class LocaleValidatorFunctionalTest extends KernelTestCase
         $this->assertCount(0, $violations);
     }
 
-    public function testValidateAttributeWithNotExistingLocaleShouldFail()
+    public function testValidateAttributeWithNotExistingLocaleShouldFail(): void
     {
         $translation = (new TestTranslation())->setLocale('notexistinglocale');
 
@@ -47,7 +47,7 @@ final class LocaleValidatorFunctionalTest extends KernelTestCase
         $this->assertSame((new Locale())->message, $violations[0]->getMessage());
     }
 
-    public function testValidateAttributeWithNotEnabledLocaleShouldFail()
+    public function testValidateAttributeWithNotEnabledLocaleShouldFail(): void
     {
         $translation = (new TestTranslation())->setLocale('it');
 
