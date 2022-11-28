@@ -28,6 +28,7 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder->getRootNode()
             ->children()
                 ->arrayNode('enabled_locales')
+                    ->performNoDeepMerging()
                     ->isRequired()
                     ->requiresAtLeastOneElement()
                     ->scalarPrototype()
