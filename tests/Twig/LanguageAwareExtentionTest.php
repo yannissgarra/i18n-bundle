@@ -24,16 +24,6 @@ use Webmunkeez\I18nBundle\Twig\LanguageAwareExtension;
  */
 final class LanguageAwareExtensionTest extends TestCase
 {
-    public const DATA = [
-        'translation' => [
-            'locale' => 'en',
-            'language' => [
-                'locale' => 'en',
-                'name' => 'English',
-            ],
-        ],
-    ];
-
     /**
      * @var LanguageRepositoryInterface&MockObject
      **/
