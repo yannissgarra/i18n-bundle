@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Webmunkeez\I18nBundle\Test\Twig;
 
-use DateTime;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -67,91 +66,91 @@ final class DateTimeExtensionTest extends TestCase
 
     public function testGetAgoWithNowShouldSucceed(): void
     {
-        $date = new DateTime();
+        $date = new \DateTime();
 
         $this->assertSame(self::DATA['date_interval.minute_ago'][0], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithMinuteShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-1 minute');
+        $date = (new \DateTime())->modify('-1 minute');
 
         $this->assertSame(self::DATA['date_interval.minute_ago'][0], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithMinutesShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-5 minutes');
+        $date = (new \DateTime())->modify('-5 minutes');
 
         $this->assertSame(self::DATA['date_interval.minute_ago'][1], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithHourShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-1 hour');
+        $date = (new \DateTime())->modify('-1 hour');
 
         $this->assertSame(self::DATA['date_interval.hour_ago'][0], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithHoursShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-5 hours');
+        $date = (new \DateTime())->modify('-5 hours');
 
         $this->assertSame(self::DATA['date_interval.hour_ago'][1], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithDayShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-1 day');
+        $date = (new \DateTime())->modify('-1 day');
 
         $this->assertSame(self::DATA['date_interval.day_ago'][0], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithDaysShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-5 days');
+        $date = (new \DateTime())->modify('-5 days');
 
         $this->assertSame(self::DATA['date_interval.day_ago'][1], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithWeekShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-1 week');
+        $date = (new \DateTime())->modify('-1 week');
 
         $this->assertSame(self::DATA['date_interval.week_ago'][0], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithWeeksShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-3 weeks');
+        $date = (new \DateTime())->modify('-3 weeks');
 
         $this->assertSame(self::DATA['date_interval.week_ago'][1], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithMonthShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-1 month');
+        $date = (new \DateTime())->modify('-1 month');
 
         $this->assertSame(self::DATA['date_interval.month_ago'][0], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithMonthsShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-10 months');
+        $date = (new \DateTime())->modify('-10 months');
 
         $this->assertSame(self::DATA['date_interval.month_ago'][1], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithYearShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-1 year');
+        $date = (new \DateTime())->modify('-1 year');
 
         $this->assertSame(self::DATA['date_interval.year_ago'][0], $this->extension->getAgo($date));
     }
 
     public function testGetAgoWithYearsShouldSucceed(): void
     {
-        $date = (new DateTime())->modify('-5 years');
+        $date = (new \DateTime())->modify('-5 years');
 
         $this->assertSame(self::DATA['date_interval.year_ago'][1], $this->extension->getAgo($date));
     }

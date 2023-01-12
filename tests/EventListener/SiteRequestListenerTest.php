@@ -40,6 +40,7 @@ final class SiteRequestListenerTest extends TestCase
     private SiteRepositoryInterface $siteRepository;
 
     private LocalizedSite $localizedSite;
+
     private Site $site;
 
     protected function setUp(): void

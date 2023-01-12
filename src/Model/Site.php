@@ -19,7 +19,9 @@ use Symfony\Component\Uid\Uuid;
 class Site
 {
     private Uuid $id;
+
     private string $host;
+
     private string $path;
 
     public function getId(): Uuid

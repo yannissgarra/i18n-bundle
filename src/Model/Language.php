@@ -17,6 +17,7 @@ namespace Webmunkeez\I18nBundle\Model;
 final class Language implements LocaleAwareInterface
 {
     private string $locale;
+
     private string $name;
 
     public function getLocale(): string

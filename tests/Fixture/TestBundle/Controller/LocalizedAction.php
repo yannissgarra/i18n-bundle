@@ -24,8 +24,11 @@ use Symfony\Component\Routing\Annotation\Route;
 final class LocalizedAction
 {
     public const FRENCH_ROUTE_URI = '/fr/un-test';
+
     public const API_ROUTE_URI = '/api/a-test';
+
     public const ENGLISH_ROUTE_URI = '/a-test';
+
     public const SPANISH_ROUTE_URI = '/una-prueba';
 
     public function __invoke(): Response
