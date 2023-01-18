@@ -48,7 +48,7 @@ final class LanguageRepository implements LanguageRepositoryInterface
 
     public function findOneByLocale(string $locale): Language
     {
-        if (false === array_key_exists($locale, $this->languages)) {
+        if (false === isset($this->languages[$locale])) {
             throw new LanguageNotFoundException();
         }
 
@@ -62,6 +62,6 @@ final class LanguageRepository implements LanguageRepositoryInterface
 
     public function localeExists(string $locale): bool
     {
-        return array_key_exists($locale, $this->languages);
+        return isset($this->languages[$locale]);
     }
 }
