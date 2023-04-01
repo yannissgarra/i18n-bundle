@@ -75,8 +75,7 @@ final class SiteRepositoryTest extends TestCase
         $this->languageRepository = $languageRepository;
 
         $this->languageRepository->expects($this->exactly(3))->method('findOneByLocale')
-            ->withConsecutive([self::DATA['french']['locale']], [self::DATA['english']['locale']])
-            ->willReturnOnConsecutiveCalls(
+            ->willReturn(
                 (new Language())->setLocale(self::DATA['french']['language']['locale'])->setName(self::DATA['french']['language']['name']),
                 (new Language())->setLocale(self::DATA['english']['language']['locale'])->setName(self::DATA['english']['language']['name']),
                 (new Language())->setLocale(self::DATA['spanish']['language']['locale'])->setName(self::DATA['spanish']['language']['name'])
