@@ -12,7 +12,6 @@ twig:
 
 webmunkeez_i18n:
     enabled_locales: [en, fr, es]
-    default_locale: en
     sites:
         - id: 831ee06a-63b5-41ee-8506-4b75dea2f7cf
           host: example.com
@@ -49,7 +48,6 @@ services:
         public: true
         arguments:
             - '%webmunkeez_i18n.enabled_locales%'
-            - '%webmunkeez_i18n.default_locale%'
 
     Webmunkeez\I18nBundle\Repository\SiteRepository:
         public: true

@@ -23,7 +23,6 @@ final class ConfigurationTest extends TestCase
 {
     public const CONFIG = [
         'enabled_locales' => ['en', 'fr'],
-        'default_locale' => 'en',
         'sites' => [
             [
                 'id' => '831ee06a-63b5-41ee-8506-4b75dea2f7cf',
@@ -40,7 +39,6 @@ final class ConfigurationTest extends TestCase
         $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => self::CONFIG]);
 
         $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
-        $this->assertSame(self::CONFIG['default_locale'], $config['default_locale']);
         $this->assertSame(self::CONFIG['sites'][0]['id'], $config['sites'][0]['id']);
         $this->assertSame(self::CONFIG['sites'][0]['host'], $config['sites'][0]['host']);
         $this->assertSame(self::CONFIG['sites'][0]['path'], $config['sites'][0]['path']);
@@ -99,50 +97,6 @@ final class ConfigurationTest extends TestCase
         $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
-    public function testProcessWithoutDefaultLocaleShouldThrowException(): void
-    {
-        $this->expectException(InvalidConfigurationException::class);
-
-        $config = self::CONFIG;
-        unset($config['default_locale']);
-
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
-    }
-
-    public function testProcessWithWrongTypeDefaultLocaleShouldThrowException(): void
-    {
-        $this->expectException(InvalidConfigurationException::class);
-
-        $config = self::CONFIG;
-        $config['default_locale'] = ['en'];
-
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
-    }
-
-    public function testProcessWithNotExistingDefaultLocaleShouldThrowException(): void
-    {
-        $this->expectException(InvalidConfigurationException::class);
-
-        $config = self::CONFIG;
-        $config['default_locale'] = 'notexistinglocale';
-
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
-    }
-
-    public function testProcessWithNotEnabledDefaultLocaleShouldThrowException(): void
-    {
-        $this->expectException(InvalidConfigurationException::class);
-
-        $config = self::CONFIG;
-        $config['default_locale'] = 'it';
-
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
-    }
-
     public function testProcessWithoutSitesShouldSucceed(): void
     {
         $config = self::CONFIG;
@@ -152,7 +106,6 @@ final class ConfigurationTest extends TestCase
         $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
 
         $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
-        $this->assertSame(self::CONFIG['default_locale'], $config['default_locale']);
         $this->assertEqualsCanonicalizing([], $config['sites']);
     }
 
@@ -187,7 +140,6 @@ final class ConfigurationTest extends TestCase
         $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
 
         $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
-        $this->assertSame(self::CONFIG['default_locale'], $config['default_locale']);
         $this->assertSame(self::CONFIG['sites'][0]['id'], $config['sites'][0]['id']);
         $this->assertSame('localhost', $config['sites'][0]['host']);
         $this->assertSame(self::CONFIG['sites'][0]['path'], $config['sites'][0]['path']);
@@ -203,7 +155,6 @@ final class ConfigurationTest extends TestCase
         $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
 
         $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
-        $this->assertSame(self::CONFIG['default_locale'], $config['default_locale']);
         $this->assertSame(self::CONFIG['sites'][0]['id'], $config['sites'][0]['id']);
         $this->assertSame(self::CONFIG['sites'][0]['host'], $config['sites'][0]['host']);
         $this->assertSame('^\/', $config['sites'][0]['path']);
@@ -219,7 +170,6 @@ final class ConfigurationTest extends TestCase
         $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
 
         $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
-        $this->assertSame(self::CONFIG['default_locale'], $config['default_locale']);
         $this->assertSame(self::CONFIG['sites'][0]['id'], $config['sites'][0]['id']);
         $this->assertSame(self::CONFIG['sites'][0]['host'], $config['sites'][0]['host']);
         $this->assertSame(self::CONFIG['sites'][0]['path'], $config['sites'][0]['path']);

@@ -26,19 +26,13 @@ final class LanguageRepository implements LanguageRepositoryInterface
      */
     private array $languages = [];
 
-    private Language $defaultLanguage;
-
-    public function __construct(array $enabledLocales, string $defaultLocale)
+    public function __construct(array $enabledLocales)
     {
         foreach ($enabledLocales as $enabledLocale) {
             $this->languages[$enabledLocale] = (new Language())
                 ->setLocale($enabledLocale)
                 ->setName((new UnicodeString(Languages::getName($enabledLocale, $enabledLocale)))->title()->toString());
         }
-
-        $this->defaultLanguage = (new Language())
-            ->setLocale($defaultLocale)
-            ->setName((new UnicodeString(Languages::getName($defaultLocale, $defaultLocale)))->title()->toString());
     }
 
     public function findAll(): array
@@ -57,7 +51,7 @@ final class LanguageRepository implements LanguageRepositoryInterface
 
     public function findOneDefault(): Language
     {
-        return $this->defaultLanguage;
+        return array_values($this->languages)[0];
     }
 
     public function localeExists(string $locale): bool

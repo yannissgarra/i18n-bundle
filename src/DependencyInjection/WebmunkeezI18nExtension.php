@@ -37,7 +37,6 @@ final class WebmunkeezI18nExtension extends Extension implements PrependExtensio
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('webmunkeez_i18n.enabled_locales', $config['enabled_locales']);
-        $container->setParameter('webmunkeez_i18n.default_locale', $config['default_locale']);
         $container->setParameter('webmunkeez_i18n.sites', $config['sites']);
 
         $container->registerForAutoconfiguration(TranslatorAwareInterface::class)
