@@ -21,7 +21,7 @@ use Webmunkeez\I18nBundle\DependencyInjection\Configuration;
  */
 final class ConfigurationTest extends TestCase
 {
-    public const CONFIG = [
+    public const DATA = [
         'enabled_locales' => ['en', 'fr'],
         'sites' => [
             [
@@ -35,166 +35,143 @@ final class ConfigurationTest extends TestCase
 
     public function testProcessWithFullConfigurationShouldSucceed(): void
     {
-        $processor = new Processor();
-        $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => self::CONFIG]);
+        $processedConfig = (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => self::DATA]);
 
-        $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
-        $this->assertSame(self::CONFIG['sites'][0]['id'], $config['sites'][0]['id']);
-        $this->assertSame(self::CONFIG['sites'][0]['host'], $config['sites'][0]['host']);
-        $this->assertSame(self::CONFIG['sites'][0]['path'], $config['sites'][0]['path']);
-        $this->assertSame(self::CONFIG['sites'][0]['locale'], $config['sites'][0]['locale']);
+        $this->assertEqualsCanonicalizing(self::DATA, $processedConfig);
     }
 
     public function testProcessWithoutConfigurationShoulFail(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), []);
+        (new Processor())->processConfiguration(new Configuration(), []);
     }
 
     public function testProcessWithoutEnabledLocalesFail(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
-        $config = self::CONFIG;
+        $config = self::DATA;
         unset($config['enabled_locales']);
 
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
     public function testProcessWithWrongTypeEnabledLocalesShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
-        $config = self::CONFIG;
+        $config = self::DATA;
         $config['enabled_locales'] = 'en';
 
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
     public function testProcessWithoutLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
-        $config = self::CONFIG;
+        $config = self::DATA;
         $config['enabled_locales'] = [];
 
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
     public function testProcessWithNotExistingLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
-        $config = self::CONFIG;
+        $config = self::DATA;
         $config['enabled_locales'] = ['notexistinglocale'];
 
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
     public function testProcessWithoutSitesShouldSucceed(): void
     {
-        $config = self::CONFIG;
+        $config = self::DATA;
         unset($config['sites']);
 
-        $processor = new Processor();
-        $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        $processedConfig = (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
 
-        $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
-        $this->assertEqualsCanonicalizing([], $config['sites']);
+        $config['sites'] = [];
+
+        $this->assertEqualsCanonicalizing($config, $processedConfig);
     }
 
     public function testProcessWithoutSiteIdShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
-        $config = self::CONFIG;
+        $config = self::DATA;
         unset($config['sites'][0]['id']);
 
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
     public function testProcessWithWrongSiteIdFormatShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
-        $config = self::CONFIG;
+        $config = self::DATA;
         $config['sites'][0]['id'] = 'wrongformatid';
 
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
     public function testProcessWithoutSiteHostShouldSucceed(): void
     {
-        $config = self::CONFIG;
+        $config = self::DATA;
         unset($config['sites'][0]['host']);
 
-        $processor = new Processor();
-        $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        $processedConfig = (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
 
-        $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
-        $this->assertSame(self::CONFIG['sites'][0]['id'], $config['sites'][0]['id']);
-        $this->assertSame('localhost', $config['sites'][0]['host']);
-        $this->assertSame(self::CONFIG['sites'][0]['path'], $config['sites'][0]['path']);
-        $this->assertSame(self::CONFIG['sites'][0]['locale'], $config['sites'][0]['locale']);
+        $config['sites'][0]['host'] = 'localhost';
+
+        $this->assertEqualsCanonicalizing($config, $processedConfig);
     }
 
     public function testProcessWithoutSitePathShouldSucceed(): void
     {
-        $config = self::CONFIG;
+        $config = self::DATA;
         unset($config['sites'][0]['path']);
 
-        $processor = new Processor();
-        $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        $processedConfig = (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
 
-        $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
-        $this->assertSame(self::CONFIG['sites'][0]['id'], $config['sites'][0]['id']);
-        $this->assertSame(self::CONFIG['sites'][0]['host'], $config['sites'][0]['host']);
-        $this->assertSame('^\/', $config['sites'][0]['path']);
-        $this->assertSame(self::CONFIG['sites'][0]['locale'], $config['sites'][0]['locale']);
+        $config['sites'][0]['path'] = '^\/';
+
+        $this->assertEqualsCanonicalizing($config, $processedConfig);
     }
 
     public function testProcessWithoutSiteLocaleShouldSucceed(): void
     {
-        $config = self::CONFIG;
+        $config = self::DATA;
         unset($config['sites'][0]['locale']);
 
-        $processor = new Processor();
-        $config = $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        $processedConfig = (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
 
-        $this->assertSame(self::CONFIG['enabled_locales'], $config['enabled_locales']);
-        $this->assertSame(self::CONFIG['sites'][0]['id'], $config['sites'][0]['id']);
-        $this->assertSame(self::CONFIG['sites'][0]['host'], $config['sites'][0]['host']);
-        $this->assertSame(self::CONFIG['sites'][0]['path'], $config['sites'][0]['path']);
-        $this->assertNull($config['sites'][0]['locale']);
+        $config['sites'][0]['locale'] = null;
+
+        $this->assertEqualsCanonicalizing($config, $processedConfig);
     }
 
     public function testProcessWithNotExistingSiteLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
-        $config = self::CONFIG;
+        $config = self::DATA;
         $config['sites'][0]['locale'] = 'notexistinglocale';
 
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
     public function testProcessWithNotEnabledSiteLocaleShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
-        $config = self::CONFIG;
+        $config = self::DATA;
         $config['sites'][0]['locale'] = 'it';
 
-        $processor = new Processor();
-        $processor->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 }
