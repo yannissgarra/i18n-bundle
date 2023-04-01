@@ -11,30 +11,14 @@ declare(strict_types=1);
 
 namespace Webmunkeez\I18nBundle\Model;
 
-use Symfony\Component\Uid\Uuid;
-
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
 class Site
 {
-    private Uuid $id;
-
     private string $host;
 
     private string $path;
-
-    public function getId(): Uuid
-    {
-        return $this->id;
-    }
-
-    public function setId(Uuid $id): static
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     public function getHost(): string
     {

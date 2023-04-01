@@ -13,19 +13,15 @@ twig:
 webmunkeez_i18n:
     enabled_locales: [en, fr, es]
     sites:
-        - id: 831ee06a-63b5-41ee-8506-4b75dea2f7cf
-          host: example.com
+        - host: example.com
           path: ^\/fr
           locale: fr
-        - id: 5844634b-e43a-4fa1-8e74-1e213ff3a90d
-          host: example.com
+        - host: example.com
           path: ^\/api
-        - id: 5e9c8b25-fa50-4964-907a-e53adefa5729
-          host: example.com
+        - host: example.com
           path: ^\/
           locale: en
-        - id: 2a3cabe4-d105-4dd5-9c73-8300f977cc06
-          host: es.example.com
+        - host: es.example.com
           path: ^\/
           locale: es
 

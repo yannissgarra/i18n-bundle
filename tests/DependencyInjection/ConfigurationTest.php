@@ -25,7 +25,6 @@ final class ConfigurationTest extends TestCase
         'enabled_locales' => ['en', 'fr'],
         'sites' => [
             [
-                'id' => '831ee06a-63b5-41ee-8506-4b75dea2f7cf',
                 'host' => 'example.com',
                 'path' => '^\/fr',
                 'locale' => 'en',
@@ -97,26 +96,6 @@ final class ConfigurationTest extends TestCase
         $config['sites'] = [];
 
         $this->assertEqualsCanonicalizing($config, $processedConfig);
-    }
-
-    public function testProcessWithoutSiteIdShouldThrowException(): void
-    {
-        $this->expectException(InvalidConfigurationException::class);
-
-        $config = self::DATA;
-        unset($config['sites'][0]['id']);
-
-        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
-    }
-
-    public function testProcessWithWrongSiteIdFormatShouldThrowException(): void
-    {
-        $this->expectException(InvalidConfigurationException::class);
-
-        $config = self::DATA;
-        $config['sites'][0]['id'] = 'wrongformatid';
-
-        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
     public function testProcessWithoutSiteHostShouldSucceed(): void

@@ -14,7 +14,6 @@ namespace Webmunkeez\I18nBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Intl\Locales;
-use Symfony\Component\Uid\Uuid;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
@@ -43,14 +42,6 @@ final class Configuration implements ConfigurationInterface
                 ->arrayNode('sites')
                     ->arrayPrototype()
                         ->children()
-                            ->scalarNode('id')
-                                ->isRequired()
-                                ->cannotBeEmpty()
-                                ->validate()
-                                    ->ifTrue(fn (string $id): bool => false === Uuid::isValid($id))
-                                        ->thenInvalid('Invalid id format %s')
-                                ->end()
-                            ->end()
                             ->scalarNode('host')
                                 ->cannotBeEmpty()
                                 ->defaultValue('localhost')

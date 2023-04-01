@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Webmunkeez\I18nBundle\Repository;
 
-use Symfony\Component\Uid\Uuid;
 use Webmunkeez\I18nBundle\Exception\SiteNotFoundException;
 use Webmunkeez\I18nBundle\Model\LocalizedSite;
 use Webmunkeez\I18nBundle\Model\Site;
@@ -31,14 +30,12 @@ final class SiteRepository implements SiteRepositoryInterface
         foreach ($sitesData as $siteData) {
             if (null !== $siteData['locale']) {
                 $this->sites[] = (new LocalizedSite())
-                    ->setId(Uuid::fromString($siteData['id']))
                     ->setHost($siteData['host'])
                     ->setPath($siteData['path'])
                     ->setLocale($siteData['locale'])
                     ->setLanguage($languageRepository->findOneByLocale($siteData['locale']));
             } else {
                 $this->sites[] = (new Site())
-                    ->setId(Uuid::fromString($siteData['id']))
                     ->setHost($siteData['host'])
                     ->setPath($siteData['path']);
             }

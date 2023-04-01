@@ -19,7 +19,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Uid\Uuid;
 use Webmunkeez\I18nBundle\EventListener\SiteRequestListener;
 use Webmunkeez\I18nBundle\Model\Language;
 use Webmunkeez\I18nBundle\Model\LocalizedSite;
@@ -54,14 +53,12 @@ final class SiteRequestListenerTest extends TestCase
         $this->siteRepository = $siteRepository;
 
         $this->localizedSite = (new LocalizedSite())
-            ->setId(Uuid::fromString('046842f7-f786-4d0b-9733-3369832081ab'))
             ->setHost('example.com')
             ->setPath('^\/')
             ->setLocale('en')
             ->setLanguage((new Language())->setLocale('en')->setName('English'));
 
         $this->site = (new Site())
-            ->setId(Uuid::fromString('8863ca1e-9cb5-4d5e-b623-02e1b6dfa35d'))
             ->setHost('example.com')
             ->setPath('^\/api');
     }
@@ -80,7 +77,6 @@ final class SiteRequestListenerTest extends TestCase
         $listener->onKernelRequest($event);
 
         $this->assertInstanceOf(LocalizedSite::class, $event->getRequest()->get('current-site'));
-        $this->assertTrue($event->getRequest()->get('current-site')->getId()->equals($this->localizedSite->getId()));
         $this->assertSame($this->localizedSite->getHost(), $event->getRequest()->get('current-site')->getHost());
         $this->assertSame($this->localizedSite->getPath(), $event->getRequest()->get('current-site')->getPath());
         $this->assertSame($this->localizedSite->getLocale(), $event->getRequest()->get('current-site')->getLocale());
@@ -103,7 +99,6 @@ final class SiteRequestListenerTest extends TestCase
         $listener->onKernelRequest($event);
 
         $this->assertInstanceOf(Site::class, $event->getRequest()->get('current-site'));
-        $this->assertTrue($event->getRequest()->get('current-site')->getId()->equals($this->site->getId()));
         $this->assertSame($this->site->getHost(), $event->getRequest()->get('current-site')->getHost());
         $this->assertSame($this->site->getPath(), $event->getRequest()->get('current-site')->getPath());
         $this->assertNull($event->getRequest()->get('current-language'));
