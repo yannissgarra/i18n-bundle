@@ -16,6 +16,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
+use Webmunkeez\I18nBundle\Translation\TranslatorAwareInterface;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
@@ -37,6 +39,9 @@ final class WebmunkeezI18nExtension extends Extension implements PrependExtensio
         $container->setParameter('webmunkeez_i18n.enabled_locales', $config['enabled_locales']);
         $container->setParameter('webmunkeez_i18n.default_locale', $config['default_locale']);
         $container->setParameter('webmunkeez_i18n.sites', $config['sites']);
+
+        $container->registerForAutoconfiguration(TranslatorAwareInterface::class)
+            ->addMethodCall('setTranslator', [new Reference('translator')]);
     }
 
     public function prepend(ContainerBuilder $container)
