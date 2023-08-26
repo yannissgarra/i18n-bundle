@@ -26,7 +26,7 @@ final class WebmunkeezI18nExtension extends Extension implements PrependExtensio
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'), $container->getParameter('kernel.environment'));
         $loader->load('event_listener.php');
         $loader->load('repository.php');
         $loader->load('serializer.php');
@@ -43,7 +43,7 @@ final class WebmunkeezI18nExtension extends Extension implements PrependExtensio
             ->addMethodCall('setTranslator', [new Reference('translator')]);
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         // define default config for translation
         $container->prependExtensionConfig('framework', [

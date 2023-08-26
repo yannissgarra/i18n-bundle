@@ -67,4 +67,9 @@ final class LanguageAwareNormalizer implements NormalizerInterface, NormalizerAw
 
         return true;
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [LanguageAwareInterface::class => false];
+    }
 }
