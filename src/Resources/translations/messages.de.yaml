@@ -1,7 +1,0 @@
-date_interval:
-    minute_ago: Gerade jetzt
-    hour_ago: In letzter Zeit
-    day_ago: '{1} In letzter Zeit | ]1,Inf[ Vor %count% Tagen'
-    week_ago: '{1} Vor 1 Woche | ]1,Inf[ Vor %count% Wochen'
-    month_ago: '{1} Vor 1 Monat | ]1,Inf[ Vor %count% Monaten'
-    year_ago: '{1} Vor 1 Jahr | ]1,Inf[ Vor %count% Jahren'

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Language is not found.</source>
+                <target>La langue n'a pas été trouvée.</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Site is not found.</source>
+                <target>Le site n'a pas été trouvé.</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Translation is not found.</source>
+                <target>La traduction n'a pas été trouvée.</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>date_interval.minute_ago</source>
+                <target>À l'instant</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>date_interval.hour_ago</source>
+                <target>Récemment</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>date_interval.day_ago</source>
+                <target>{1} Récemment | ]1,Inf[ Il y a %count% jours</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>date_interval.week_ago</source>
+                <target>{1} Il y a 1 semaine | ]1,Inf[ Il y a %count% semaines</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>date_interval.month_ago</source>
+                <target>Il y a %count% mois</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>date_interval.year_ago</source>
+                <target>{1} Il y a 1 an | ]1,Inf[ Il y a %count% ans</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

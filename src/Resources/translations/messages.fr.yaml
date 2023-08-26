@@ -1,7 +1,0 @@
-date_interval:
-    minute_ago: À l'instant
-    hour_ago: Récemment
-    day_ago: '{1} Récemment | ]1,Inf[ Il y a %count% jours'
-    week_ago: '{1} Il y a 1 semaine | ]1,Inf[ Il y a %count% semaines'
-    month_ago: Il y a %count% mois
-    year_ago: '{1} Il y a 1 an | ]1,Inf[ Il y a %count% ans'
