@@ -35,7 +35,7 @@ final class LanguageAwareNormalizer implements NormalizerInterface, NormalizerAw
     /**
      * @param LanguageAwareInterface $object
      */
-    public function normalize(mixed $object, string $format = null, array $context = []): array
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array
     {
         // avoid circular reference
         $context[spl_object_id($object).'.'.self::class.'.already_called'] = true;
@@ -51,7 +51,7 @@ final class LanguageAwareNormalizer implements NormalizerInterface, NormalizerAw
         return $this->normalizer->normalize($object, $format, $context);
     }
 
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if (!$data instanceof LanguageAwareInterface) {
             return false;
