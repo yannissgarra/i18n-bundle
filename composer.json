@@ -30,7 +30,8 @@
         "symfony/translation": "^6.3",
         "symfony/uid": "^6.3",
         "symfony/validator": "^6.3",
-        "twig/twig": "^3.7"
+        "twig/twig": "^3.7",
+        "webmunkeez/cqrs-bundle": "^2.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6",

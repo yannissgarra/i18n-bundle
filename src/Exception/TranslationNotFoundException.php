@@ -11,9 +11,11 @@ declare(strict_types=1);
 
 namespace Webmunkeez\I18nBundle\Exception;
 
+use Webmunkeez\CQRSBundle\Exception\ModelNotFoundException;
+
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-final class TranslationNotFoundException extends RuntimeException
+final class TranslationNotFoundException extends ModelNotFoundException
 {
 }
