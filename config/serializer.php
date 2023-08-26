@@ -11,12 +11,12 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Webmunkeez\I18nBundle\Repository\LanguageRepository;
+use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
 use Webmunkeez\I18nBundle\Serializer\Normalizer\LanguageAwareNormalizer;
 
 return static function (ContainerConfigurator $container) {
     $container->services()
         ->set(LanguageAwareNormalizer::class)
-            ->args([service(LanguageRepository::class)])
+            ->args([service(LanguageRepositoryInterface::class)])
             ->tag('serializer.normalizer', ['priority' => 10]);
 };

@@ -9,22 +9,22 @@
 
 declare(strict_types=1);
 
-namespace Webmunkeez\I18nBundle\Test\Repository;
+namespace Webmunkeez\I18nBundle\Test\DependencyInjection\Repository;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Webmunkeez\I18nBundle\DependencyInjection\Repository\SiteDependencyInjectionRepository;
 use Webmunkeez\I18nBundle\Exception\SiteNotFoundException;
 use Webmunkeez\I18nBundle\Model\Language;
 use Webmunkeez\I18nBundle\Model\LocalizedSite;
 use Webmunkeez\I18nBundle\Model\Site;
 use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
-use Webmunkeez\I18nBundle\Repository\SiteRepository;
 use Webmunkeez\I18nBundle\Repository\SiteRepositoryInterface;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-final class SiteRepositoryTest extends TestCase
+final class SiteDependencyInjectionRepositoryTest extends TestCase
 {
     public const DATA = [
         'french' => [
@@ -81,7 +81,7 @@ final class SiteRepositoryTest extends TestCase
                 (new Language())->setLocale(self::DATA['spanish']['language']['locale'])->setName(self::DATA['spanish']['language']['name'])
             );
 
-        $this->siteRepository = new SiteRepository(array_values(self::DATA), $this->languageRepository);
+        $this->siteRepository = new SiteDependencyInjectionRepository(array_values(self::DATA), $this->languageRepository);
     }
 
     public function testFindAllShouldSucceed(): void

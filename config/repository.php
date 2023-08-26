@@ -11,24 +11,24 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Webmunkeez\I18nBundle\Repository\LanguageRepository;
+use Webmunkeez\I18nBundle\DependencyInjection\Repository\LanguageDependencyInjectionRepository;
+use Webmunkeez\I18nBundle\DependencyInjection\Repository\SiteDependencyInjectionRepository;
 use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
-use Webmunkeez\I18nBundle\Repository\SiteRepository;
 use Webmunkeez\I18nBundle\Repository\SiteRepositoryInterface;
 
 return static function (ContainerConfigurator $container) {
     $container->services()
-        ->set(LanguageRepository::class)
+        ->set(LanguageDependencyInjectionRepository::class)
             ->args([param('webmunkeez_i18n.enabled_locales')])
 
         ->set(LanguageRepositoryInterface::class)
 
-        ->alias(LanguageRepositoryInterface::class, LanguageRepository::class)
+        ->alias(LanguageRepositoryInterface::class, LanguageDependencyInjectionRepository::class)
 
-        ->set(SiteRepository::class)
-            ->args([param('webmunkeez_i18n.sites'), service(LanguageRepository::class)])
+        ->set(SiteDependencyInjectionRepository::class)
+            ->args([param('webmunkeez_i18n.sites'), service(LanguageRepositoryInterface::class)])
 
         ->set(SiteRepositoryInterface::class)
 
-        ->alias(SiteRepositoryInterface::class, SiteRepository::class);
+        ->alias(SiteRepositoryInterface::class, SiteDependencyInjectionRepository::class);
 };

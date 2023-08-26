@@ -9,24 +9,24 @@
 
 declare(strict_types=1);
 
-namespace Webmunkeez\I18nBundle\Test\Repository;
+namespace Webmunkeez\I18nBundle\Test\DependencyInjection\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Webmunkeez\I18nBundle\DependencyInjection\Repository\LanguageDependencyInjectionRepository;
 use Webmunkeez\I18nBundle\Exception\LanguageNotFoundException;
 use Webmunkeez\I18NBundle\Model\Language;
-use Webmunkeez\I18nBundle\Repository\LanguageRepository;
 use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-final class LanguageRepositoryFunctionalTest extends KernelTestCase
+final class LanguageDependencyInjectionRepositoryFunctionalTest extends KernelTestCase
 {
     private LanguageRepositoryInterface $languageRepository;
 
     protected function setUp(): void
     {
-        $this->languageRepository = static::getContainer()->get(LanguageRepository::class);
+        $this->languageRepository = static::getContainer()->get(LanguageDependencyInjectionRepository::class);
     }
 
     public function testFindAllShouldSucceed(): void

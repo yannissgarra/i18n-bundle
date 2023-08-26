@@ -9,17 +9,18 @@
 
 declare(strict_types=1);
 
-namespace Webmunkeez\I18nBundle\Repository;
+namespace Webmunkeez\I18nBundle\DependencyInjection\Repository;
 
 use Symfony\Component\Intl\Languages;
 use Symfony\Component\String\UnicodeString;
 use Webmunkeez\I18nBundle\Exception\LanguageNotFoundException;
 use Webmunkeez\I18nBundle\Model\Language;
+use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-final class LanguageRepository implements LanguageRepositoryInterface
+final class LanguageDependencyInjectionRepository implements LanguageRepositoryInterface
 {
     /**
      * @var array<string, Language>

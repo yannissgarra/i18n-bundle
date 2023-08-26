@@ -9,16 +9,18 @@
 
 declare(strict_types=1);
 
-namespace Webmunkeez\I18nBundle\Repository;
+namespace Webmunkeez\I18nBundle\DependencyInjection\Repository;
 
 use Webmunkeez\I18nBundle\Exception\SiteNotFoundException;
 use Webmunkeez\I18nBundle\Model\LocalizedSite;
 use Webmunkeez\I18nBundle\Model\Site;
+use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
+use Webmunkeez\I18nBundle\Repository\SiteRepositoryInterface;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-final class SiteRepository implements SiteRepositoryInterface
+final class SiteDependencyInjectionRepository implements SiteRepositoryInterface
 {
     /**
      * @var array<Site>
