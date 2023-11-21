@@ -64,6 +64,25 @@ final class LocaleRequestListenerTest extends TestCase
         $this->assertSame('English', $event->getRequest()->get('current-language')->getName());
     }
 
+    public function testWithAlreadySetCurrentLanguageAndLocaleShouldSucceed(): void
+    {
+        $this->languageRepository->expects($this->once())->method('localeExists')->willReturn(true);
+        $this->languageRepository->expects($this->once())->method('findOneByLocale')->willReturn((new Language())->setLocale('fr')->setName('Français'));
+        $this->languageRepository->expects($this->never())->method('findOneDefault');
+
+        $listener = new LocaleRequestListener($this->languageRepository);
+
+        $request = new Request(['_locale' => 'fr'], [], ['current-language' => (new Language())->setLocale('en')->setName('English')]);
+
+        $event = new RequestEvent($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST);
+
+        $listener->onKernelRequest($event);
+
+        $this->assertSame('fr', $event->getRequest()->getLocale());
+        $this->assertSame('fr', $event->getRequest()->get('current-language')->getLocale());
+        $this->assertSame('Français', $event->getRequest()->get('current-language')->getName());
+    }
+
     public function testWithAlreadySetCurrentLanguageShouldFail(): void
     {
         $this->languageRepository->expects($this->never())->method('localeExists');

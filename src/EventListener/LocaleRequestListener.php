@@ -30,10 +30,6 @@ final class LocaleRequestListener
     {
         $request = $event->getRequest();
 
-        if (null !== $request->attributes->get('current-language')) {
-            return;
-        }
-
         $locale = $request->query->get('_locale');
 
         if (null !== $locale && true === $this->languageRepository->localeExists($locale)) {
@@ -42,6 +38,10 @@ final class LocaleRequestListener
             $request->setLocale($language->getLocale());
             $request->attributes->set('current-language', $language);
 
+            return;
+        }
+
+        if (null !== $request->attributes->get('current-language')) {
             return;
         }
 
