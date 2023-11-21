@@ -3,15 +3,15 @@
     <file source-language="en" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="1">
-                <source>Language is not found.</source>
+                <source>Language was not found.</source>
                 <target>No se encuentra el idioma.</target>
             </trans-unit>
             <trans-unit id="2">
-                <source>Site is not found.</source>
+                <source>Site was not found.</source>
                 <target>No se encuentra el sitio.</target>
             </trans-unit>
             <trans-unit id="3">
-                <source>Translation is not found.</source>
+                <source>Translation was not found.</source>
                 <target>No se encuentra la traducción.</target>
             </trans-unit>
             <trans-unit id="4">

@@ -18,5 +18,5 @@ use Webmunkeez\CQRSBundle\Exception\ModelNotFoundException;
  */
 final class SiteNotFoundException extends ModelNotFoundException
 {
-    protected $message = 'Site is not found.';
+    protected $message = 'Site was not found.';
 }

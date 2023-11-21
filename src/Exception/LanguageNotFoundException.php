@@ -18,5 +18,5 @@ use Webmunkeez\CQRSBundle\Exception\ModelNotFoundException;
  */
 final class LanguageNotFoundException extends ModelNotFoundException
 {
-    protected $message = 'Language is not found.';
+    protected $message = 'Language was not found.';
 }

@@ -3,16 +3,16 @@
     <file source-language="en" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="1">
-                <source>Language is not found.</source>
-                <target>Language is not found.</target>
+                <source>Language was not found.</source>
+                <target>Language was not found.</target>
             </trans-unit>
             <trans-unit id="2">
-                <source>Site is not found.</source>
-                <target>Site is not found.</target>
+                <source>Site was not found.</source>
+                <target>Site was not found.</target>
             </trans-unit>
             <trans-unit id="3">
-                <source>Translation is not found.</source>
-                <target>Translation is not found.</target>
+                <source>Translation was not found.</source>
+                <target>Translation was not found.</target>
             </trans-unit>
             <trans-unit id="4">
                 <source>date_interval.minute_ago</source>

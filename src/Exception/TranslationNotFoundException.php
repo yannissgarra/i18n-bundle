@@ -18,5 +18,5 @@ use Webmunkeez\CQRSBundle\Exception\ModelNotFoundException;
  */
 final class TranslationNotFoundException extends ModelNotFoundException
 {
-    protected $message = 'Translation is not found.';
+    protected $message = 'Translation was not found.';
 }
