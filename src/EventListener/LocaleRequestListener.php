@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Webmunkeez\I18nBundle\EventListener;
 
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
 
@@ -28,7 +29,16 @@ final class LocaleRequestListener
     {
         $request = $event->getRequest();
 
-        $locale = $request->query->get('_locale');
+        try {
+            $locale = $request->query->get('_locale');
+        } catch (BadRequestException $e) {
+            // `_locale` was a non-scalar value (e.g. `?_locale[]=fr`)
+            $locale = null;
+        }
+
+        if (false === is_string($locale)) {
+            $locale = null;
+        }
 
         if (null !== $locale && true === $this->languageRepository->localeExists($locale)) {
             $language = $this->languageRepository->findOneByLocale($locale);
