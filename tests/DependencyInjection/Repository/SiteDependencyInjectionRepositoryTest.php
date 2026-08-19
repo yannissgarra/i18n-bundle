@@ -29,7 +29,7 @@ final class SiteDependencyInjectionRepositoryTest extends TestCase
     public const DATA = [
         'french' => [
             'host' => 'example.com',
-            'path' => '^\/fr',
+            'path' => '/fr',
             'locale' => 'fr',
             'language' => [
                 'locale' => 'fr',
@@ -38,12 +38,12 @@ final class SiteDependencyInjectionRepositoryTest extends TestCase
         ],
         'api' => [
             'host' => 'example.com',
-            'path' => '^\/api',
+            'path' => '/api',
             'locale' => null,
         ],
         'english' => [
             'host' => 'example.com',
-            'path' => '^\/',
+            'path' => null,
             'locale' => 'en',
             'language' => [
                 'locale' => 'en',
@@ -52,7 +52,7 @@ final class SiteDependencyInjectionRepositoryTest extends TestCase
         ],
         'spanish' => [
             'host' => 'es.example.com',
-            'path' => '^\/',
+            'path' => null,
             'locale' => 'es',
             'language' => [
                 'locale' => 'es',
@@ -163,6 +163,14 @@ final class SiteDependencyInjectionRepositoryTest extends TestCase
         $this->assertInstanceOf(Site::class, $site);
         $this->assertSame(self::DATA['api']['host'], $site->getHost());
         $this->assertSame(self::DATA['api']['path'], $site->getPath());
+    }
+
+    public function testFindOneByUrlWithSimilarButLongerPathShouldNotMatch(): void
+    {
+        $site = $this->siteRepository->findOneByUrl('example.com', '/apiary');
+
+        $this->assertInstanceOf(LocalizedSite::class, $site);
+        $this->assertSame(self::DATA['english']['host'], $site->getHost());
     }
 
     public function testFindOneByUrlWithNotExistingHostShouldThrowException(): void

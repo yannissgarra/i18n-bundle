@@ -54,13 +54,12 @@ final class SiteRequestListenerTest extends TestCase
 
         $this->localizedSite = (new LocalizedSite())
             ->setHost('example.com')
-            ->setPath('^\/')
             ->setLocale('en')
             ->setLanguage((new Language())->setLocale('en')->setName('English'));
 
         $this->site = (new Site())
             ->setHost('example.com')
-            ->setPath('^\/api');
+            ->setPath('/api');
     }
 
     public function testWithLocalizedUrlShouldSucceed(): void

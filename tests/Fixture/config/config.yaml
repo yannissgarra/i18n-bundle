@@ -29,15 +29,13 @@ webmunkeez_i18n:
     enabled_locales: [en, fr, es]
     sites:
         - host: example.com
-          path: ^\/fr
+          path: /fr
           locale: fr
         - host: example.com
-          path: ^\/api
+          path: /api
         - host: example.com
-          path: ^\/
           locale: en
         - host: es.example.com
-          path: ^\/
           locale: es
 
 services:

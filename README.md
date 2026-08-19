@@ -31,10 +31,9 @@ webmunkeez_i18n:
 
     sites: # optional, see Multi-site below
         - host: example.com
-          path: ^\/fr
+          path: /fr
           locale: fr
         - host: example.com
-          path: ^\/
           locale: en
 ```
 
@@ -161,17 +160,17 @@ If your application serves several sites/locales behind different hosts and/or p
 webmunkeez_i18n:
     sites:
         - host: example.com
-          path: ^\/fr
+          path: /fr
           locale: fr
         - host: example.com
-          path: ^\/api # no locale: an unlocalized API site
+          path: /api # no locale: an unlocalized API site
         - host: example.com
-          path: ^\/
           locale: en
         - host: es.example.com
-          path: ^\/
           locale: es
 ```
+
+`path` is a plain literal path prefix (not a regex) — a request matches when its URI starts with `path` followed by `/` or the end of the string, so `/api` matches `/api` and `/api/anything` but not `/apiary`. Omitting `path` (or setting it to `null`) matches any path on that host, so declare the catch-all site for a given host last.
 
 `SiteRequestListener` runs before `LocaleRequestListener` and resolves the current request into either a `\Webmunkeez\I18nBundle\Model\Site` (host + path, no locale) or a `\Webmunkeez\I18nBundle\Model\LocalizedSite` (also `LanguageAwareInterface`) via `\Webmunkeez\I18nBundle\Repository\SiteRepositoryInterface::findOneByUrl()`, throwing `SiteNotFoundException` (converted to a 404) if nothing matches. The resolved site is stored as the `current-site` request attribute, and for a matched `LocalizedSite` the request locale and `current-language` are set immediately — before `LocaleRequestListener` even runs. The listener is a no-op entirely (no site resolution attempted) when no site is configured.
 

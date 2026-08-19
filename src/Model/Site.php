@@ -18,7 +18,7 @@ class Site
 {
     private string $host;
 
-    private string $path;
+    private ?string $path = null;
 
     public function getHost(): string
     {
@@ -32,12 +32,12 @@ class Site
         return $this;
     }
 
-    public function getPath(): string
+    public function getPath(): ?string
     {
         return $this->path;
     }
 
-    public function setPath(string $path): static
+    public function setPath(?string $path): static
     {
         $this->path = $path;
 

@@ -26,7 +26,7 @@ final class ConfigurationTest extends TestCase
         'sites' => [
             [
                 'host' => 'example.com',
-                'path' => '^\/fr',
+                'path' => '/fr',
                 'locale' => 'en',
             ],
         ],
@@ -117,7 +117,7 @@ final class ConfigurationTest extends TestCase
 
         $processedConfig = (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
 
-        $config['sites'][0]['path'] = '^\/';
+        $config['sites'][0]['path'] = null;
 
         $this->assertEqualsCanonicalizing($config, $processedConfig);
     }
