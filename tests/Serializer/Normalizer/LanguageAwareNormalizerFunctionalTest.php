@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Webmunkeez\I18nBundle\Model\Language;
-use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\TestTranslation;
+use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\PostTranslation;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
@@ -31,7 +31,7 @@ final class LanguageAwareNormalizerFunctionalTest extends KernelTestCase
 
     public function testNormalizeWithAlreadySetLanguageShouldSucceed(): void
     {
-        $translation = (new TestTranslation())
+        $translation = (new PostTranslation())
             ->setLocale('fr') // force test that language repository is not called
             ->setLanguage((new Language())->setLocale('en')->setName('English'));
 
@@ -42,7 +42,7 @@ final class LanguageAwareNormalizerFunctionalTest extends KernelTestCase
 
     public function testNormalizeWithExistingLocaleShouldSucceed(): void
     {
-        $translation = (new TestTranslation())->setLocale('en');
+        $translation = (new PostTranslation())->setLocale('en');
 
         $json = $this->serializer->serialize($translation, JsonEncoder::FORMAT);
 
@@ -51,7 +51,7 @@ final class LanguageAwareNormalizerFunctionalTest extends KernelTestCase
 
     public function testNormalizeWithNotExistingLocaleShouldFail(): void
     {
-        $translation = (new TestTranslation())->setLocale('notexistinglocale');
+        $translation = (new PostTranslation())->setLocale('notexistinglocale');
 
         $json = $this->serializer->serialize($translation, JsonEncoder::FORMAT);
 
@@ -60,7 +60,7 @@ final class LanguageAwareNormalizerFunctionalTest extends KernelTestCase
 
     public function testNormalizeWithNotEnabledLocaleShouldFail(): void
     {
-        $translation = (new TestTranslation())->setLocale('it');
+        $translation = (new PostTranslation())->setLocale('it');
 
         $json = $this->serializer->serialize($translation, JsonEncoder::FORMAT);
 

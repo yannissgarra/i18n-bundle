@@ -45,7 +45,7 @@ final class SiteRequestListenerTest extends TestCase
     protected function setUp(): void
     {
         /** @var KernelInterface&MockObject $kernel */
-        $kernel = $this->getMockForAbstractClass(Kernel::class, ['test', true]);
+        $kernel = $this->getMockBuilder(Kernel::class)->disableOriginalConstructor()->getMock();
         $this->kernel = $kernel;
 
         /** @var SiteRepositoryInterface&MockObject $siteRepository */
@@ -76,13 +76,13 @@ final class SiteRequestListenerTest extends TestCase
 
         $listener->onKernelRequest($event);
 
-        $this->assertInstanceOf(LocalizedSite::class, $event->getRequest()->get('current-site'));
-        $this->assertSame($this->localizedSite->getHost(), $event->getRequest()->get('current-site')->getHost());
-        $this->assertSame($this->localizedSite->getPath(), $event->getRequest()->get('current-site')->getPath());
-        $this->assertSame($this->localizedSite->getLocale(), $event->getRequest()->get('current-site')->getLocale());
+        $this->assertInstanceOf(LocalizedSite::class, $event->getRequest()->attributes->get('current-site'));
+        $this->assertSame($this->localizedSite->getHost(), $event->getRequest()->attributes->get('current-site')->getHost());
+        $this->assertSame($this->localizedSite->getPath(), $event->getRequest()->attributes->get('current-site')->getPath());
+        $this->assertSame($this->localizedSite->getLocale(), $event->getRequest()->attributes->get('current-site')->getLocale());
         $this->assertSame($this->localizedSite->getLocale(), $event->getRequest()->getLocale());
-        $this->assertSame($this->localizedSite->getLocale(), $event->getRequest()->get('current-language')->getLocale());
-        $this->assertSame('English', $event->getRequest()->get('current-language')->getName());
+        $this->assertSame($this->localizedSite->getLocale(), $event->getRequest()->attributes->get('current-language')->getLocale());
+        $this->assertSame('English', $event->getRequest()->attributes->get('current-language')->getName());
     }
 
     public function testWithUnlocalizedUrlShouldSucceed(): void
@@ -98,10 +98,10 @@ final class SiteRequestListenerTest extends TestCase
 
         $listener->onKernelRequest($event);
 
-        $this->assertInstanceOf(Site::class, $event->getRequest()->get('current-site'));
-        $this->assertSame($this->site->getHost(), $event->getRequest()->get('current-site')->getHost());
-        $this->assertSame($this->site->getPath(), $event->getRequest()->get('current-site')->getPath());
-        $this->assertNull($event->getRequest()->get('current-language'));
+        $this->assertInstanceOf(Site::class, $event->getRequest()->attributes->get('current-site'));
+        $this->assertSame($this->site->getHost(), $event->getRequest()->attributes->get('current-site')->getHost());
+        $this->assertSame($this->site->getPath(), $event->getRequest()->attributes->get('current-site')->getPath());
+        $this->assertNull($event->getRequest()->attributes->get('current-language'));
     }
 
     public function testWithNotExistingUrlShouldThrowException(): void
@@ -133,6 +133,6 @@ final class SiteRequestListenerTest extends TestCase
 
         $listener->onKernelRequest($event);
 
-        $this->assertNull($event->getRequest()->get('current-site'));
+        $this->assertNull($event->getRequest()->attributes->get('current-site'));
     }
 }

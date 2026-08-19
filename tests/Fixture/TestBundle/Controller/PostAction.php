@@ -14,32 +14,31 @@ namespace Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 use Webmunkeez\I18nBundle\Model\Language;
-use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\TestTranslation;
+use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\PostTranslation;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-final class TestAction
+final class PostAction
 {
-    private Environment $twig;
-
-    public function __construct(Environment $twig)
-    {
-        $this->twig = $twig;
+    public function __construct(
+        private readonly Environment $twig,
+    ) {
     }
 
     public function __invoke(string $locale, ?Language $language = null): Response
     {
-        $translation = (new TestTranslation())->setLocale($locale);
+        $translation = (new PostTranslation())->setLocale($locale);
 
         if (null !== $language) {
-            $translation = (new TestTranslation())
+            $translation = (new PostTranslation())
                 ->setLocale($locale)
                 ->setLanguage($language);
         }
 
-        return new Response($this->twig->render('test.html.twig', [
+        return new Response($this->twig->render('post.html.twig', [
             'test_translation' => $translation,
+            'locale' => $locale,
         ]));
     }
 }

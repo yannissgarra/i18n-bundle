@@ -33,6 +33,12 @@ final class TestKernel extends Kernel
         ];
     }
 
+    public function shutdown(): void
+    {
+        parent::shutdown();
+        restore_exception_handler();
+    }
+
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__.'/config/config.yaml');

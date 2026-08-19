@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Webmunkeez\I18nBundle\Exception\LanguageNotFoundException;
 use Webmunkeez\I18nBundle\Model\Language;
 use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
-use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\TestTranslation;
+use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\PostTranslation;
 use Webmunkeez\I18nBundle\Twig\LanguageAwareExtension;
 
 /**
@@ -44,7 +44,7 @@ final class LanguageAwareExtensionTest extends TestCase
     {
         $this->languageRepository->method('findOneByLocale')->willReturn((new Language())->setLocale('en')->setName('English'));
 
-        $translation = (new TestTranslation())
+        $translation = (new PostTranslation())
             ->setLocale('en') // force test that language repository is not called
             ->setLanguage((new Language())->setLocale('fr')->setName('Français'));
 
@@ -59,9 +59,15 @@ final class LanguageAwareExtensionTest extends TestCase
     {
         $this->languageRepository->method('findOneByLocale')->willReturn((new Language())->setLocale('en')->setName('English'));
 
-        $translation = (new TestTranslation())->setLocale('en');
+        $translation = (new PostTranslation())->setLocale('en');
 
         $language = $this->extension->getLanguage($translation);
+
+        $this->assertInstanceOf(Language::class, $language);
+        $this->assertSame('en', $language->getLocale());
+        $this->assertSame('English', $language->getName());
+
+        $language = $this->extension->getLanguage('en');
 
         $this->assertInstanceOf(Language::class, $language);
         $this->assertSame('en', $language->getLocale());
@@ -72,9 +78,13 @@ final class LanguageAwareExtensionTest extends TestCase
     {
         $this->languageRepository->method('findOneByLocale')->willThrowException(new LanguageNotFoundException());
 
-        $translation = (new TestTranslation())->setLocale('notexistinglocale');
+        $translation = (new PostTranslation())->setLocale('notexistinglocale');
 
         $language = $this->extension->getLanguage($translation);
+
+        $this->assertNull($language);
+
+        $language = $this->extension->getLanguage('notexistinglocale');
 
         $this->assertNull($language);
     }
@@ -83,9 +93,13 @@ final class LanguageAwareExtensionTest extends TestCase
     {
         $this->languageRepository->method('findOneByLocale')->willThrowException(new LanguageNotFoundException());
 
-        $translation = (new TestTranslation())->setLocale('it');
+        $translation = (new PostTranslation())->setLocale('af');
 
         $language = $this->extension->getLanguage($translation);
+
+        $this->assertNull($language);
+
+        $language = $this->extension->getLanguage('af');
 
         $this->assertNull($language);
     }

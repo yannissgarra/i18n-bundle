@@ -38,7 +38,7 @@ final class LocaleRequestListenerTest extends TestCase
     protected function setUp(): void
     {
         /** @var KernelInterface&MockObject $kernel */
-        $kernel = $this->getMockForAbstractClass(Kernel::class, ['test', true]);
+        $kernel = $this->getMockBuilder(Kernel::class)->disableOriginalConstructor()->getMock();
         $this->kernel = $kernel;
 
         /** @var LanguageRepositoryInterface&MockObject $languageRepository */
@@ -60,8 +60,8 @@ final class LocaleRequestListenerTest extends TestCase
         $listener->onKernelRequest($event);
 
         $this->assertSame('en', $event->getRequest()->getLocale());
-        $this->assertSame('en', $event->getRequest()->get('current-language')->getLocale());
-        $this->assertSame('English', $event->getRequest()->get('current-language')->getName());
+        $this->assertSame('en', $event->getRequest()->attributes->get('current-language')->getLocale());
+        $this->assertSame('English', $event->getRequest()->attributes->get('current-language')->getName());
     }
 
     public function testWithAlreadySetCurrentLanguageAndLocaleShouldSucceed(): void
@@ -79,8 +79,8 @@ final class LocaleRequestListenerTest extends TestCase
         $listener->onKernelRequest($event);
 
         $this->assertSame('fr', $event->getRequest()->getLocale());
-        $this->assertSame('fr', $event->getRequest()->get('current-language')->getLocale());
-        $this->assertSame('Français', $event->getRequest()->get('current-language')->getName());
+        $this->assertSame('fr', $event->getRequest()->attributes->get('current-language')->getLocale());
+        $this->assertSame('Français', $event->getRequest()->attributes->get('current-language')->getName());
     }
 
     public function testWithAlreadySetCurrentLanguageShouldFail(): void
@@ -98,8 +98,8 @@ final class LocaleRequestListenerTest extends TestCase
         $listener->onKernelRequest($event);
 
         $this->assertSame('en', $event->getRequest()->getLocale());
-        $this->assertSame('en', $event->getRequest()->get('current-language')->getLocale());
-        $this->assertSame('English', $event->getRequest()->get('current-language')->getName());
+        $this->assertSame('en', $event->getRequest()->attributes->get('current-language')->getLocale());
+        $this->assertSame('English', $event->getRequest()->attributes->get('current-language')->getName());
     }
 
     public function testWithoutLocaleShouldFail(): void
@@ -117,8 +117,8 @@ final class LocaleRequestListenerTest extends TestCase
         $listener->onKernelRequest($event);
 
         $this->assertSame('en', $event->getRequest()->getLocale());
-        $this->assertSame('en', $event->getRequest()->get('current-language')->getLocale());
-        $this->assertSame('English', $event->getRequest()->get('current-language')->getName());
+        $this->assertSame('en', $event->getRequest()->attributes->get('current-language')->getLocale());
+        $this->assertSame('English', $event->getRequest()->attributes->get('current-language')->getName());
     }
 
     public function testWithNotExistingLocaleShouldFail(): void
@@ -136,8 +136,8 @@ final class LocaleRequestListenerTest extends TestCase
         $listener->onKernelRequest($event);
 
         $this->assertSame('en', $event->getRequest()->getLocale());
-        $this->assertSame('en', $event->getRequest()->get('current-language')->getLocale());
-        $this->assertSame('English', $event->getRequest()->get('current-language')->getName());
+        $this->assertSame('en', $event->getRequest()->attributes->get('current-language')->getLocale());
+        $this->assertSame('English', $event->getRequest()->attributes->get('current-language')->getName());
     }
 
     public function testWithNotEnabledLocaleShouldFail(): void
@@ -155,7 +155,7 @@ final class LocaleRequestListenerTest extends TestCase
         $listener->onKernelRequest($event);
 
         $this->assertSame('en', $event->getRequest()->getLocale());
-        $this->assertSame('en', $event->getRequest()->get('current-language')->getLocale());
-        $this->assertSame('English', $event->getRequest()->get('current-language')->getName());
+        $this->assertSame('en', $event->getRequest()->attributes->get('current-language')->getLocale());
+        $this->assertSame('English', $event->getRequest()->attributes->get('current-language')->getName());
     }
 }

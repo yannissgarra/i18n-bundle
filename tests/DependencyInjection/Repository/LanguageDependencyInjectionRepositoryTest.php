@@ -14,7 +14,7 @@ namespace Webmunkeez\I18nBundle\Test\DependencyInjection\Repository;
 use PHPUnit\Framework\TestCase;
 use Webmunkeez\I18nBundle\DependencyInjection\Repository\LanguageDependencyInjectionRepository;
 use Webmunkeez\I18nBundle\Exception\LanguageNotFoundException;
-use Webmunkeez\I18NBundle\Model\Language;
+use Webmunkeez\I18nBundle\Model\Language;
 use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
 
 /**
@@ -26,7 +26,7 @@ final class LanguageDependencyInjectionRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->languageRepository = new LanguageDependencyInjectionRepository(['en', 'fr', 'es'], 'en');
+        $this->languageRepository = new LanguageDependencyInjectionRepository(['en', 'fr', 'es']);
     }
 
     public function testFindAllShouldSucceed(): void

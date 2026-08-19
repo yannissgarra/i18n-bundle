@@ -25,11 +25,9 @@ final class LanguageAwareNormalizer implements NormalizerInterface, NormalizerAw
 {
     use NormalizerAwareTrait;
 
-    private LanguageRepositoryInterface $languageRepository;
-
-    public function __construct(LanguageRepositoryInterface $languageRepository)
-    {
-        $this->languageRepository = $languageRepository;
+    public function __construct(
+        private readonly LanguageRepositoryInterface $languageRepository,
+    ) {
     }
 
     /**

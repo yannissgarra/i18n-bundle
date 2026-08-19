@@ -18,7 +18,7 @@ use Webmunkeez\I18nBundle\Exception\LanguageNotFoundException;
 use Webmunkeez\I18nBundle\Model\Language;
 use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
 use Webmunkeez\I18nBundle\Serializer\Normalizer\LanguageAwareNormalizer;
-use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\TestTranslation;
+use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\PostTranslation;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
@@ -66,7 +66,7 @@ final class LanguageAwareNormalizerTest extends TestCase
         $this->coreNormalizer->method('normalize')->willReturn(self::DATA['translation']);
         $this->languageRepository->method('findOneByLocale')->willReturn((new Language())->setLocale('en')->setName('English'));
 
-        $translation = (new TestTranslation())
+        $translation = (new PostTranslation())
             ->setLocale('en')
             ->setLanguage((new Language())->setLocale('en')->setName('English'));
 
@@ -82,7 +82,7 @@ final class LanguageAwareNormalizerTest extends TestCase
         $this->coreNormalizer->method('normalize')->willReturn(self::DATA['translation']);
         $this->languageRepository->method('findOneByLocale')->willReturn((new Language())->setLocale('en')->setName('English'));
 
-        $translation = (new TestTranslation())->setLocale('en');
+        $translation = (new PostTranslation())->setLocale('en');
 
         $data = $this->normalizer->normalize($translation);
 
@@ -96,7 +96,7 @@ final class LanguageAwareNormalizerTest extends TestCase
         $this->coreNormalizer->method('normalize')->willReturn(['locale' => 'notexistinglocale', 'language' => null]);
         $this->languageRepository->method('findOneByLocale')->willThrowException(new LanguageNotFoundException());
 
-        $translation = (new TestTranslation())->setLocale('notexistinglocale');
+        $translation = (new PostTranslation())->setLocale('notexistinglocale');
 
         $data = $this->normalizer->normalize($translation);
 
@@ -109,7 +109,7 @@ final class LanguageAwareNormalizerTest extends TestCase
         $this->coreNormalizer->method('normalize')->willReturn(['locale' => 'it', 'language' => null]);
         $this->languageRepository->method('findOneByLocale')->willThrowException(new LanguageNotFoundException());
 
-        $translation = (new TestTranslation())->setLocale('it');
+        $translation = (new PostTranslation())->setLocale('it');
 
         $data = $this->normalizer->normalize($translation);
 

@@ -19,7 +19,7 @@ use Webmunkeez\I18nBundle\Validator\Constraint\Locale;
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-final class TestTranslation implements TranslationInterface, LanguageAwareInterface
+final class PostTranslation implements TranslationInterface, LanguageAwareInterface
 {
     #[Locale]
     private string $locale;

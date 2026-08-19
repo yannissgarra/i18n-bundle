@@ -14,18 +14,18 @@ namespace Webmunkeez\I18nBundle\Test\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Webmunkeez\I18nBundle\Model\Language;
-use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Controller\TestAction;
+use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Controller\PostAction;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-final class TestActionFunctionalTest extends KernelTestCase
+final class PostActionFunctionalTest extends KernelTestCase
 {
-    private TestAction $action;
+    private PostAction $action;
 
     protected function setUp(): void
     {
-        $this->action = static::getContainer()->get(TestAction::class);
+        $this->action = static::getContainer()->get(PostAction::class);
     }
 
     public function testInvokeWithAlreadySetLanguageShouldSucceed(): void
@@ -37,6 +37,8 @@ final class TestActionFunctionalTest extends KernelTestCase
         $this->assertSame('en', $crawler->filter('p.locale span.locale')->first()->text());
         $this->assertSame('fr', $crawler->filter('p.language span.locale')->first()->text());
         $this->assertSame('Français', $crawler->filter('p.language span.name')->first()->text());
+        $this->assertSame('en', $crawler->filter('p.language-from-locale span.locale')->first()->text()); // no cache
+        $this->assertSame('English', $crawler->filter('p.language-from-locale span.name')->first()->text()); // no cache
     }
 
     public function testInvokeWithExistingLocaleShouldSucceed(): void
@@ -48,6 +50,8 @@ final class TestActionFunctionalTest extends KernelTestCase
         $this->assertSame('en', $crawler->filter('p.locale span.locale')->first()->text());
         $this->assertSame('en', $crawler->filter('p.language span.locale')->first()->text());
         $this->assertSame('English', $crawler->filter('p.language span.name')->first()->text());
+        $this->assertSame('en', $crawler->filter('p.language-from-locale span.locale')->first()->text());
+        $this->assertSame('English', $crawler->filter('p.language-from-locale span.name')->first()->text());
     }
 
     public function testInvokeWithNotExistingLocaleShouldFail(): void
@@ -59,16 +63,20 @@ final class TestActionFunctionalTest extends KernelTestCase
         $this->assertSame('notexistinglocale', $crawler->filter('p.locale span.locale')->first()->text());
         $this->assertSame('', $crawler->filter('p.language span.locale')->first()->text());
         $this->assertSame('', $crawler->filter('p.language span.name')->first()->text());
+        $this->assertSame('', $crawler->filter('p.language-from-locale span.locale')->first()->text());
+        $this->assertSame('', $crawler->filter('p.language-from-locale span.name')->first()->text());
     }
 
     public function testInvokeWithNotEnabledLocaleShouldFail(): void
     {
-        $response = $this->action->__invoke('it');
+        $response = $this->action->__invoke('af');
 
         $crawler = new Crawler($response->getContent());
 
-        $this->assertSame('it', $crawler->filter('p.locale span.locale')->first()->text());
+        $this->assertSame('af', $crawler->filter('p.locale span.locale')->first()->text());
         $this->assertSame('', $crawler->filter('p.language span.locale')->first()->text());
         $this->assertSame('', $crawler->filter('p.language span.name')->first()->text());
+        $this->assertSame('', $crawler->filter('p.language-from-locale span.locale')->first()->text());
+        $this->assertSame('', $crawler->filter('p.language-from-locale span.name')->first()->text());
     }
 }

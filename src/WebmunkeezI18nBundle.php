@@ -11,11 +11,19 @@ declare(strict_types=1);
 
 namespace Webmunkeez\I18nBundle;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Webmunkeez\I18nBundle\DependencyInjection\Compiler\ConfigureTranslatorAwarePass;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
 final class WebmunkeezI18nBundle extends Bundle
 {
+    public function build(ContainerBuilder $container): void
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new ConfigureTranslatorAwarePass());
+    }
 }

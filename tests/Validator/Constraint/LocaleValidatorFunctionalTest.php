@@ -13,7 +13,7 @@ namespace Webmunkeez\I18nBundle\Test\Validator\Constraint;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\TestTranslation;
+use Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Model\PostTranslation;
 use Webmunkeez\I18nBundle\Validator\Constraint\Locale;
 
 /**
@@ -30,7 +30,7 @@ final class LocaleValidatorFunctionalTest extends KernelTestCase
 
     public function testValidateAttributeShouldSucceed(): void
     {
-        $translation = (new TestTranslation())->setLocale('en');
+        $translation = (new PostTranslation())->setLocale('en');
 
         $violations = $this->validator->validate($translation);
 
@@ -39,7 +39,7 @@ final class LocaleValidatorFunctionalTest extends KernelTestCase
 
     public function testValidateAttributeWithNotExistingLocaleShouldFail(): void
     {
-        $translation = (new TestTranslation())->setLocale('notexistinglocale');
+        $translation = (new PostTranslation())->setLocale('notexistinglocale');
 
         $violations = $this->validator->validate($translation);
 
@@ -49,7 +49,7 @@ final class LocaleValidatorFunctionalTest extends KernelTestCase
 
     public function testValidateAttributeWithNotEnabledLocaleShouldFail(): void
     {
-        $translation = (new TestTranslation())->setLocale('it');
+        $translation = (new PostTranslation())->setLocale('it');
 
         $violations = $this->validator->validate($translation);
 

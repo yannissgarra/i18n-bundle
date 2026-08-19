@@ -22,11 +22,9 @@ use Webmunkeez\I18nBundle\Repository\SiteRepositoryInterface;
  */
 final class SiteRequestListener
 {
-    private SiteRepositoryInterface $siteRepository;
-
-    public function __construct(SiteRepositoryInterface $siteRepository)
-    {
-        $this->siteRepository = $siteRepository;
+    public function __construct(
+        private readonly SiteRepositoryInterface $siteRepository,
+    ) {
     }
 
     public function onKernelRequest(RequestEvent $event): void

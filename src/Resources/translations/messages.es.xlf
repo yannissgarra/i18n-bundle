@@ -4,7 +4,7 @@
         <body>
             <trans-unit id="1">
                 <source>Language was not found.</source>
-                <target>No se encuentra el idioma.</target>
+                <target>No se encontró el idioma.</target>
             </trans-unit>
             <trans-unit id="2">
                 <source>Site was not found.</source>
@@ -12,7 +12,7 @@
             </trans-unit>
             <trans-unit id="3">
                 <source>Translation was not found.</source>
-                <target>No se encuentra la traducción.</target>
+                <target>No se encontró la traducción.</target>
             </trans-unit>
             <trans-unit id="4">
                 <source>date_interval.minute_ago</source>

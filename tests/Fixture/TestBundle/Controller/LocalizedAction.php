@@ -12,13 +12,14 @@ declare(strict_types=1);
 namespace Webmunkeez\I18nBundle\Test\Fixture\TestBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
 #[Route(self::FRENCH_ROUTE_URI, condition: "request.getLocale() === 'fr'")]
 #[Route(self::API_ROUTE_URI)]
+#[Route(self::API_ROUTE_URI_2)]
 #[Route(self::ENGLISH_ROUTE_URI, condition: "request.getLocale() === 'en'")]
 #[Route(self::SPANISH_ROUTE_URI, condition: "request.getLocale() === 'es'")]
 final class LocalizedAction
@@ -26,6 +27,8 @@ final class LocalizedAction
     public const FRENCH_ROUTE_URI = '/fr/un-test';
 
     public const API_ROUTE_URI = '/api/a-test';
+
+    public const API_ROUTE_URI_2 = '/api/a-test-2';
 
     public const ENGLISH_ROUTE_URI = '/a-test';
 

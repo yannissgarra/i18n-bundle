@@ -72,7 +72,7 @@ final class LocaleValidatorTest extends TestCase
         $validator = new LocaleValidator($this->languageRepository);
         $constraint = new Locale();
 
-        $this->constraintViolationBuilder->expects($this->once())->method('addViolation')->willReturn(null);
+        $this->constraintViolationBuilder->expects($this->once())->method('addViolation');
 
         $this->executionContext->expects($this->once())->method('buildViolation')->with($constraint->message)->willReturn($this->constraintViolationBuilder);
 
@@ -88,7 +88,7 @@ final class LocaleValidatorTest extends TestCase
         $validator = new LocaleValidator($this->languageRepository);
         $constraint = new Locale();
 
-        $this->constraintViolationBuilder->expects($this->once())->method('addViolation')->willReturn(null);
+        $this->constraintViolationBuilder->expects($this->once())->method('addViolation');
 
         $this->executionContext->expects($this->once())->method('buildViolation')->with($constraint->message)->willReturn($this->constraintViolationBuilder);
 

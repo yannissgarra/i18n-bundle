@@ -48,6 +48,24 @@ final class TestLocalizedActionFunctionalTest extends WebTestCase
         $this->assertSame('en', $client->getResponse()->headers->get('content-language'));
     }
 
+    public function testApiRouteUrlWithNotEnabledLocaleShouldSucceed(): void
+    {
+        $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
+        $client->request(Request::METHOD_GET, LocalizedAction::API_ROUTE_URI, ['_locale' => 'af']);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSame('en', $client->getResponse()->headers->get('content-language')); // fallback value
+    }
+
+    public function testApiRouteUrlWithLocaleButAlreadySetCurrentLanguageShouldSucceed(): void
+    {
+        $client = static::createClient([], ['HTTP_HOST' => 'example.com']);
+        $client->request(Request::METHOD_GET, LocalizedAction::API_ROUTE_URI_2, ['_locale' => 'en']);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSame('en', $client->getResponse()->headers->get('content-language'));
+    }
+
     public function testEnglishRouteUrlShouldSucceed(): void
     {
         $client = static::createClient([], ['HTTP_HOST' => 'example.com']);

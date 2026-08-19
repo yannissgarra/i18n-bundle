@@ -23,11 +23,9 @@ use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
  */
 final class LanguageAwareExtension extends AbstractExtension
 {
-    private LanguageRepositoryInterface $languageRepository;
-
-    public function __construct(LanguageRepositoryInterface $languageRepository)
-    {
-        $this->languageRepository = $languageRepository;
+    public function __construct(
+        private readonly LanguageRepositoryInterface $languageRepository,
+    ) {
     }
 
     public function getFunctions(): array
@@ -37,16 +35,25 @@ final class LanguageAwareExtension extends AbstractExtension
         ];
     }
 
-    public function getLanguage(LanguageAwareInterface $object): ?Language
+    public function getLanguage(LanguageAwareInterface|string $localeInfo): ?Language
     {
-        if (null === $object->getLanguage()) {
+        if (true === is_string($localeInfo)) {
             try {
-                $object->setLanguage($this->languageRepository->findOneByLocale($object->getLocale()));
+                return $this->languageRepository->findOneByLocale($localeInfo);
             } catch (LanguageNotFoundException $e) {
-                $object->setLanguage(null);
+            }
+
+            return null;
+        }
+
+        if (null === $localeInfo->getLanguage()) {
+            try {
+                $localeInfo->setLanguage($this->languageRepository->findOneByLocale($localeInfo->getLocale()));
+            } catch (LanguageNotFoundException $e) {
+                $localeInfo->setLanguage(null);
             }
         }
 
-        return $object->getLanguage();
+        return $localeInfo->getLanguage();
     }
 }

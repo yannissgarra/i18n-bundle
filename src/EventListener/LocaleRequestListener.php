@@ -19,11 +19,9 @@ use Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface;
  */
 final class LocaleRequestListener
 {
-    private LanguageRepositoryInterface $languageRepository;
-
-    public function __construct(LanguageRepositoryInterface $languageRepository)
-    {
-        $this->languageRepository = $languageRepository;
+    public function __construct(
+        private readonly LanguageRepositoryInterface $languageRepository,
+    ) {
     }
 
     public function onKernelRequest(RequestEvent $event): void

@@ -18,7 +18,7 @@ use Webmunkeez\I18nBundle\Model\TranslationInterface;
 /**
  * @author Yannis Sgarra <hello@yannissgarra.com>
  */
-final class Test implements TranslationAwareInterface
+final class Post implements TranslationAwareInterface
 {
     private array $translations;
 
@@ -27,21 +27,21 @@ final class Test implements TranslationAwareInterface
         return $this->translations;
     }
 
+    public function addTranslation(TranslationInterface $translation): self
+    {
+        $this->translations[] = $translation;
+
+        return $this;
+    }
+
     public function getTranslation(string $locale): TranslationInterface
     {
-        $translations = array_filter($this->translations, fn (TestTranslation $translation): bool => $locale === $translation->getLocale());
+        $translations = array_filter($this->translations, fn (PostTranslation $translation): bool => $locale === $translation->getLocale());
 
         if (1 !== count($translations)) {
             throw new TranslationNotFoundException();
         }
 
         return $translations[0];
-    }
-
-    public function addTranslation(TranslationInterface $translation): self
-    {
-        $this->translations[] = $translation;
-
-        return $this;
     }
 }

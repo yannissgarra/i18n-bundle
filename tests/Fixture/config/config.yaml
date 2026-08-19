@@ -11,6 +11,9 @@ framework:
     php_errors:
         log: true
 
+    property_info:
+        with_constructor_extractor: false
+
     uid:
         default_uuid_version: 7
         time_based_uuid_version: 7
@@ -52,17 +55,10 @@ services:
         resource: '../TestBundle/Controller/'
         public: true
 
-    Webmunkeez\I18nBundle\Repository\LanguageRepository:
-        public: true
-        arguments:
-            - '%webmunkeez_i18n.enabled_locales%'
-
-    Webmunkeez\I18nBundle\Repository\SiteRepository:
-        public: true
-        arguments:
-            - '%webmunkeez_i18n.sites%'
-            - '@Webmunkeez\I18nBundle\Repository\LanguageRepository'
-
     test_validator:
         alias: validator
         public: true
+
+    Webmunkeez\I18nBundle\Test\Fixture\TestBundle\EventListener\PreLanguageRequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 50 }
