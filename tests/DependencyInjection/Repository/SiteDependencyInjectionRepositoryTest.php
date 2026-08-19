@@ -179,4 +179,32 @@ final class SiteDependencyInjectionRepositoryTest extends TestCase
 
         $this->siteRepository->findOneByUrl('_example.com', '/test');
     }
+
+    public function testFindOneByUrlWithWildcardHostShouldMatchAnyHost(): void
+    {
+        /** @var LanguageRepositoryInterface&MockObject $languageRepository */
+        $languageRepository = $this->getMockBuilder(LanguageRepositoryInterface::class)->disableOriginalConstructor()->getMock();
+        $languageRepository->method('findOneByLocale')->willReturn((new Language())->setLocale('en')->setName('English'));
+
+        $siteRepository = new SiteDependencyInjectionRepository([
+            [
+                'host' => null,
+                'path' => '/fr',
+                'locale' => 'fr',
+            ],
+            [
+                'host' => null,
+                'path' => null,
+                'locale' => 'en',
+            ],
+        ], $languageRepository);
+
+        $subdomain1Site = $siteRepository->findOneByUrl('subdomain1.example.com', '/fr/some-page');
+        $this->assertInstanceOf(LocalizedSite::class, $subdomain1Site);
+        $this->assertSame('fr', $subdomain1Site->getLocale());
+
+        $subdomain2Site = $siteRepository->findOneByUrl('subdomain2.example.com', '/');
+        $this->assertInstanceOf(LocalizedSite::class, $subdomain2Site);
+        $this->assertSame('en', $subdomain2Site->getLocale());
+    }
 }

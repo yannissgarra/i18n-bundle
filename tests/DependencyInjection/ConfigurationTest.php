@@ -105,9 +105,19 @@ final class ConfigurationTest extends TestCase
 
         $processedConfig = (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
 
-        $config['sites'][0]['host'] = 'localhost';
+        $config['sites'][0]['host'] = null;
 
         $this->assertEqualsCanonicalizing($config, $processedConfig);
+    }
+
+    public function testProcessWithEmptySiteHostShouldThrowException(): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+
+        $config = self::DATA;
+        $config['sites'][0]['host'] = '';
+
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }
 
     public function testProcessWithoutSitePathShouldSucceed(): void

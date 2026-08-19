@@ -16,16 +16,16 @@ namespace Webmunkeez\I18nBundle\Model;
  */
 class Site
 {
-    private string $host;
+    private ?string $host = null;
 
     private ?string $path = null;
 
-    public function getHost(): string
+    public function getHost(): ?string
     {
         return $this->host;
     }
 
-    public function setHost(string $host): static
+    public function setHost(?string $host): static
     {
         $this->host = $host;
 

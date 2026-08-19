@@ -64,8 +64,10 @@ final class SiteDependencyInjectionRepository implements SiteRepositoryInterface
         /** @var Site $site */
         foreach ($this->sites as $site) {
             if (
-                $site->getHost() === $host
-                && (
+                (
+                    null === $site->getHost() 
+                    || $site->getHost() === $host
+                ) && (
                     null === $site->getPath()
                     || 1 === preg_match('#^'.preg_quote($site->getPath(), '#').'(?:/|$)#', $uri)
                 )
