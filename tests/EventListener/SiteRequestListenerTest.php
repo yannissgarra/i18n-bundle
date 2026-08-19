@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Webmunkeez\I18nBundle\EventListener\SiteRequestListener;
+use Webmunkeez\I18nBundle\Exception\SiteNotFoundException;
 use Webmunkeez\I18nBundle\Model\Language;
 use Webmunkeez\I18nBundle\Model\LocalizedSite;
 use Webmunkeez\I18nBundle\Model\Site;
@@ -121,8 +122,10 @@ final class SiteRequestListenerTest extends TestCase
 
     public function testWithNotExistingUrlShouldThrowException(): void
     {
+        $exception = new SiteNotFoundException();
+
         $this->siteRepository->expects($this->once())->method('countAll')->willReturn(4);
-        $this->siteRepository->expects($this->once())->method('findOneByUrl')->willThrowException(new NotFoundHttpException());
+        $this->siteRepository->expects($this->once())->method('findOneByUrl')->willThrowException($exception);
 
         $listener = new SiteRequestListener($this->siteRepository);
 
@@ -130,9 +133,15 @@ final class SiteRequestListenerTest extends TestCase
 
         $event = new RequestEvent($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
-        $this->expectException(NotFoundHttpException::class);
+        try {
+            $listener->onKernelRequest($event);
+        } catch (NotFoundHttpException $e) {
+            $this->assertSame($exception, $e->getPrevious());
 
-        $listener->onKernelRequest($event);
+            return;
+        }
+
+        $this->fail();
     }
 
     public function testWithoutSiteDefinedShouldFail(): void

@@ -176,7 +176,7 @@ webmunkeez_i18n:
 
 ### Ago filter
 
-The `ago` Twig filter formats a `\DateTimeInterface` (`\DateTime` or `\DateTimeImmutable`) as a human-readable relative time, translated through the `date_interval.*` message keys:
+The `ago` Twig filter formats a `\DateTimeInterface` (`\DateTime` or `\DateTimeImmutable`) as a human-readable relative time, translated through the `date_interval.*` message keys. It only accepts dates in the past — a future date throws an `\InvalidArgumentException`:
 
 ```twig
 {{ post.createdAt|ago }} {# "3 days ago" #}

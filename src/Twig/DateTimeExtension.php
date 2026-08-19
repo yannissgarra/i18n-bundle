@@ -34,7 +34,13 @@ final class DateTimeExtension extends AbstractExtension
 
     public function getAgo(\DateTimeInterface $date): string
     {
-        $interval = (new \DateTime())->diff($date);
+        $now = new \DateTime();
+
+        if ($date > $now) {
+            throw new \InvalidArgumentException('The "ago" filter cannot format a date in the future.');
+        }
+
+        $interval = $now->diff($date);
 
         if ($interval->y > 0) {
             return $this->translator->trans('date_interval.year_ago', ['%count%' => $interval->y]);

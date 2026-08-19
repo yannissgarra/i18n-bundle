@@ -38,6 +38,10 @@ final class Configuration implements ConfigurationInterface
                                 ->thenInvalid('Invalid locale %s')
                         ->end()
                     ->end() // locale
+                    ->validate()
+                        ->ifTrue(fn (array $enabledLocales): bool => count($enabledLocales) !== count(array_unique($enabledLocales)))
+                            ->thenInvalid('enabled_locales must not contain duplicates')
+                    ->end()
                 ->end() // enabled_locales
                 ->arrayNode('sites')
                     ->arrayPrototype()
@@ -45,6 +49,9 @@ final class Configuration implements ConfigurationInterface
                             ->scalarNode('host')
                                 ->cannotBeEmpty()
                                 ->defaultValue('localhost')
+                                ->validate()
+                                    ->always(fn (string $host): string => strtolower($host))
+                                ->end()
                             ->end()
                             ->scalarNode('path')
                                 ->cannotBeEmpty()

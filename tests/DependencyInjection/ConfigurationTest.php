@@ -134,6 +134,26 @@ final class ConfigurationTest extends TestCase
         $this->assertEqualsCanonicalizing($config, $processedConfig);
     }
 
+    public function testProcessWithMixedCaseSiteHostShouldNormalizeToLowercase(): void
+    {
+        $config = self::DATA;
+        $config['sites'][0]['host'] = 'Example.COM';
+
+        $processedConfig = (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+
+        $this->assertSame('example.com', $processedConfig['sites'][0]['host']);
+    }
+
+    public function testProcessWithDuplicateEnabledLocalesShouldThrowException(): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+
+        $config = self::DATA;
+        $config['enabled_locales'] = ['en', 'fr', 'en'];
+
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+    }
+
     public function testProcessWithEmptySitePathShouldThrowException(): void
     {
         $this->expectException(InvalidConfigurationException::class);

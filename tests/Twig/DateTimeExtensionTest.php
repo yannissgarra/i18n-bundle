@@ -71,6 +71,15 @@ final class DateTimeExtensionTest extends TestCase
         $this->assertSame(self::DATA['date_interval.minute_ago'][0], $this->extension->getAgo($date));
     }
 
+    public function testGetAgoWithFutureDateShouldThrowException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $date = (new \DateTime())->modify('+1 minute');
+
+        $this->extension->getAgo($date);
+    }
+
     public function testGetAgoWithMinuteShouldSucceed(): void
     {
         $date = (new \DateTime())->modify('-1 minute');

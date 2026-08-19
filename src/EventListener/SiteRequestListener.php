@@ -46,7 +46,7 @@ final class SiteRequestListener
                 $request->attributes->set('current-language', $site->getLanguage());
             }
         } catch (SiteNotFoundException $e) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException(previous: $e);
         }
     }
 }
