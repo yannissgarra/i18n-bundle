@@ -170,13 +170,13 @@ webmunkeez_i18n:
           locale: es
 ```
 
-`path` is a plain literal path prefix (not a regex) — a request matches when its URI starts with `path` followed by `/` or the end of the string, so `/api` matches `/api` and `/api/anything` but not `/apiary`. Omitting `path` (or setting it to `null`) matches any path on that host, so declare the catch-all site for a given host last.
+`path` is a plain literal path prefix (not a regex) — a request matches when its URI starts with `path` followed by `/` or the end of the string, so `/api` matches `/api` and `/api/anything` but not `/apiary`. Omitting `path` entirely matches any path on that host (an explicit `path: null` is rejected, same as an empty string — leave the key out instead), so declare the catch-all site for a given host last.
 
 `SiteRequestListener` runs before `LocaleRequestListener` and resolves the current request into either a `\Webmunkeez\I18nBundle\Model\Site` (host + path, no locale) or a `\Webmunkeez\I18nBundle\Model\LocalizedSite` (also `LanguageAwareInterface`) via `\Webmunkeez\I18nBundle\Repository\SiteRepositoryInterface::findOneByUrl()`, throwing `SiteNotFoundException` (converted to a 404) if nothing matches. The resolved site is stored as the `current-site` request attribute, and for a matched `LocalizedSite` the request locale and `current-language` are set immediately — before `LocaleRequestListener` even runs. The listener is a no-op entirely (no site resolution attempted) when no site is configured.
 
 ### Ago filter
 
-The `ago` Twig filter formats a `\DateTime` as a human-readable relative time, translated through the `date_interval.*` message keys:
+The `ago` Twig filter formats a `\DateTimeInterface` (`\DateTime` or `\DateTimeImmutable`) as a human-readable relative time, translated through the `date_interval.*` message keys:
 
 ```twig
 {{ post.createdAt|ago }} {# "3 days ago" #}

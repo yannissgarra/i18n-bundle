@@ -103,6 +103,22 @@ final class SiteRequestListenerTest extends TestCase
         $this->assertNull($event->getRequest()->attributes->get('current-language'));
     }
 
+    public function testWithQueryStringShouldNotAffectUrlMatching(): void
+    {
+        $this->siteRepository->expects($this->once())->method('countAll')->willReturn(4);
+        $this->siteRepository->expects($this->once())->method('findOneByUrl')->with('example.com', '/api')->willReturn($this->site);
+
+        $listener = new SiteRequestListener($this->siteRepository);
+
+        $request = Request::create('https://example.com/api?_locale=fr');
+
+        $event = new RequestEvent($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST);
+
+        $listener->onKernelRequest($event);
+
+        $this->assertInstanceOf(Site::class, $event->getRequest()->attributes->get('current-site'));
+    }
+
     public function testWithNotExistingUrlShouldThrowException(): void
     {
         $this->siteRepository->expects($this->once())->method('countAll')->willReturn(4);

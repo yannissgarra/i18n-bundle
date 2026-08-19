@@ -37,7 +37,7 @@ final class SiteRequestListener
         }
 
         try {
-            $site = $this->siteRepository->findOneByUrl($request->getHost(), $request->getRequestUri());
+            $site = $this->siteRepository->findOneByUrl($request->getHost(), $request->getPathInfo());
 
             $request->attributes->set('current-site', $site);
 

@@ -47,6 +47,7 @@ final class Configuration implements ConfigurationInterface
                                 ->defaultValue('localhost')
                             ->end()
                             ->scalarNode('path')
+                                ->cannotBeEmpty()
                                 ->defaultNull()
                             ->end()
                             ->scalarNode('locale')

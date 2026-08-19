@@ -78,6 +78,13 @@ final class DateTimeExtensionTest extends TestCase
         $this->assertSame(self::DATA['date_interval.minute_ago'][0], $this->extension->getAgo($date));
     }
 
+    public function testGetAgoWithDateTimeImmutableShouldSucceed(): void
+    {
+        $date = (new \DateTimeImmutable())->modify('-1 minute');
+
+        $this->assertSame(self::DATA['date_interval.minute_ago'][0], $this->extension->getAgo($date));
+    }
+
     public function testGetAgoWithMinutesShouldSucceed(): void
     {
         $date = (new \DateTime())->modify('-5 minutes');

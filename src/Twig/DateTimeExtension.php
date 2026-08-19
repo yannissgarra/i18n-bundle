@@ -32,7 +32,7 @@ final class DateTimeExtension extends AbstractExtension
         ];
     }
 
-    public function getAgo(\DateTime $date): string
+    public function getAgo(\DateTimeInterface $date): string
     {
         $interval = (new \DateTime())->diff($date);
 
