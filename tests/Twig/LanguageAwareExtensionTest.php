@@ -128,4 +128,9 @@ final class LanguageAwareExtensionTest extends TestCase
     {
         $this->assertNull($this->extension->getLanguageName('notalanguage'));
     }
+
+    public function testGetLanguageNameWithNotExistingDisplayLocaleShouldFail(): void
+    {
+        $this->assertNull($this->extension->getLanguageName('fr', 'notalocale'));
+    }
 }

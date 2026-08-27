@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Webmunkeez\I18nBundle\Twig;
 
+use Symfony\Component\Intl\Exception\MissingResourceException as IntlMissingResourceException;
 use Symfony\Component\Intl\Languages;
 use Symfony\Component\String\UnicodeString;
 use Twig\Extension\AbstractExtension;
@@ -68,6 +69,10 @@ final class LanguageAwareExtension extends AbstractExtension
             return null;
         }
 
-        return (new UnicodeString(Languages::getName($languageCode, $displayLocale ?? $languageCode)))->title()->toString();
+        try {
+            return (new UnicodeString(Languages::getName($languageCode, $displayLocale ?? $languageCode)))->title()->toString();
+        } catch (IntlMissingResourceException) {
+            return null;
+        }
     }
 }
