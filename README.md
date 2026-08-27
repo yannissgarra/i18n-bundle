@@ -101,6 +101,20 @@ It also accepts a raw locale string directly — useful when you don't have a `L
 
 `\Webmunkeez\I18nBundle\Serializer\Normalizer\LanguageAwareNormalizer` does the same resolution automatically when serializing any `LanguageAwareInterface` object.
 
+The `language_name()` Twig function returns a language's autonym (its name in its own language) from any ISO code, regardless of `enabled_locales` — unlike `language()`, it never fails on a language that isn't configured. It accepts both a plain language code and a full locale (region part is ignored), and returns `null` if the code isn't a valid language:
+
+```twig
+{{ language_name('fr') }} {# Français #}
+{{ language_name('fr_FR') }} {# Français #}
+{{ language_name('fr-FR') }} {# Français #}
+```
+
+Pass a second argument to get the name translated into another language instead of its autonym:
+
+```twig
+{{ language_name('fr', 'en') }} {# French #}
+```
+
 ### Translations
 
 A translatable entity implements `\Webmunkeez\I18nBundle\Model\TranslationAwareInterface` (`getTranslations()`/`getTranslation(string $locale)`, throwing `TranslationNotFoundException`) over a collection of `\Webmunkeez\I18nBundle\Model\TranslationInterface` (itself just `LocaleAwareInterface`, typically also implementing `LanguageAwareInterface`):
@@ -185,6 +199,16 @@ webmunkeez_i18n:
 ```
 
 `SiteRequestListener` runs before `LocaleRequestListener` and resolves the current request into either a `\Webmunkeez\I18nBundle\Model\Site` (host + path, no locale) or a `\Webmunkeez\I18nBundle\Model\LocalizedSite` (also `LanguageAwareInterface`) via `\Webmunkeez\I18nBundle\Repository\SiteRepositoryInterface::findOneByUrl()`, throwing `SiteNotFoundException` (converted to a 404) if nothing matches. The resolved site is stored as the `current-site` request attribute, and for a matched `LocalizedSite` the request locale and `current-language` are set immediately — before `LocaleRequestListener` even runs. The listener is a no-op entirely (no site resolution attempted) when no site is configured.
+
+The `sites()` Twig function lists every configured site (`SiteRepositoryInterface::findAll()`) — useful for rendering a language/site switcher:
+
+```twig
+{% for site in sites() %}
+    <a href="//{{ site.host }}{{ site.path }}">
+        {{ site.locale is defined ? language(site.locale).name : site.host }}
+    </a>
+{% endfor %}
+```
 
 ### Ago filter
 

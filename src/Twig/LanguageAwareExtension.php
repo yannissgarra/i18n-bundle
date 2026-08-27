@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Webmunkeez\I18nBundle\Twig;
 
+use Symfony\Component\Intl\Languages;
+use Symfony\Component\String\UnicodeString;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Webmunkeez\I18nBundle\Exception\LanguageNotFoundException;
@@ -32,6 +34,7 @@ final class LanguageAwareExtension extends AbstractExtension
     {
         return [
             new TwigFunction('language', [$this, 'getLanguage']),
+            new TwigFunction('language_name', [$this, 'getLanguageName']),
         ];
     }
 
@@ -55,5 +58,16 @@ final class LanguageAwareExtension extends AbstractExtension
         }
 
         return $localeInfo->getLanguage();
+    }
+
+    public function getLanguageName(string $isoCode, ?string $displayLocale = null): ?string
+    {
+        $languageCode = explode('_', str_replace('-', '_', strtolower($isoCode)))[0];
+
+        if (false === Languages::exists($languageCode)) {
+            return null;
+        }
+
+        return (new UnicodeString(Languages::getName($languageCode, $displayLocale ?? $languageCode)))->title()->toString();
     }
 }

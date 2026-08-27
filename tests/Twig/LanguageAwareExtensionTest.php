@@ -103,4 +103,29 @@ final class LanguageAwareExtensionTest extends TestCase
 
         $this->assertNull($language);
     }
+
+    public function testGetLanguageNameWithLanguageCodeShouldSucceed(): void
+    {
+        $this->assertSame('Français', $this->extension->getLanguageName('fr'));
+    }
+
+    public function testGetLanguageNameWithLocaleCodeShouldSucceed(): void
+    {
+        $this->assertSame('Français', $this->extension->getLanguageName('fr_FR'));
+    }
+
+    public function testGetLanguageNameWithDashSeparatedLocaleCodeShouldSucceed(): void
+    {
+        $this->assertSame('Français', $this->extension->getLanguageName('fr-FR'));
+    }
+
+    public function testGetLanguageNameWithDisplayLocaleShouldSucceed(): void
+    {
+        $this->assertSame('French', $this->extension->getLanguageName('fr', 'en'));
+    }
+
+    public function testGetLanguageNameWithNotExistingLanguageCodeShouldFail(): void
+    {
+        $this->assertNull($this->extension->getLanguageName('notalanguage'));
+    }
 }
