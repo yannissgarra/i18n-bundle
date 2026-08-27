@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Webmunkeez\I18nBundle\DependencyInjection\Repository;
 
-use Symfony\Component\Intl\Languages;
+use Symfony\Component\Intl\Locales;
 use Symfony\Component\String\UnicodeString;
 use Webmunkeez\I18nBundle\Exception\LanguageNotFoundException;
 use Webmunkeez\I18nBundle\Model\Language;
@@ -32,7 +32,7 @@ final class LanguageDependencyInjectionRepository implements LanguageRepositoryI
         foreach ($enabledLocales as $enabledLocale) {
             $this->languages[$enabledLocale] = (new Language())
                 ->setLocale($enabledLocale)
-                ->setName((new UnicodeString(Languages::getName($enabledLocale, $enabledLocale)))->title()->toString());
+                ->setName((new UnicodeString(Locales::getName($enabledLocale, $enabledLocale)))->title()->toString());
         }
     }
 

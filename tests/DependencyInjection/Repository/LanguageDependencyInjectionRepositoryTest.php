@@ -88,4 +88,17 @@ final class LanguageDependencyInjectionRepositoryTest extends TestCase
         $this->assertSame('en', $language->getLocale());
         $this->assertSame('English', $language->getName());
     }
+
+    public function testFindOneByLocaleWithRegionSpecificLocaleShouldSucceed(): void
+    {
+        $languageRepository = new LanguageDependencyInjectionRepository(['fr_FR', 'fr_CA']);
+
+        $franceLanguage = $languageRepository->findOneByLocale('fr_FR');
+        $canadaLanguage = $languageRepository->findOneByLocale('fr_CA');
+
+        $this->assertSame('fr_FR', $franceLanguage->getLocale());
+        $this->assertSame('Français (France)', $franceLanguage->getName());
+        $this->assertSame('fr_CA', $canadaLanguage->getLocale());
+        $this->assertSame('Français (Canada)', $canadaLanguage->getName());
+    }
 }

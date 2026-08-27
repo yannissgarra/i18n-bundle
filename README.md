@@ -43,7 +43,7 @@ The bundle prepends sane `framework.default_locale`/`framework.translator`/`fram
 
 ### Languages
 
-`\Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface` (backed by `LanguageDependencyInjectionRepository`, built from `enabled_locales`) exposes `findAll()`, `findOneByLocale(string $locale)` (throws `LanguageNotFoundException`), `findOneDefault()` (the first enabled locale) and `localeExists(string $locale): bool`.
+`\Webmunkeez\I18nBundle\Repository\LanguageRepositoryInterface` (backed by `LanguageDependencyInjectionRepository`, built from `enabled_locales`) exposes `findAll()`, `findOneByLocale(string $locale)` (throws `LanguageNotFoundException`), `findOneDefault()` (the first enabled locale) and `localeExists(string $locale): bool`. Each `Language::getName()` uses `Symfony\Component\Intl\Locales`, so region-specific entries get a distinct, region-aware name — `fr_FR` and `fr_CA` both configured side by side come out as "Français (France)" and "Français (Canada)" rather than colliding on a single "Français".
 
 `LocaleRequestListener` runs on every request: if a `_locale` query parameter is present and enabled, it becomes the request locale and a `\Webmunkeez\I18nBundle\Model\Language` is stored as the `current-language` request attribute; otherwise it falls back to whatever `current-language` is already set (e.g. by the multi-site listener below) or to `findOneDefault()`.
 
