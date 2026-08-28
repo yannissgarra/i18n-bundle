@@ -28,6 +28,7 @@ final class ConfigurationTest extends TestCase
                 'host' => 'example.com',
                 'path' => '/fr',
                 'locale' => 'en',
+                'position' => 1,
             ],
         ],
     ];
@@ -170,6 +171,41 @@ final class ConfigurationTest extends TestCase
 
         $config = self::DATA;
         $config['sites'][0]['path'] = '';
+
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+    }
+
+    public function testProcessWithoutSitePositionShouldThrowException(): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+
+        $config = self::DATA;
+        unset($config['sites'][0]['position']);
+
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+    }
+
+    public function testProcessWithSitePositionBelowMinimumShouldThrowException(): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+
+        $config = self::DATA;
+        $config['sites'][0]['position'] = 0;
+
+        (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
+    }
+
+    public function testProcessWithDuplicateSitePositionsShouldThrowException(): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+
+        $config = self::DATA;
+        $config['sites'][] = [
+            'host' => 'example.com',
+            'path' => '/en',
+            'locale' => 'en',
+            'position' => $config['sites'][0]['position'],
+        ];
 
         (new Processor())->processConfiguration(new Configuration(), ['webmunkeez_i18n' => $config]);
     }

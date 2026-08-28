@@ -31,12 +31,16 @@ webmunkeez_i18n:
         - host: example.com
           path: /fr
           locale: fr
+          position: 2
         - host: example.com
           path: /api
+          position: 1
         - host: example.com
           locale: en
+          position: 4
         - host: es.example.com
           locale: es
+          position: 3
 
 services:
     # default configuration for services in *this* file

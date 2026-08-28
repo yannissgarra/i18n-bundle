@@ -35,27 +35,27 @@ final class SiteDependencyInjectionRepositoryFunctionalTest extends KernelTestCa
         $sites = $this->siteRepository->findAll();
 
         $this->assertCount(4, $sites);
-        $this->assertInstanceOf(LocalizedSite::class, $sites[0]);
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['host'], $sites[0]->getHost());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['path'], $sites[0]->getPath());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['locale'], $sites[0]->getLocale());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['language']['locale'], $sites[0]->getLanguage()->getLocale());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['language']['name'], $sites[0]->getLanguage()->getName());
-        $this->assertInstanceOf(Site::class, $sites[1]);
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['api']['host'], $sites[1]->getHost());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['api']['path'], $sites[1]->getPath());
+        $this->assertInstanceOf(Site::class, $sites[0]);
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['api']['host'], $sites[0]->getHost());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['api']['path'], $sites[0]->getPath());
+        $this->assertInstanceOf(LocalizedSite::class, $sites[1]);
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['host'], $sites[1]->getHost());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['path'], $sites[1]->getPath());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['locale'], $sites[1]->getLocale());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['language']['locale'], $sites[1]->getLanguage()->getLocale());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['language']['name'], $sites[1]->getLanguage()->getName());
         $this->assertInstanceOf(LocalizedSite::class, $sites[2]);
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['host'], $sites[2]->getHost());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['path'], $sites[2]->getPath());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['locale'], $sites[2]->getLocale());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['language']['locale'], $sites[2]->getLanguage()->getLocale());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['language']['name'], $sites[2]->getLanguage()->getName());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['host'], $sites[2]->getHost());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['path'], $sites[2]->getPath());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['locale'], $sites[2]->getLocale());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['language']['locale'], $sites[2]->getLanguage()->getLocale());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['language']['name'], $sites[2]->getLanguage()->getName());
         $this->assertInstanceOf(LocalizedSite::class, $sites[3]);
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['host'], $sites[3]->getHost());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['path'], $sites[3]->getPath());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['locale'], $sites[3]->getLocale());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['language']['locale'], $sites[3]->getLanguage()->getLocale());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['language']['name'], $sites[3]->getLanguage()->getName());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['host'], $sites[3]->getHost());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['path'], $sites[3]->getPath());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['locale'], $sites[3]->getLocale());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['language']['locale'], $sites[3]->getLanguage()->getLocale());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['language']['name'], $sites[3]->getLanguage()->getName());
     }
 
     public function testCountAllShouldSucceed(): void
@@ -77,17 +77,17 @@ final class SiteDependencyInjectionRepositoryFunctionalTest extends KernelTestCa
         $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['language']['locale'], $sites[0]->getLanguage()->getLocale());
         $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['french']['language']['name'], $sites[0]->getLanguage()->getName());
         $this->assertInstanceOf(LocalizedSite::class, $sites[1]);
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['host'], $sites[1]->getHost());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['path'], $sites[1]->getPath());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['locale'], $sites[1]->getLocale());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['language']['locale'], $sites[1]->getLanguage()->getLocale());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['language']['name'], $sites[1]->getLanguage()->getName());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['host'], $sites[1]->getHost());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['path'], $sites[1]->getPath());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['locale'], $sites[1]->getLocale());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['language']['locale'], $sites[1]->getLanguage()->getLocale());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['language']['name'], $sites[1]->getLanguage()->getName());
         $this->assertInstanceOf(LocalizedSite::class, $sites[2]);
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['host'], $sites[2]->getHost());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['path'], $sites[2]->getPath());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['locale'], $sites[2]->getLocale());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['language']['locale'], $sites[2]->getLanguage()->getLocale());
-        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['spanish']['language']['name'], $sites[2]->getLanguage()->getName());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['host'], $sites[2]->getHost());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['path'], $sites[2]->getPath());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['locale'], $sites[2]->getLocale());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['language']['locale'], $sites[2]->getLanguage()->getLocale());
+        $this->assertSame(SiteDependencyInjectionRepositoryTest::DATA['english']['language']['name'], $sites[2]->getLanguage()->getName());
     }
 
     public function testFindOneByUrlWithoutPathShouldSucceed(): void

@@ -64,7 +64,19 @@ final class Configuration implements ConfigurationInterface
                                         ->thenInvalid('Invalid locale %s')
                                 ->end()
                             ->end()
+                            ->integerNode('position')
+                                ->isRequired()
+                                ->min(1)
+                            ->end()
                         ->end()
+                    ->end()
+                    ->validate()
+                        ->ifTrue(function (array $sites): bool {
+                            $positions = array_column($sites, 'position');
+
+                            return count($positions) !== count(array_unique($positions));
+                        })
+                            ->thenInvalid('sites positions must not contain duplicates')
                     ->end()
                 ->end() // sites
             ->end()

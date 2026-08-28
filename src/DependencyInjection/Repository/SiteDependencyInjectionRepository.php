@@ -29,6 +29,8 @@ final class SiteDependencyInjectionRepository implements SiteRepositoryInterface
 
     public function __construct(array $sitesData, LanguageRepositoryInterface $languageRepository)
     {
+        usort($sitesData, fn (array $a, array $b): int => $a['position'] <=> $b['position']);
+
         foreach ($sitesData as $siteData) {
             if (null !== $siteData['locale']) {
                 $this->sites[] = (new LocalizedSite())

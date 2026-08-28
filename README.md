@@ -33,8 +33,10 @@ webmunkeez_i18n:
         - host: example.com
           path: /fr
           locale: fr
+          position: 1
         - host: example.com
           locale: en
+          position: 2
 ```
 
 The bundle prepends sane `framework.default_locale`/`framework.translator`/`framework.set_content_language_from_locale` defaults so a fresh app works out of the box, but `enabled_locales` itself has no default — every consuming application must declare it explicitly.
@@ -168,7 +170,7 @@ final class PostNotifier implements Webmunkeez\I18nBundle\Translation\Translator
 
 ### Multi-site
 
-If your application serves several sites/locales behind different hosts and/or path prefixes, declare them under `webmunkeez_i18n.sites` (each entry validates that its `locale`, if set, is part of `enabled_locales`):
+If your application serves several sites/locales behind different hosts and/or path prefixes, declare them under `webmunkeez_i18n.sites` (each entry validates that its `locale`, if set, is part of `enabled_locales`). `position` is required, must be at least `1` and must be unique across sites — it's what `findAll()`/`findAllLocalized()` and the `sites()` Twig function sort by, from the smallest position to the largest, regardless of declaration order:
 
 ```yaml
 webmunkeez_i18n:
@@ -176,12 +178,16 @@ webmunkeez_i18n:
         - host: example.com
           path: /fr
           locale: fr
+          position: 1
         - host: example.com
           path: /api # no locale: an unlocalized API site
+          position: 2
         - host: example.com
           locale: en
+          position: 3
         - host: es.example.com
           locale: es
+          position: 4
 ```
 
 `path` is a plain literal path prefix (not a regex) — a request matches when its URI starts with `path` followed by `/` or the end of the string, so `/api` matches `/api` and `/api/anything` but not `/apiary`. Omitting `path` entirely matches any path on that host (an explicit `path: null` is rejected, same as an empty string — leave the key out instead), so declare the catch-all site for a given host last.
@@ -193,9 +199,12 @@ webmunkeez_i18n:
     sites:
         - path: /fr
           locale: fr
+          position: 1
         - path: /es
           locale: es
+          position: 2
         - locale: en # both host and path omitted: matches any host, any path
+          position: 3
 ```
 
 `SiteRequestListener` runs before `LocaleRequestListener` and resolves the current request into either a `\Webmunkeez\I18nBundle\Model\Site` (host + path, no locale) or a `\Webmunkeez\I18nBundle\Model\LocalizedSite` (also `LanguageAwareInterface`) via `\Webmunkeez\I18nBundle\Repository\SiteRepositoryInterface::findOneByUrl()`, throwing `SiteNotFoundException` (converted to a 404) if nothing matches. The resolved site is stored as the `current-site` request attribute, and for a matched `LocalizedSite` the request locale and `current-language` are set immediately — before `LocaleRequestListener` even runs. The listener is a no-op entirely (no site resolution attempted) when no site is configured.
