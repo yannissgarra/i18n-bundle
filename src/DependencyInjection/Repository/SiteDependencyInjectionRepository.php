@@ -27,28 +27,37 @@ final class SiteDependencyInjectionRepository implements SiteRepositoryInterface
      */
     private array $sites = [];
 
+    /**
+     * @var array<Site>
+     */
+    private array $sitesByPosition = [];
+
     public function __construct(array $sitesData, LanguageRepositoryInterface $languageRepository)
     {
-        usort($sitesData, fn (array $a, array $b): int => $a['position'] <=> $b['position']);
-
-        foreach ($sitesData as $siteData) {
+        foreach (array_values($sitesData) as $siteData) {
             if (null !== $siteData['locale']) {
-                $this->sites[] = (new LocalizedSite())
+                $site = (new LocalizedSite())
                     ->setHost($siteData['host'])
                     ->setPath($siteData['path'])
                     ->setLocale($siteData['locale'])
                     ->setLanguage($languageRepository->findOneByLocale($siteData['locale']));
             } else {
-                $this->sites[] = (new Site())
+                $site = (new Site())
                     ->setHost($siteData['host'])
                     ->setPath($siteData['path']);
             }
+
+            $this->sites[] = $site;
+            $this->sitesByPosition[$siteData['position']] = $site;
         }
+
+        ksort($this->sitesByPosition);
+        $this->sitesByPosition = array_values($this->sitesByPosition);
     }
 
     public function findAll(): array
     {
-        return $this->sites;
+        return $this->sitesByPosition;
     }
 
     public function countAll(): int
@@ -58,7 +67,7 @@ final class SiteDependencyInjectionRepository implements SiteRepositoryInterface
 
     public function findAllLocalized(): array
     {
-        return array_values(array_filter($this->sites, fn (Site $site): bool => $site instanceof LocalizedSite));
+        return array_values(array_filter($this->sitesByPosition, fn (Site $site): bool => $site instanceof LocalizedSite));
     }
 
     public function findOneByUrl(string $host, string $uri): Site

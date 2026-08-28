@@ -81,8 +81,8 @@ final class SiteDependencyInjectionRepositoryTest extends TestCase
         $this->languageRepository->expects($this->exactly(3))->method('findOneByLocale')
             ->willReturn(
                 (new Language())->setLocale(self::DATA['french']['language']['locale'])->setName(self::DATA['french']['language']['name']),
-                (new Language())->setLocale(self::DATA['spanish']['language']['locale'])->setName(self::DATA['spanish']['language']['name']),
-                (new Language())->setLocale(self::DATA['english']['language']['locale'])->setName(self::DATA['english']['language']['name'])
+                (new Language())->setLocale(self::DATA['english']['language']['locale'])->setName(self::DATA['english']['language']['name']),
+                (new Language())->setLocale(self::DATA['spanish']['language']['locale'])->setName(self::DATA['spanish']['language']['name'])
             );
 
         $this->siteRepository = new SiteDependencyInjectionRepository(array_values(self::DATA), $this->languageRepository);
@@ -212,5 +212,32 @@ final class SiteDependencyInjectionRepositoryTest extends TestCase
         $subdomain2Site = $siteRepository->findOneByUrl('subdomain2.example.com', '/');
         $this->assertInstanceOf(LocalizedSite::class, $subdomain2Site);
         $this->assertSame('en', $subdomain2Site->getLocale());
+    }
+
+    public function testFindOneByUrlWithCatchAllHavingLowerPositionShouldNotShadowSpecificPath(): void
+    {
+        /** @var LanguageRepositoryInterface&MockObject $languageRepository */
+        $languageRepository = $this->getMockBuilder(LanguageRepositoryInterface::class)->disableOriginalConstructor()->getMock();
+        $languageRepository->method('findOneByLocale')->willReturn((new Language())->setLocale('en')->setName('English'));
+
+        $siteRepository = new SiteDependencyInjectionRepository([
+            [
+                'host' => 'example.com',
+                'path' => '/fr',
+                'locale' => 'fr',
+                'position' => 2,
+            ],
+            [
+                'host' => 'example.com',
+                'path' => null,
+                'locale' => 'en',
+                'position' => 1,
+            ],
+        ], $languageRepository);
+
+        $site = $siteRepository->findOneByUrl('example.com', '/fr/some-page');
+
+        $this->assertInstanceOf(LocalizedSite::class, $site);
+        $this->assertSame('fr', $site->getLocale());
     }
 }
